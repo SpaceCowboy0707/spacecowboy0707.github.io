@@ -253,7 +253,12 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
 
 /* swatches — now clickable accent switchers */
 .swatches{ margin-top:22px; display:flex; align-items:center; gap:10px; }
-.swatches .zh{ font-size:12px; color:var(--ink-2); letter-spacing:.3em; margin-right:6px; }
+.swatches .swatch-label{
+  font-family:var(--font-mono);
+  font-size:11px; color:var(--ink-2);
+  letter-spacing:.2em; text-transform:uppercase;
+  margin-right:6px;
+}
 .chip{
   width:22px; height:22px; border-radius:50%;
   border:1px solid rgba(38,34,27,.15);
@@ -490,11 +495,11 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
           </p>
           <dl class="spec rv" style="--d:.55s">
             <div><dt>Location</dt><dd>New York, US</dd></div>
-            <div><dt>Focus</dt><dd>Analytics engineering · Business Analytics · Dashboarding</dd></div>
+            <div><dt>Focus</dt><dd>Analytics engineering · Business Analytics</dd></div>
             <div><dt>Fit</dt><dd>Agility, stakeholder management</dd></div>
           </dl>
           <div class="swatches rv" style="--d:.65s">
-            <span class="zh">My colors</span>
+            <span class="swatch-label">My colors</span>
             <button class="chip sel" data-accent="#63644A" data-mag style="background:#63644A" aria-label="Olive accent"></button>
             <button class="chip" data-accent="#8F7B4E" data-mag style="background:#A98F68" aria-label="Camel accent"></button>
             <button class="chip" data-accent="#26221B" data-mag style="background:#26221B" aria-label="Espresso accent"></button>
