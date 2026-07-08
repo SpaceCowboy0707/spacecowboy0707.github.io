@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Karla:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600&text=%E4%BB%8B%E7%BB%8D%E6%8A%80%E8%83%BD%E9%A1%B9%E7%9B%AE%E8%81%94%E7%B3%BB%E9%83%BD%E5%B8%82%E7%94%B7%E5%AD%A9%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E8%A1%A3%E6%9F%9C%E8%89%B2%E5%8D%A1%E9%9D%A2%E6%96%99&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600&text=%E9%83%BD%E5%B8%82%E7%94%B7%E5%AD%A9%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E8%A1%A3%E6%9F%9C%E8%89%B2%E5%8D%A1%E9%9D%A2%E6%96%99&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -321,10 +321,9 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
    SECTION HEAD — 中文标题从遮罩里升起
    ============================================================ */
 .sec-head{ display:flex; align-items:center; gap:20px; margin-bottom:48px; }
-.sec-head .zh{ font-size:clamp(28px, 3.6vw, 40px); font-weight:600; line-height:1.15; }
-.sec-head .en{
-  font-family:var(--font-mono); font-size:12px; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--ink-2);
+.sec-head .ttl{
+  font-family:var(--font-display);
+  font-size:clamp(28px, 3.6vw, 40px); font-weight:600; line-height:1.15;
 }
 .sec-head::after{ content:""; flex:1; height:1px; background:var(--line); }
 
@@ -517,8 +516,7 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
   <section class="panel" id="intro" data-label="Intro">
     <div class="panel-inner">
       <div class="sec-head">
-        <span class="mask"><span class="zh rv mask-in">介绍</span></span>
-        <span class="en rv" style="--d:.15s">Introduction</span>
+        <span class="mask"><span class="ttl rv mask-in">Introduction</span></span>
       </div>
       <div class="intro-grid">
         <div class="intro-pull">
@@ -549,8 +547,7 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
   <section class="panel" id="skills" data-label="Skillset">
     <div class="panel-inner">
       <div class="sec-head">
-        <span class="mask"><span class="zh rv mask-in">技能</span></span>
-        <span class="en rv" style="--d:.15s">Skillset</span>
+        <span class="mask"><span class="ttl rv mask-in">Skillset</span></span>
       </div>
       <div class="tags">
         <div class="rv" style="--d:.12s"><div class="tag" style="--lv:.92">
@@ -609,8 +606,7 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
   <section class="panel" id="projects" data-label="Projects">
     <div class="panel-inner">
       <div class="sec-head">
-        <span class="mask"><span class="zh rv mask-in">项目</span></span>
-        <span class="en rv" style="--d:.15s">Selected projects</span>
+        <span class="mask"><span class="ttl rv mask-in">Selected Projects</span></span>
       </div>
       <div>
         <article class="proj rv" style="--d:.12s">
@@ -657,8 +653,7 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
   <section class="panel" id="contact" data-label="Contact">
     <div class="panel-inner">
       <div class="sec-head">
-        <span class="mask"><span class="zh rv mask-in">联系</span></span>
-        <span class="en rv" style="--d:.15s">Contact</span>
+        <span class="mask"><span class="ttl rv mask-in">Contact</span></span>
       </div>
       <div class="foot-cta">
         <span class="mask"><span class="rv mask-in" style="--d:.12s">Want the longer version?</span></span>
