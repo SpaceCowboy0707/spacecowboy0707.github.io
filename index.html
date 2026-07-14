@@ -6,6 +6,23 @@
 <title>Max — Data Analyst · New York</title>
 <meta name="description" content="Max — data analyst in New York. Analytics systems, dimensional modeling, automation.">
 
+<!-- Social share cards -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://spacecowboy0707.github.io/">
+<meta property="og:title" content="Max — Data Analyst · New York">
+<meta property="og:description" content="Analytics engineering, dimensional modeling, and the dashboards in between.">
+<meta property="og:image" content="https://spacecowboy0707.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Max — Data Analyst · New York">
+<meta name="twitter:description" content="Analytics engineering, dimensional modeling, and the dashboards in between.">
+<meta name="twitter:image" content="https://spacecowboy0707.github.io/og.png">
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Karla:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -108,13 +125,16 @@ html.fp .panel{ height:100svh; overflow:hidden; }
 }
 html.fp .panel-inner{
   height:100svh;
-  display:flex; flex-direction:column; justify-content:center;
+  display:flex; flex-direction:column;
   overflow-y:auto;
   scrollbar-width:none;
   will-change:transform, opacity;
   transition:transform var(--page-ms) var(--ease-page),
              opacity   var(--page-ms) var(--ease-page);
 }
+/* overflow-safe vertical centering */
+html.fp .panel-inner::before{ content:""; margin-top:auto; }
+html.fp .panel-inner::after{ content:""; margin-bottom:auto; }
 html.fp .panel-inner::-webkit-scrollbar{ display:none; }
 html.fp .panel.passed .panel-inner{
   transform:translateY(38svh) scale(.94);
@@ -233,7 +253,7 @@ html.fp .dots{ display:flex; }
 .eyebrow::before{ content:""; width:40px; height:1px; background:var(--accent); transition:background .4s ease; }
 h1{
   font-family:var(--font-display); font-weight:600;
-  font-size:clamp(40px, 6.4vw, 78px);
+  font-size:clamp(36px, 5.4vw, 74px);
   line-height:1.12; letter-spacing:-0.01em;
 }
 h1 .thin{ color:var(--ink-2); font-weight:500; }
@@ -322,6 +342,19 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
   45%{ transform:scaleY(1); transform-origin:top; }
   55%{ transform:scaleY(1); transform-origin:bottom; }
   100%{ transform:scaleY(0); transform-origin:bottom; }
+}
+
+/* short laptop screens: tighten vertical rhythm */
+@media (max-height:880px){
+  h1{ font-size:clamp(32px, 4.6vw, 58px); }
+  .hero-role{ margin-top:16px; font-size:15.5px; }
+  .spec{ margin-top:22px; font-size:11.5px; }
+  .spec div{ padding:7px 0; }
+  .swatches{ margin-top:16px; }
+  .portrait-frame{ width:min(240px, 25vw); }
+  .panel-inner{ padding-top:96px; padding-bottom:44px; }
+  .sec-head{ margin-bottom:32px; }
+  .scroll-hint{ display:none; }
 }
 
 @media (max-width:860px){
@@ -433,7 +466,6 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
 /* ============================================================
    CONTACT
    ============================================================ */
-#contact .panel-inner{ justify-content:center; }
 .foot-cta{
   font-family:var(--font-display); font-weight:600;
   font-size:clamp(34px, 5vw, 60px); line-height:1.25;
@@ -584,7 +616,7 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
             <h3>Power BI · DAX</h3>
           </div>
           <div class="face back">
-            <span class="bk-name">Power BI</span>
+            <span class="bk-name">Power BI · DAX</span>
             <p class="desc">Executive dashboards, DAX, dual-fact actual-vs-benchmark models.</p>
           </div>
         </div></div>
@@ -635,7 +667,7 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
           </div>
           <div class="face back">
             <span class="bk-name">Cross-team Communication</span>
-            <p class="desc">The bridge between database and stakeholder, convert messy numbers into actionable insights</p>
+            <p class="desc">The bridge between database and stakeholder, convert messy numbers into actionable insights.</p>
           </div>
         </div></div>
         <div class="rv" style="--d:.54s"><div class="tag">
