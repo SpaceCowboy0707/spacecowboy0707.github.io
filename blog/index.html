@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>颗粒 · Max Xiang</title>
+<meta name="description" content="颗粒 — Max Xiang 的中文写作与摄影。物件、动作、温度、声音。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1EFE9;
+    --paper-deep:#EAE7DF;
+    --ink:#23241F;
+    --ink-soft:#73746A;
+    --hair:rgba(35,36,31,.16);
+    --seal:#A93D2A;
+    --seal-ink:#F1EFE9;
+    --serif:'Noto Serif SC','Songti SC','SimSun',serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    /* 木头 */
+    --wood-frame:#6E5138;
+    --wood-frame-hi:#856548;
+    --wood-back:#463527;
+    --wood-plank:#8A6A4E;
+    --wood-plank-edge:#5C452F;
+  }
+  /* 夜读(关灯) */
+  html[data-theme="dark"]{
+    --paper:#211E19;
+    --paper-deep:#2A2620;
+    --ink:#D9D1BE;
+    --ink-soft:#948C7A;
+    --hair:rgba(217,209,190,.16);
+    --wood-frame:#4E3A28;
+    --wood-frame-hi:#5F4933;
+    --wood-back:#2E241A;
+    --wood-plank:#5E462F;
+    --wood-plank-edge:#3A2B1D;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    -webkit-font-smoothing:antialiased;
+    min-height:100svh;
+    display:flex;flex-direction:column;
+    transition:background .45s ease,color .45s ease;
+  }
+  ::selection{background:rgba(169,61,42,.18)}
+  a{color:inherit;text-decoration:none}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--seal);outline-offset:3px}
+
+  #progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--seal);z-index:50}
+
+  /* ---------- header ---------- */
+  header{display:flex;align-items:center;justify-content:space-between;padding:22px clamp(20px,5vw,56px);gap:12px}
+  .brand{display:flex;align-items:center;gap:14px;min-width:0}
+  .seal{
+    width:36px;height:36px;flex:none;background:var(--seal);color:var(--seal-ink);
+    writing-mode:vertical-rl;display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:600;letter-spacing:2px;border-radius:2px;
+    box-shadow:0 0 0 1px rgba(169,61,42,.25) inset;
+  }
+  .brand-name{font-size:17px;font-weight:600;letter-spacing:.12em;white-space:nowrap}
+  .brand-max{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--ink-soft);letter-spacing:.06em;margin-left:6px}
+  .brand-tag{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);letter-spacing:.06em;margin-top:3px}
+  .head-right{display:flex;align-items:center;gap:clamp(12px,2.2vw,24px);flex:none}
+  .site-nav{display:flex;gap:clamp(12px,2vw,20px);font-family:var(--mono);font-size:12px;letter-spacing:.08em}
+  .site-nav a{color:var(--ink-soft);padding-bottom:2px;border-bottom:1px solid transparent;transition:color .25s,border-color .25s}
+  .site-nav a:hover{color:var(--seal)}
+  .site-nav a[aria-current]{color:var(--ink);border-color:var(--seal)}
+  .head-btn{
+    font-family:var(--mono);font-size:12px;letter-spacing:.08em;
+    background:none;border:1px solid var(--hair);border-radius:2px;
+    color:var(--ink);padding:7px 13px;cursor:pointer;transition:border-color .25s,color .25s;
+    white-space:nowrap;
+  }
+  .head-btn:hover{border-color:var(--ink)}
+
+  main{flex:1;width:100%}
+
+  /* ---------- 目录页 ---------- */
+  .shelf-head{
+    padding:clamp(16px,3.5vh,40px) clamp(20px,5vw,56px) 20px;
+    display:flex;align-items:baseline;gap:16px;
+  }
+  .shelf-head h1{font-size:clamp(26px,4vw,40px);font-weight:900;letter-spacing:.14em}
+  .shelf-head .count{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+
+  .bookcase{
+    margin:0 clamp(20px,5vw,56px) 34px;
+    padding:clamp(10px,1.6vw,18px);
+    border-radius:4px;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 2px, transparent 2px 9px),
+      linear-gradient(180deg, var(--wood-frame-hi), var(--wood-frame) 30%, var(--wood-plank-edge));
+    box-shadow:
+      0 18px 34px -18px rgba(40,28,16,.55),
+      inset 0 1px 0 rgba(255,235,210,.28);
+    transition:background .45s ease;
+  }
+  .case-inner{
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.08) 0 2px, transparent 2px 11px),
+      linear-gradient(180deg, #3D2E21, var(--wood-back) 26%, #52402F);
+    border-radius:2px;
+    box-shadow:inset 0 10px 22px rgba(0,0,0,.5), inset 0 -2px 6px rgba(0,0,0,.3);
+    padding:clamp(22px,4vh,42px) clamp(14px,2vw,26px) 0;
+  }
+  .books{
+    display:flex;align-items:flex-end;gap:7px;
+    height:clamp(320px,50vh,500px);
+    overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
+    padding:0 6px;
+    scrollbar-width:thin;scrollbar-color:var(--wood-plank-edge) transparent;
+  }
+  .plank{
+    height:16px;
+    margin-left:calc(clamp(14px,2vw,26px) * -1);
+    margin-right:calc(clamp(14px,2vw,26px) * -1);
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 3px, transparent 3px 14px),
+      linear-gradient(180deg, #A0805F, var(--wood-plank) 40%, var(--wood-plank-edge));
+    border-top:1px solid rgba(255,235,210,.35);
+    box-shadow:0 6px 10px -4px rgba(0,0,0,.55);
+  }
+
+  /* ---------- 书 ---------- */
+  .book{
+    position:relative;flex:none;
+    width:var(--bw,88px);height:var(--bh,92%);
+    background:
+      linear-gradient(90deg,
+        rgba(0,0,0,.30) 0, rgba(0,0,0,.12) 5%,
+        rgba(255,255,255,.10) 9%, rgba(255,255,255,0) 16%,
+        rgba(0,0,0,0) 84%, rgba(0,0,0,.18) 94%, rgba(0,0,0,.34) 100%),
+      var(--book-bg,#4A3B30);
+    color:var(--book-ink,#EFE9DD);
+    border:1px solid rgba(0,0,0,.42);
+    border-radius:4px 4px 3px 3px;
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.10),
+      inset 0 -3px 0 rgba(0,0,0,.22),
+      2px 0 0 rgba(0,0,0,.12);
+    display:flex;flex-direction:column;align-items:center;
+    padding:34px 6px 40px;
+    transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s,opacity .2s;
+  }
+  .book::before,.book::after{
+    content:"";position:absolute;left:9%;right:9%;height:0;
+    border-top:1px solid var(--band,rgba(241,239,233,.55));
+    border-bottom:1px solid var(--band,rgba(241,239,233,.55));
+    padding-top:3px;opacity:.75;
+  }
+  .book::before{top:16px}
+  .book::after{bottom:26px}
+  .book:hover,.book:focus-visible{
+    transform:translateY(-14px);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.10),
+      inset 0 -3px 0 rgba(0,0,0,.22),
+      0 18px 22px -8px rgba(0,0,0,.55);
+    z-index:2;
+  }
+  .book-title{
+    writing-mode:vertical-rl;text-orientation:mixed;
+    font-size:19px;font-weight:600;letter-spacing:.3em;
+    max-height:100%;overflow:hidden;
+  }
+  .book-mini-seal{
+    position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+    width:13px;height:13px;background:var(--seal);border-radius:1px;opacity:.9;
+  }
+  .book-label{
+    position:absolute;bottom:9px;left:50%;transform:translateX(-50%);
+    color:var(--book-ink);opacity:.72;
+    font-family:var(--mono);font-size:9px;letter-spacing:.04em;white-space:nowrap;
+  }
+  /* 布面色系(衣柜色卡:低饱和大地色 × 10) */
+  .t0{--book-bg:linear-gradient(180deg,#4E3E32,#453729);--book-ink:#EDE6D8;--band:rgba(237,230,216,.5)}   /* 深咖 espresso */
+  .t1{--book-bg:linear-gradient(180deg,#6E4F3C,#61452F);--book-ink:#F0E8DA;--band:rgba(240,232,218,.5)}   /* 胡桃 walnut   */
+  .t2{--book-bg:linear-gradient(180deg,#A98A62,#9C7D55);--book-ink:#322A1E;--band:rgba(50,42,30,.4)}      /* 驼   camel    */
+  .t3{--book-bg:linear-gradient(180deg,#D9CFBA,#CCC1A9);--book-ink:#37322A;--band:rgba(55,50,42,.4)}      /* 燕麦 oat      */
+  .t4{--book-bg:linear-gradient(180deg,#E9E3D3,#DED7C4);--book-ink:#3A352C;--band:rgba(58,53,44,.35)}     /* 米白 ecru     */
+  .t5{--book-bg:linear-gradient(180deg,#5B614F,#4F5545);--book-ink:#EEEAE0;--band:rgba(238,234,224,.5)}   /* 橄榄 olive    */
+  .t6{--book-bg:linear-gradient(180deg,#41494A,#394041);--book-ink:#E7E9E6;--band:rgba(231,233,230,.5)}   /* 墨绿 moss     */
+  .t7{--book-bg:linear-gradient(180deg,#8E8B81,#807D72);--book-ink:#26251F;--band:rgba(38,37,31,.4)}      /* 岩灰 stone    */
+  .t8{--book-bg:linear-gradient(180deg,#4D5665,#434B59);--book-ink:#E9EAEA;--band:rgba(233,234,234,.5)}   /* 灰蓝 slate    */
+  .t9{--book-bg:linear-gradient(180deg,#303845,#2A313D);--book-ink:#E6E8EB;--band:rgba(230,232,235,.5)}   /* 藏青 navy     */
+
+  .shelf-note{
+    padding:0 clamp(20px,5vw,56px) 30px;
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:.04em;
+  }
+
+  /* ---------- 开书转场 ---------- */
+  .book-fly{
+    position:fixed;z-index:80;
+    perspective:1600px;
+    transition:top .55s cubic-bezier(.45,.05,.2,1),left .55s cubic-bezier(.45,.05,.2,1),
+               width .55s cubic-bezier(.45,.05,.2,1),height .55s cubic-bezier(.45,.05,.2,1),
+               opacity .28s ease;
+  }
+  .book-fly .fly-page{
+    position:absolute;inset:0;background:var(--paper);
+    border-radius:4px;box-shadow:0 30px 70px rgba(0,0,0,.45);
+  }
+  .book-fly .fly-cover{
+    position:absolute;inset:0;
+    background:var(--book-bg,#4A3B30);color:var(--book-ink,#EFE9DD);
+    border:1px solid rgba(0,0,0,.42);border-radius:4px;
+    transform-origin:left center;
+    transition:transform .62s cubic-bezier(.5,.05,.25,1) .1s;
+    backface-visibility:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .book-fly .fly-title{
+    writing-mode:vertical-rl;text-orientation:mixed;
+    font-size:clamp(19px,3vw,30px);font-weight:600;letter-spacing:.3em;
+  }
+
+  /* ---------- 暗房 ---------- */
+  .darkroom{
+    position:relative;
+    margin:0 clamp(20px,5vw,56px) 34px;
+    background:
+      radial-gradient(120% 55% at 50% 0%, rgba(169,61,42,.18), transparent 58%),
+      #1B1815;
+    border-radius:4px;
+    padding:clamp(24px,4vh,46px) clamp(14px,3vw,36px) clamp(30px,5vh,54px);
+    box-shadow:inset 0 0 70px rgba(0,0,0,.55), 0 18px 34px -18px rgba(20,14,10,.5);
+    animation:enter .55s ease both;
+    transition:background .5s ease;
+  }
+  .dk-head{display:flex;align-items:center;gap:14px;margin-bottom:clamp(24px,4vh,40px);padding-right:60px}
+  .dk-lamp{
+    width:10px;height:10px;border-radius:50%;flex:none;
+    background:var(--seal);
+    box-shadow:0 0 16px 5px rgba(169,61,42,.5);
+    animation:lamp 4.5s ease-in-out infinite;
+    transition:opacity .4s,box-shadow .4s;
+  }
+  @keyframes lamp{0%,100%{opacity:1}50%{opacity:.7}}
+  .dk-note{
+    font-family:var(--mono);font-size:11px;color:rgba(220,210,195,.55);
+    letter-spacing:.05em;transition:color .4s;
+  }
+  /* 拉绳开关 */
+  .dk-cord{
+    position:absolute;top:0;right:clamp(28px,6vw,72px);
+    width:26px;height:92px;
+    background:none;border:none;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;
+    z-index:3;
+  }
+  .cord-line{width:2px;height:68px;background:linear-gradient(180deg,#847660,#5C5142)}
+  .cord-handle{
+    width:10px;height:17px;border-radius:3px;
+    background:linear-gradient(180deg,#C8A87B,#8F7146);
+    box-shadow:0 2px 4px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.2);
+  }
+  .dk-cord.pull{animation:pull .4s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pull{35%{transform:translateY(9px)}100%{transform:none}}
+
+  .line-row{position:relative;padding-top:24px;margin-bottom:clamp(30px,5vh,52px)}
+  .line-row:last-child{margin-bottom:0}
+  .rope{position:absolute;top:0;left:0;width:100%;height:26px;pointer-events:none}
+  .prints{
+    display:flex;gap:clamp(16px,3vw,36px);
+    justify-content:flex-start;
+    overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
+    padding:0 clamp(8px,3vw,30px) 14px;
+    scrollbar-width:thin;scrollbar-color:#5A4A38 transparent;
+  }
+  @media (min-width:900px){ .prints{justify-content:center} }
+  .print{
+    position:relative;flex:none;
+    background:#F4F1E8;padding:8px 8px 30px;
+    transform:rotate(var(--tilt,0deg));transform-origin:top center;
+    box-shadow:0 14px 22px -8px rgba(0,0,0,.7);
+    transition:transform .35s cubic-bezier(.2,.8,.3,1);
+  }
+  .print:hover{transform:rotate(0deg) translateY(3px)}
+  .pin{
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    width:11px;height:22px;border-radius:2px;
+    background:linear-gradient(180deg,#C8A87B,#9E7E52);
+    box-shadow:0 1px 3px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.15);
+  }
+  .pin::after{content:"";position:absolute;left:50%;top:9px;width:1px;height:8px;background:rgba(0,0,0,.3)}
+  .shot{display:block;width:clamp(150px,22vw,220px)}
+  img.shot{height:auto}
+  div.shot{
+    aspect-ratio:4/5;
+    background:linear-gradient(160deg,#3B3833,#282521);
+    display:flex;align-items:center;justify-content:center;
+    color:rgba(220,210,195,.42);font-family:var(--mono);
+    font-size:10px;letter-spacing:.06em;text-align:center;
+    padding:14px;line-height:1.7;
+  }
+  /* 显影:红灯下,照片进入视野时慢慢清晰 */
+  .darkroom:not(.lit) .shot{
+    filter:brightness(.18) sepia(.85) hue-rotate(-28deg) saturate(2.4) blur(5px);
+    transition:filter 2.6s ease .15s;
+  }
+  .darkroom:not(.lit) .print.dev .shot{filter:none}
+  .print-cap{
+    position:absolute;left:10px;right:10px;bottom:9px;
+    font-family:var(--mono);font-size:9.5px;color:#6F695D;letter-spacing:.04em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  /* 开灯后的暗房 */
+  .darkroom.lit{
+    background:#B9B1A2;
+    box-shadow:inset 0 0 40px rgba(0,0,0,.12), 0 18px 34px -18px rgba(20,14,10,.35);
+  }
+  .darkroom.lit .dk-lamp{opacity:.25;box-shadow:none;animation:none}
+  .darkroom.lit .dk-note{color:rgba(45,40,32,.6)}
+  .darkroom.lit .rope path{stroke:#7A6A54}
+  .darkroom.lit .print{box-shadow:0 10px 18px -8px rgba(0,0,0,.4)}
+
+  /* ---------- 阅读页 ---------- */
+  .reader{
+    max-width:41rem;margin:0 auto;
+    padding:clamp(16px,4vh,40px) clamp(22px,6vw,32px) 60px;
+    animation:enter .55s ease both;
+  }
+  @keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .reader-nav{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+    margin-bottom:clamp(28px,6vh,64px);letter-spacing:.05em;
+  }
+  .reader-nav a{border-bottom:1px solid transparent;transition:color .25s,border-color .25s}
+  .reader-nav a:hover{color:var(--seal);border-color:var(--seal)}
+  .post-title{font-size:clamp(30px,5vw,40px);font-weight:900;letter-spacing:.18em;margin-bottom:14px}
+  .post-meta{
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);
+    letter-spacing:.06em;margin-bottom:clamp(36px,7vh,72px);
+  }
+  .post-body p{
+    font-size:17.5px;line-height:2.05;letter-spacing:.02em;
+    text-indent:2em;text-align:justify;margin-bottom:.4em;
+  }
+  .post-body h2{
+    font-size:18px;font-weight:600;letter-spacing:.4em;text-indent:.4em;
+    text-align:center;margin:2.8em 0 1.6em;
+  }
+  .post-body h2::before{
+    content:"";display:block;width:7px;height:7px;
+    background:var(--seal);margin:0 auto 14px;
+  }
+  .post-body h2:first-child{margin-top:0}
+  .fin{text-align:center;margin-top:4.5em;color:var(--ink-soft);letter-spacing:.5em;text-indent:.5em;font-size:15px}
+  .fin-seal{
+    width:44px;height:44px;margin:26px auto 0;
+    background:var(--seal);color:var(--seal-ink);writing-mode:vertical-rl;
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:600;letter-spacing:3px;border-radius:2px;
+    transform:rotate(1.5deg);
+    box-shadow:0 0 0 1px rgba(169,61,42,.25) inset;
+  }
+  .reader-foot{
+    margin-top:56px;padding-top:22px;border-top:1px solid var(--hair);
+    display:flex;justify-content:space-between;
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+  }
+  .reader-foot a:hover{color:var(--seal)}
+  @media (min-width:1240px){
+    .post-title{
+      position:fixed;top:16vh;right:clamp(40px,8vw,140px);
+      writing-mode:vertical-rl;text-orientation:mixed;
+      margin:0;max-height:64vh;
+      font-size:clamp(36px,3.4vw,50px);letter-spacing:.3em;
+    }
+  }
+
+  footer{
+    padding:26px clamp(20px,5vw,56px);border-top:1px solid var(--hair);
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:.05em;
+  }
+  footer a{border-bottom:1px solid transparent}
+  footer a:hover{color:var(--seal);border-color:var(--seal)}
+
+  @media (max-width:640px){
+    .books{height:clamp(280px,44vh,380px);gap:6px}
+    .book{padding:26px 4px 36px}
+    .book-title{font-size:16px;letter-spacing:.24em}
+    .brand-tag{display:none}
+    .site-nav{display:none}
+    .shelf-head .m-nav{display:inline}
+  }
+  .shelf-head .m-nav{display:none;font-family:var(--mono);font-size:12px}
+  .shelf-head .m-nav a{color:var(--ink-soft);border-bottom:1px solid var(--seal);padding-bottom:2px}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header>
+  <a class="brand" href="#/" data-route="/" aria-label="返回书架">
+    <span class="seal" aria-hidden="true">颗粒</span>
+    <span>
+      <div class="brand-name">颗粒<span class="brand-max">Max.</span></div>
+      <div class="brand-tag">物件、动作、温度、声音</div>
+    </span>
+  </a>
+  <div class="head-right">
+    <nav class="site-nav">
+      <a href="#/" data-route="/" id="navShelf">书架</a>
+      <a href="#/photos" data-route="/photos" id="navPhotos">暗房</a>
+    </nav>
+    <button class="head-btn" id="modeToggle"></button>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  <span id="footLeft"></span>
+  <span><a href="https://spacecowboy0707.github.io" target="_blank" rel="noopener">作品集 →</a></span>
+</footer>
+
+<script>
+/* ======== 文章库 & 照片库(更新内容改这里) ======== */
+/* ============================================================
+   颗粒 · 文章数据
+   ------------------------------------------------------------
+   发布新文章:在 POSTS 数组最前面加一个对象,格式照抄下面任意一篇。
+   - slug   : 网址里用的英文短名,不能重复,不能有空格
+   - title  : 中文标题
+   - titleEn: 英文标题(列表页 EN 模式下显示)
+   - date   : 显示用日期,格式随意,建议 YYYY.MM
+   - zh     : 中文正文。每一行是一个自然段;
+              单独一行的「第X章」会被渲染成章节标题。
+   - en     : 英文译文,没有就写 null(会显示"译文尚未完成")
+   数组顺序 = 书架顺序,最前面的排在最右(最新)。
+   ============================================================ */
+
+window.SITE = {
+  name: "颗粒",
+  nameEn: "GRAIN",
+  author: "Max Xiang",
+  tagline: "物件、动作、温度、声音",
+  taglineEn: "Objects, motion, heat, sound",
+};
+
+window.POSTS = [
+  {
+    slug: "space-junk",
+    title: "太空垃圾",
+    titleEn: "Space Junk",
+    date: "2026.07",
+    en: null,
+    zh: `第一章
+墓碑店坐落在五环和六环中间，离市区倒也不算远。杂乱的石头伫立在周围的石材加工厂里，只有它是矮矮的一间平房。它的门脸是蓝色的，被灰色的巨石包围着。后院整齐地摆放着大小不一的墓碑，就像远处城市的天际线。
+店里光线并不明亮，但是所有东西上面依旧薄薄地盖了一层灰色，说不好是灰尘还是石粉，常用的东西薄，少用的东西厚。日光透过蒙灰的毛玻璃散落在地上，映出从门口到办公室一条被磨得油光的路。挂在天花板上的日光灯灯光发黄，还时不时地闪烁一下。房间两侧是各式各样的样品墓碑，靠墙立一排、大的在后小的在前。上面刻满了不同的名字，但是都是从来没存在过的人。
+老张在这间办公室里坐了三十年。办公室没有窗户，房间里充斥着淡淡的烟草味和陈旧的木头味。墙上挂着黄历和各种书画，还有不少是老张自己题的字。这里虽然陈旧，但是一尘不染，前厅的灰粉并没有入侵进来。那张早已脱了漆的办公桌放在墙角，玻璃板下压着各式各样的名片、陈旧的广告单、以及褪色的海报。桌上放着一个青花瓷的大茶杯，盖子早已不知所踪，虽然还保持着洁白的外表，但是里面早就结上了一层深色的茶垢。房间里最先进的设备就是桌角的那台电脑，发黄的机箱时不时发出几声呻吟，但依旧顽强地支撑着。
+老张坐在吱呀作响的办公椅上，慢慢地敲击着键盘，他还是怀念在纸上洋洋洒洒记录的日子，还能让客人一睹自己苦练已久的字。他的手并不宽厚，但是指背的沟里、倒刺翻起的边上却透着一层洗不掉的灰白。手背干裂，纹路比同龄人深得多，指纹已经被磨得很浅了。他抬起指尖发凉的手，扶了一下拿胶条绑着的眼镜腿。这孙子又松了，他想，我一会得加固一下。
+“欢迎光临！” 感应门铃机械的女声回荡在墓碑丛林中，老张把头从电脑屏幕前移开向门口探去。
+他见过很多成双成对的客人，给父母准备后事的姐弟，互相给墓碑设计提意见的老夫老妻，或者是一大家子人一起涌进来。但是孤零零的一个人来的客人，一般只有一个原因。
+来者四十岁上下，瘦长的身影站在门前，左手插兜，右手里拿着一个文件夹。满屋的石粉被这位不速之客激起来飘在空中，但是他依旧站得笔直纹丝不动。他穿着简单宽松的针织毛衣，下身的深棕色长裤长度刚好，在鞋面上形成了一个漂亮的褶皱。稀疏的胡须，脸上略微有些皱纹，但是不细看并看不出来。
+“您好。” 老张又扶了一下滑下来的眼镜，走出了办公室。
+客人点了点头，开门见山地说道：“我想给我自己准备一个墓碑，来了解一下。”
+老张微微颔首，迟疑了一下：“……墙上是我们的价目表，您看看。”
+客人明显是做过功课的，很快就挑好了墓碑和字体。简单的黑色花岗岩，上面刻着名字和生辰，卒年留空。
+老张拿起签好字的合同，一边在电脑上打字一边说道：“名字得先给您描红，这是规矩。”
+客人好像没有听懂，但是老张并没有注意到。
+“墓志铭的话，” 客人说着从文件夹里掏出一张纸， “您就刻这串数字就行了。”
+数字？老张心里犯嘀咕，他刻了一辈子“慈父”“先妣”“孝男孝女叩立”，没见过只刻数字的。他接过了纸，上面只印着六个带小数点的数。老张刻过的数字只有两种——生卒年，和立碑的日期。所以他本能地往日期上套，而这串套不上。老张盯着这串数字半晌，试图从里面读出点什么，可这六个数字毫无规律，他只能猜这是生辰八字的一种写法。但他觉得自己应该问点什么，于是说道： “这个小数点要刻多大？”
+客人微微一笑，答：“您看着刻就行。”
+第二章
+“你昨天那单谈成了吗？”
+“别提了，他妈的嫌我们贵，跟我磨磨唧唧半天，最后走了，白费我那么多口舌！”
+“我说呢，那对夫妻走的时候气哼哼的，可别到时候打电话投诉你来！”
+“嗨，我真服了，那可是俩人，老公的爸妈，还是最贵的双人套餐！这么大一笔单子吹了，气死我了，那提成可不少！”
+“那你这个月不是一笔没谈成？”
+“是啊，我还不知道咋办呢，这月还有几天看看能不能冲刺一下。”
+休息室门被猛然推开，经理的油头探了进来：“小李，你来对接一下这个客户。”
+小李从沙发上弹起来，整理了一下西服，向同事眨了眨眼，跟着经理走出了休息室。
+经理走到大堂，指了指一个人影：“你看他，就一个人来的，一般这种生意都好做，你去看看能不能争取一下。”
+“好嘞，谢谢马哥！” 小李在嘴唇下舔了舔上周刚做的烤瓷牙，快步朝那个背影走去。
+皮鞋在洁白的大理石地砖上的叩响回荡在宽阔的大厅里，再通过两边的弧形白墙反射回来。墙壁一直缓缓地向上延伸，在高处的天花板上合拢。小李脚步平稳地走向那个瘦长的背影，每一次脚步都越踏越响，想让客户注意到他。
+但那个人并没有，他正抬头看着高处挂起的红底黄字的横幅，上面写着：“一站式身后规划解决方案，定制永恒太空体验。”
+客户手册第一条：永远热情地接待客户，让ta宾至如归。
+“您好！请问有什么可以帮您！” 小李在那个人背后一步开外停下，中气十足地喊道。
+穿灰色针织毛衣的人缓缓转过身，微微一笑，对小李说：“我想了解一下你们这里最贵的套餐。”
+客户手册第四条：要为客户考虑，热情待人，回头客最重要。
+“这样啊，” 小李正在尽全力让每一颗牙都露出来，“那您移步这边我给您详细讲解一下。”
+小李领着客人，穿过了一些不明所以的后现代白色雕像，走进了一个小型的会议室。会议室四周都是毛玻璃，中间放着一个洁白的桌子，上面一台白色的电脑，旁边放着两把看着不怎么舒服的白椅子。
+“您坐。” 小李熟练地拉开两把椅子，俩人各自坐下，然后不约而同地调整了一下坐姿。
+小李拉开桌子下面的抽屉，把花花绿绿的宣传海报铺在桌面上，虔诚地介绍起来：“想必您已经对我们星轨生命管家的业务有所了解了，请问您这次来访是想为哪位旅行者完成地球阶段，进入生命的下一站呢？”
+客人歪了一下头，似乎在处理小李的话：“就我自己。”
+客户手册第二十六条：独自前来的客人往往需求最简单，需要深度挖掘痛点，提高业务回报率。
+“啊，是这样！” 小李停顿了一下，但是马上又提高了音量，“那这边我推荐我们单人的全生命周期服务套餐，入门级是星尘系列，包含完整的欢送仪式，但是并不会进入地球轨道。或者您想要在深空中翱翔更久的话，您可以了解一下寰宇尊享系列，它不仅包含了更高规模的欢送仪式，还包括全程火箭第一人称视角的录像记录，以及五克的额外配重，能让您在骨灰之外，带上更多私人物品一起旅行。而且我们保证能进入地球轨道，成功率高达99.2%，极少出现意外。再或者您看看我们最高级的浩瀚苍穹系列，这个系列将会带您在整个太阳系内环行，变成像哈雷那样的彗星，而且包含可回收火箭发射计划，非常的环保……”
+客人静静地听着，并没有打断小李。
+“……您甚至可以自定义您的轨道六根数，这样我们保证按您想要的角度入轨。不管您想要一个圆形的轨道，椭圆形的轨道，甚至想像冥王星那样的扁的轨道，我们都能做到！当然，实际轨道参数按入轨后测定为准！”
+小李滔滔不绝地说完一长串介绍，拿起水杯抿了一口水。客人右手撑着脸，盯着口干舌燥的小李，眼里闪着狡黠的目光。
+“我已经有一个算好的轨道六根数，你帮我在系统里模拟一下。” 客人从口袋里掏出一张纸，上面整齐地写着六个数字。
+“哦……好的您稍等我启动一下模拟器！” 居然自己都把参数算好了，工作这么多年还是头一次见。小李心想着，熟练地打开电脑开始操作。这真是个高净值意向客户，看起来他早已经做好决定了，这个月KPI有了。
+模拟软件上跳出了一条暗红色的轨迹线。
+那不是行星那种温和的圆形，而是一根尖锐的刺。它从地球轨道出发，拉出一条长达数亿公里的、几乎没有弧度的直线，笔直地刺向外太阳系。近日点贴着水星的轨道，几乎是和太阳擦身而过。这根刺拉得极长，远日点精准地搭在木星的运行轨道上。
+小李从没见过这样诡异的轨道，什么样的人会把轨道设计的这么奇怪？在他还在脑海里搜索对应话术的时候，客人已经起身走到了身后。他看到屏幕上那根红色的刺，轻声笑了出来：“可以，可以，挺好的，我在哪里交钱签字？”
+第三章
+墓园的保安瘫坐在岗亭的椅子里，双脚翘在桌上，保安帽歪歪地盖住了脸，睡得正熟。
+一个矮小的身影从街边的阴影中浮现，艰难地从栏杆下钻过去，走向墓地深处。
+今晚月亮不算亮，但也能勉强照亮眼前的路。月光洒在他的身上，在他身后拖出一道又浅又长的影子，也在他头顶和怀里反射出两抹银光。他揣着一瓶酒，手里提着一个塑料袋，小心翼翼地走着，绕开了所有路灯，在一个丁字路口，走向了没有路的那一边。
+草地上覆盖着薄薄的水珠，自动喷洒机刚刚作业完毕，今晚不会再有东西来打扰这片墓地了。他的裤腿很快就被打湿了，变得沉重起来。但是这并没有拖慢他的步伐，他反而走得更轻快了。在墓碑组成的迷宫中，他轻车熟路地找到了那尊黑色的花岗岩。
+远处的马路车流量并不少，呼啸而过的车辆组成一波一波的音浪，车灯快速地从墓碑上闪过。
+岁月并没有在这座墓碑上留下什么纪念品，沉稳的黑色没有褪色，还在默默地反射着天上的星光。它安静地伫立在这片一望无际的石头丛林里，别的墓碑或多或少都有碑文，或者有头像，或者有小型浮雕。这个黑色花岗岩简约至极，哪怕说是刚刚从采石场运过来也没问题，一个矮矮的长方形端坐在一个更扁的方形底座上，就是这个墓碑的全部组成了。行楷刻出的红色名字已经褪色了，变成了淡淡的粉色，甚至露出了底下灰色的石头。第二行只有描金的出生日期，并没有卒日。第三行有六个带小数点和角度的数字，小数点刻得很大。
+周围的墓碑前都有祭祀的痕迹，一束蔫巴了的菊花，或者烧剩下的香炉。这个墓碑跟前只有一包皱皱巴巴的炫赫门，已经被水浸透，里面的香烟也打不着了。
+那个身影伸出左手，默默地放在墓碑上。白天的太阳很毒，墓碑还是温热的，暖暖的感觉从手心传上来。他沉默地站着，蝉鸣将他环绕。不知过了多久，他扶着墓碑，弯下腰把那包湿透了的炫赫门捡起来，放进随身携带的塑料袋子里。又从里面拿出一包全新的，抠开塑料包装，拿出来两根细烟。点燃其中一根，和那一整包一起放在墓碑的顶上，自己又点燃剩下的一根，深深地抽了一口，对着夜空吐出。
+红点在黑暗中跳跃着，但是很快被他手机荧幕发出的光亮所掩盖。他打开了一个名为星轨生命管家的软件，手指略带僵硬地悬停在底下的“实时位置追踪”按钮上，然后按了下去。
+全息星图的UI在窄窄的屏幕上铺展开来。那根暗红色的刺还在。二十年来，它就像一根扎在太阳系心脏上的骨刺，扁平、锋利、死寂。上面的一个小白点正在慢慢蠕动着，很快就接近了木星。
+木星巨大的绿色投影与白色的刺尖撞在了一起。
+就在交汇的那一帧，原本闭合的回航曲线啪地一声脆响，在木星身后扭曲、拉直，化作了一条刺目的亮白色双曲线。它以一个近乎决裂的角度冲出了太阳系的黄道平面，像一汪泼出去的水，再也没有任何线条能将它收回。
+荧幕的光映在他脸上，白茫茫的一片。
+他收起手机，抬头望着星空，长出了一口气，小声说道：“行啊你小子。” 然后从怀里掏出酒瓶和一个小酒杯，斟满了它。
+他高举着酒杯，烟夹在指间。这往哪里倒呢？下面没有人。往天上泼？那终究是要落回来的，还得洒自己一脸。
+他保持着这个姿势僵了很久，右手举着杯，脖子九十度仰着，酸痛不堪。然后他想通了——也可能只是脖子先受不了了——他把杯子又往上举了一寸，自己喝了。
+墓碑上的烟头还在黑夜里闪烁着。`,
+  },
+  {
+    slug: "bathroom-cleaning",
+    title: "浴室清洁",
+    titleEn: "Cleaning the Bathroom",
+    date: "2026.06",
+    en: null,
+    zh: `洗澡前正要踏入浴室，却突然发现好像各种缝隙里面都长满了粉棕色的污垢，像锈迹一样稀稀拉拉的留下一道道痕迹。仔细回想，搬进来这已经两年有余，却从来没有对浴室做过彻底的清洁。
+我默默地洗完了这次澡，走出浴室时打开了从来没有在澡后打开的抽风。
+瘫倒在沙发上，打开Gemini，贴上一张浴室的图片问到：如何清洁？就像我以前一样，依旧直接照抄AI的答案。打开亚马逊，买齐了所有材料，然后把这件事情丢在了脑后。
+结果亚马逊包裹第二天就到了，这反而给了我更多的动力，于是我决定下班回家就干。
+先给浴室整个喷上一层简单的清洁剂，哪怕抽风开到最大也没办法掩盖那种做作的香精味。我拿起新买的刷子，感叹它刚刚拆封就即将要被污秽所覆盖，也算不辱使命了。大部分污渍都集中在底部，我没法完整的蹲下，跪下的话我看见瓷砖地就觉得膝盖隐隐作痛。站定沉思半晌，我还是跪了下去开始刷墙。
+刷子一遍一遍的摩擦着缝隙里的粉棕色污垢，成年累月的积累在角落里叠成厚厚的一层。使劲刷一次，软乎乎，黏唧唧的污垢就被刮了下来。由于实在太多，我刷几次就必须把刷子拿到水龙头下清洗，洗掉这两年多，甚至更久以前的，由沐浴露，皮脂，油膏组成的污垢。
+初步的刷洗已经完成了，我跪的双膝生疼。接下来拿起漂白剂喷雾，再进行第二次杀菌消毒。漂白剂的味道散开来，像是很久没有闻到的84消毒液的味道。我想起小学时，做大扫除也是类似的情景。已经是放学后了，阳光透过窗帘斜向洒在地上，椅子已经被别的值日生放在了桌子上。瘦小的我戴着皱巴巴的红领巾，用和我一样高的、发散着霉味的拖把拖着灰黑色的教室瓷砖地。外面传来同学嬉闹的笑声，灰尘静悄悄的漂浮在细细的光线里，空气里混杂着发馊的霉菌和消毒液的味道。
+现在的我拿着一根小小的塑料毛刷，在淋浴间的瓷砖地上，对缝隙里的污垢发起第二轮猛攻。
+重复的动作让我的手臂酸痛，但是我还剩下一半没有清洁。浴室的花洒是固定的，没有办法拿下来洗另一半。于是我只好把下面的水龙头打开，等积水足够多的时候，踢到另一边去。我先跪下，然后使劲的刷掉缝隙里的污垢，接着站起来打开水龙头，等待片刻把积水踢到另一边打湿瓷砖，再次跪下开始刷洗。频繁跪下站起让我很快就头晕目眩，结果直接把一大滩水踢飞在了外面的脚垫上。 我只好停下手中的活，拿起湿哒哒的脚垫，放到阳台上去晒干。
+再次回到浴室，我突然想到，在洗澡的时候顺便就可以把浴室清理了。但是我不想赤身裸体的暴露在消毒水下，可是低头一看我现在也光着脚踩在浴室里，只穿了条内裤，还没戴手套，跟洗澡也没什么区别了。
+悻悻的清理完剩下的淋浴间，我的手指已经被泡的发白发皱，狭小空间里的消毒水味刺得我前额发痛。我匆匆的做好了收尾工作，洗干净手，重新躺回沙发上开始刷手机。
+阳台上的脚垫依旧稀稀拉拉的往下滴着水。`,
+  },
+  {
+    slug: "subway-car",
+    title: "地铁车厢",
+    titleEn: "The Subway Car",
+    date: "2026.05",
+    en: null,
+    zh: `坐在N线的死亡座位里，好奇到底是什么样的反人类设计师能设计出这样的位置，他自己一定没有坐在前面被盯着侧脸盯十分钟。
+好奇的查了一下，这种车厢诞生于七十年代，设计师的本意是为了让通勤者们在上下班路上可以互相交流。
+他肯定没有预料到五十年后的今天，人们之间的距离已经远到，盯着对方九十度侧颜都成为了一种社交酷刑。`,
+  },
+  {
+    slug: "summer-relief",
+    title: "夏日清凉",
+    titleEn: "Summer Relief",
+    date: "2026.05",
+    en: null,
+    zh: `华盛顿高地就是一个大型的水上公园，每一个街区都有一个坏掉的消防栓，在炎热的夏天斜着喷射出水柱。
+一个光着膀子的人站在水幕下，仔仔细细的搓着后背，脚边放着全套洗浴用品。
+路过的汽车把这里当成了自助洗车房，总会多停留几秒。
+流浪汉接满了他的两个瘪瘪的塑料瓶，又俯身下去就着水柱喝起来。
+停在旁边的车无助的被水拍打着，发出只有在暴雨天才会发出的声响。
+几道水柱飞过整条马路落在街对面，在路中间放置了一道彩虹。`,
+  },
+];
+
+/* ============================================================
+   暗房 · 照片数据
+   ------------------------------------------------------------
+   挂新照片:把图片文件(建议宽 1200px 以内的 jpg)放进仓库,
+   然后在下面加一个对象:
+   - src      : 图片文件名或路径,例如 "photos/hydrant.jpg"
+                留空 "" 会显示占位卡片
+   - caption  : 中文图注
+   - captionEn: 英文图注(可选)
+   - date     : 拍摄时间(可选)
+   每根绳子晾 3 张,照片多了会自动加绳子。
+   ============================================================ */
+
+window.PHOTOS = [
+  { src: "", caption: "占位 · 01", captionEn: "Placeholder 01", date: "2026" },
+  { src: "", caption: "占位 · 02", captionEn: "Placeholder 02", date: "2026" },
+  { src: "", caption: "占位 · 03", captionEn: "Placeholder 03", date: "2026" },
+  { src: "", caption: "占位 · 04", captionEn: "Placeholder 04", date: "2026" },
+  { src: "", caption: "占位 · 05", captionEn: "Placeholder 05", date: "2026" },
+];
+
+</script>
+<script>
+(function(){
+  const app = document.getElementById('app');
+  const motionOK = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  let lit = false;   // 暗房灯
+
+  /* ---------- helpers ---------- */
+  const byslug = s => window.POSTS.find(p => p.slug === s);
+  const charCount = md => md.replace(/\s/g,'').length;
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const hash = s => [...s].reduce((a,c)=>(a*31 + c.charCodeAt(0))>>>0, 7);
+  const spineW = n => Math.round(Math.min(122, Math.max(54, 54 + (Math.log10(Math.max(n,10)) - 2) * 26)));
+  const spineH = slug => 84 + (hash(slug) % 15);
+  const toneOf = i => `t${(i*3) % 10}`;
+  const readTime = n => `${n.toLocaleString()} 字 · 约 ${Math.max(1,Math.round(n/450))} 分钟`;
+  function renderProse(md){
+    return md.trim().split('\n').map(line=>{
+      const s = line.trim();
+      if(!s) return '';
+      if(/^第.{1,4}章$/.test(s)) return `<h2>${esc(s)}</h2>`;
+      return `<p>${esc(s)}</p>`;
+    }).join('\n');
+  }
+
+  /* ---------- views ---------- */
+  function viewIndex(){
+    document.title = '颗粒 · Max Xiang';
+    const items = [];
+    window.POSTS.forEach((p,i)=>{
+      items.push(`<a class="book ${toneOf(i)}" href="#/p/${p.slug}" data-route="/p/${p.slug}"
+                 style="--bw:${spineW(charCount(p.zh))}px;--bh:${spineH(p.slug)}%"
+                 title="${esc(p.title)}">
+        <span class="book-title">${esc(p.title)}</span>
+        <span class="book-mini-seal" aria-hidden="true"></span>
+        <span class="book-label">${esc(p.date)}</span>
+      </a>`);
+    });
+    app.innerHTML = `
+      <div class="shelf-head">
+        <h1>书架</h1><span class="count">共 ${window.POSTS.length} 册</span>
+        <span class="m-nav"><a href="#/photos" data-route="/photos">去暗房 →</a></span>
+      </div>
+      <div class="bookcase">
+        <div class="case-inner">
+          <div class="books">${items.join('')}</div>
+          <div class="plank"></div>
+        </div>
+      </div>
+      <div class="shelf-note">书脊厚度 = 篇幅 · 横向滑动浏览 · 抽出一本开始阅读</div>`;
+    window.scrollTo(0,0);
+  }
+
+  function viewPost(slug){
+    const p = byslug(slug);
+    if(!p){ navigate('/'); return; }
+    const i = window.POSTS.indexOf(p);
+    const prev = window.POSTS[i+1], next = window.POSTS[i-1];
+    document.title = p.title + ' · 颗粒';
+    app.innerHTML = `
+      <article class="reader">
+        <div class="reader-nav">
+          <a href="#/" data-route="/" data-close="${p.slug}">← 书架</a>
+          <span>${esc(p.date)}</span>
+        </div>
+        <h1 class="post-title">${esc(p.title)}</h1>
+        <div class="post-meta">${readTime(charCount(p.zh))}</div>
+        <div class="post-body">${renderProse(p.zh)}</div>
+        <div class="fin">完</div>
+        <div class="fin-seal" aria-hidden="true">颗粒</div>
+        <div class="reader-foot">
+          <span>${prev ? `<a href="#/p/${prev.slug}" data-route="/p/${prev.slug}">← 上一篇</a>` : ''}</span>
+          <span>${next ? `<a href="#/p/${next.slug}" data-route="/p/${next.slug}">下一篇 →</a>` : ''}</span>
+        </div>
+      </article>`;
+    window.scrollTo(0,0);
+  }
+
+  function viewPhotos(){
+    document.title = '暗房 · 颗粒';
+    const photos = window.PHOTOS || [];
+    const tilts = [-2.4, 1.8, -1.1, 2.6, -1.9, 1.3];
+    const rows = [];
+    for(let i=0; i<photos.length; i+=3) rows.push(photos.slice(i, i+3));
+    const rope = `<svg class="rope" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,2.5 Q50,11 100,2.5" stroke="#5A4A38" stroke-width="1.1" fill="none"/>
+    </svg>`;
+    const rowsHtml = rows.map((row,r)=>`
+      <div class="line-row">${rope}
+        <div class="prints">
+          ${row.map((ph,j)=>{
+            const cap = ph.caption || '';
+            const inner = ph.src
+              ? `<img class="shot" src="${esc(ph.src)}" alt="${esc(cap)}" loading="lazy">`
+              : `<div class="shot">照片占位<br>把图片文件放进仓库<br>在 PHOTOS 里填上文件名</div>`;
+            return `<figure class="print" style="--tilt:${tilts[(r*3+j) % tilts.length]}deg">
+              <span class="pin" aria-hidden="true"></span>
+              ${inner}
+              <figcaption class="print-cap">${esc(cap)}${ph.date ? ' · ' + esc(ph.date) : ''}</figcaption>
+            </figure>`;
+          }).join('')}
+        </div>
+      </div>`).join('');
+    app.innerHTML = `
+      <div class="shelf-head"><h1>暗房</h1><span class="count">${photos.length} 张</span></div>
+      <div class="darkroom ${lit?'lit':''}" id="darkroom">
+        <button class="dk-cord" id="dkCord" aria-pressed="${lit}" title="拉一下,开关灯" aria-label="拉一下,开关灯">
+          <span class="cord-line" aria-hidden="true"></span>
+          <span class="cord-handle" aria-hidden="true"></span>
+        </button>
+        <div class="dk-head">
+          <span class="dk-lamp" aria-hidden="true"></span>
+          <span class="dk-note" id="dkNote">${lit ? '灯开了 · 再拉一下回到红灯' : '红灯下,照片正在显影 · 拉一下右上角的灯绳'}</span>
+        </div>
+        ${rowsHtml}
+      </div>`;
+    window.scrollTo(0,0);
+
+    /* 显影 */
+    const prints = [...app.querySelectorAll('.print')];
+    if(!motionOK || lit){
+      prints.forEach(pr => pr.classList.add('dev'));
+    } else {
+      const io = new IntersectionObserver(es=>{
+        es.forEach(x=>{
+          if(x.isIntersecting){ x.target.classList.add('dev'); io.unobserve(x.target); }
+        });
+      },{threshold:.25});
+      prints.forEach(pr => io.observe(pr));
+    }
+
+    /* 灯绳 */
+    const cord = document.getElementById('dkCord');
+    cord.addEventListener('click', ()=>{
+      lit = !lit;
+      cord.classList.remove('pull'); void cord.offsetWidth; cord.classList.add('pull');
+      cord.setAttribute('aria-pressed', String(lit));
+      document.getElementById('darkroom').classList.toggle('lit', lit);
+      if(lit) prints.forEach(pr => pr.classList.add('dev'));
+      document.getElementById('dkNote').textContent = lit ? '灯开了 · 再拉一下回到红灯' : '红灯下,照片正在显影 · 拉一下右上角的灯绳';
+    });
+  }
+
+  /* ---------- 开书 / 合书转场 ---------- */
+  let flying = false;
+  function makeFly(toneClass, title){
+    const fly = document.createElement('div');
+    fly.className = `book-fly ${toneClass}`;
+    fly.innerHTML = `<div class="fly-page"></div>
+      <div class="fly-cover ${toneClass}"><span class="fly-title">${esc(title)}</span></div>`;
+    document.body.appendChild(fly);
+    return fly;
+  }
+  const setRect = (el,r)=>{ el.style.top=r.top+'px'; el.style.left=r.left+'px'; el.style.width=r.width+'px'; el.style.height=r.height+'px'; };
+  const setFull = el =>{ el.style.top='0px'; el.style.left='0px'; el.style.width=innerWidth+'px'; el.style.height=innerHeight+'px'; };
+
+  function openBook(bookEl, route){
+    if(!motionOK || flying){ navigate(route); return; }
+    flying = true;
+    const tone = (bookEl.className.match(/\bt\d\b/)||['t0'])[0];
+    const title = bookEl.querySelector('.book-title').textContent;
+    const fly = makeFly(tone, title);
+    setRect(fly, bookEl.getBoundingClientRect());
+    bookEl.style.opacity = '0';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      setFull(fly);
+      fly.querySelector('.fly-cover').style.transform = 'rotateY(-128deg)';
+    }));
+    setTimeout(()=>{ navigate(route); }, 620);
+    setTimeout(()=>{ fly.style.opacity = '0'; }, 760);
+    setTimeout(()=>{ fly.remove(); flying = false; }, 1080);
+  }
+
+  function closeBook(slug){
+    if(!motionOK || flying){ navigate('/'); return; }
+    flying = true;
+    const i = window.POSTS.findIndex(p => p.slug === slug);
+    const p = window.POSTS[i];
+    const fly = makeFly(toneOf(Math.max(i,0)), p ? p.title : '');
+    fly.style.transition = 'none';
+    setFull(fly);
+    const cover = fly.querySelector('.fly-cover');
+    cover.style.transition = 'none';
+    cover.style.transform = 'rotateY(-128deg)';
+    void fly.offsetWidth;
+    fly.style.transition = ''; cover.style.transition = '';
+    navigate('/');
+    const bookEl = app.querySelector(`a[data-route="/p/${slug}"]`);
+    if(bookEl){
+      bookEl.scrollIntoView({inline:'center', block:'nearest'});
+      const r = bookEl.getBoundingClientRect();
+      bookEl.style.opacity = '0';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        setRect(fly, r);
+        cover.style.transform = '';
+      }));
+      setTimeout(()=>{ bookEl.style.opacity = ''; fly.style.opacity = '0'; }, 640);
+      setTimeout(()=>{ fly.remove(); flying = false; }, 940);
+    } else {
+      requestAnimationFrame(()=>{ fly.style.opacity = '0'; });
+      setTimeout(()=>{ fly.remove(); flying = false; }, 320);
+    }
+  }
+
+  /* ---------- 关灯 / 开灯(夜读) ---------- */
+  const modeBtn = document.getElementById('modeToggle');
+  function applyTheme(){
+    document.documentElement.dataset.theme = theme;
+    modeBtn.textContent = theme==='dark' ? '开灯' : '关灯';
+  }
+  modeBtn.addEventListener('click', ()=>{
+    theme = theme==='dark' ? 'light' : 'dark';
+    applyTheme();
+  });
+
+  /* ---------- footer ---------- */
+  document.getElementById('footLeft').textContent =
+    `© ${new Date().getFullYear()} ${window.SITE.author} · 写作 · 摄影 · 纽约`;
+
+  /* ---------- routing(脚本接管,兼容沙箱预览) ---------- */
+  const parseHash = () => (location.hash || '#/').replace(/^#/, '') || '/';
+  let current = parseHash();
+
+  function render(){
+    const m = current.match(/^\/p\/([\w-]+)/);
+    const onPhotos = /^\/photos/.test(current);
+    document.getElementById('navShelf').toggleAttribute('aria-current', !m && !onPhotos);
+    document.getElementById('navPhotos').toggleAttribute('aria-current', onPhotos);
+    if(m) viewPost(m[1]);
+    else if(onPhotos) viewPhotos();
+    else viewIndex();
+  }
+  function navigate(r){
+    if(r === current){ render(); return; }
+    current = r;
+    try{ history.pushState(null, '', '#' + r); }catch(e){ /* 沙箱环境下忽略 */ }
+    render();
+  }
+  document.addEventListener('click', e=>{
+    const a = e.target.closest('a[data-route]');
+    if(!a) return;
+    e.preventDefault();
+    const r = a.getAttribute('data-route');
+    if(a.classList.contains('book')) openBook(a, r);
+    else if(a.dataset.close) closeBook(a.dataset.close);
+    else navigate(r);
+  });
+  window.addEventListener('popstate', ()=>{ current = parseHash(); render(); });
+  window.addEventListener('hashchange', ()=>{
+    const h = parseHash();
+    if(h !== current){ current = h; render(); }
+  });
+
+  /* ---------- reading progress ---------- */
+  const bar = document.getElementById('progress');
+  addEventListener('scroll', ()=>{
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.width = max > 0 ? (scrollY/max*100)+'%' : '0';
+  }, {passive:true});
+
+  applyTheme();
+  render();
+})();
+</script>
+</body>
+</html>
