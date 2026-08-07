@@ -316,50 +316,66 @@
   }
 
   /* ---------- 取下相片 / 放大查看 ---------- */
-  .photo-viewer{position:fixed;inset:0;z-index:120;pointer-events:auto}
+  /*
+     性能策略：相纸本体只动画 transform / opacity（FLIP），不再动画
+     left / top / width / height。背景模糊延迟到相纸抵达中央后再开启，
+     避免点击第一帧同时做大图重排 + 全屏 backdrop-filter。
+  */
+  .photo-viewer{position:fixed;inset:0;z-index:120;pointer-events:auto;isolation:isolate}
   .photo-viewer-bg{
     position:absolute;inset:0;opacity:0;
-    background:rgba(18,15,12,.50);
-    -webkit-backdrop-filter:blur(10px) saturate(.75);
-    backdrop-filter:blur(10px) saturate(.75);
-    transition:opacity .38s ease;
+    background:rgba(18,15,12,.62);
+    transition:opacity .28s ease;
+    will-change:opacity;
   }
   .photo-viewer.open .photo-viewer-bg{opacity:1}
+  .photo-viewer.settled .photo-viewer-bg{
+    -webkit-backdrop-filter:blur(3px) saturate(.82);
+    backdrop-filter:blur(3px) saturate(.82);
+  }
   .photo-fly{
     position:fixed;z-index:1;margin:0;
     background:#F4F1E8;
-    box-shadow:0 28px 70px rgba(0,0,0,.48);
-    transform:rotate(var(--start-tilt,0deg));transform-origin:center center;
-    transition:left .52s cubic-bezier(.22,.8,.25,1),
-               top .52s cubic-bezier(.22,.8,.25,1),
-               width .52s cubic-bezier(.22,.8,.25,1),
-               height .52s cubic-bezier(.22,.8,.25,1),
-               transform .52s cubic-bezier(.22,.8,.25,1),
-               box-shadow .52s ease,opacity .25s ease;
+    box-shadow:0 26px 64px rgba(0,0,0,.46);
+    transform-origin:center center;
+    transition:transform .46s cubic-bezier(.22,.82,.25,1),opacity .18s ease;
+    will-change:transform;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    contain:layout paint;
     cursor:zoom-out;overflow:hidden;
   }
-  .photo-fly .shot{
+  .photo-fly .photo-preview,
+  .photo-fly .photo-full{
     position:absolute;top:8px;left:8px;
     width:calc(100% - 16px);height:calc(100% - 38px);
     max-width:none;aspect-ratio:auto;
-    object-fit:cover;object-position:var(--photo-pos,50% 50%);
-    filter:none!important;opacity:1!important;transition:none!important;
+    filter:none!important;
+    transition:opacity .16s ease!important;
+    background:#E9E5DB;
   }
+  .photo-fly .photo-preview{
+    object-fit:cover;object-position:var(--photo-pos,50% 50%);opacity:1;
+  }
+  .photo-fly .photo-full{
+    object-fit:contain;object-position:center;opacity:0;
+  }
+  .photo-fly.settled .photo-preview{opacity:0}
+  .photo-fly.settled .photo-full{opacity:1}
   .photo-fly .print-cap{
     opacity:1!important;left:10px;right:10px;bottom:9px;
   }
-  .photo-fly.open{transform:rotate(0deg);box-shadow:0 34px 90px rgba(0,0,0,.56)}
   .photo-viewer-hint{
     position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));
     transform:translateX(-50%);
     color:rgba(245,240,230,.72);font-family:var(--mono);font-size:10px;
-    letter-spacing:.06em;white-space:nowrap;opacity:0;transition:opacity .35s ease .18s;
+    letter-spacing:.06em;white-space:nowrap;opacity:0;transition:opacity .28s ease;
   }
-  .photo-viewer.open .photo-viewer-hint{opacity:1}
+  .photo-viewer.settled .photo-viewer-hint{opacity:1}
   @media (max-width:640px){
-    .photo-viewer-bg{
-      -webkit-backdrop-filter:blur(7px) saturate(.78);
-      backdrop-filter:blur(7px) saturate(.78);
+    .photo-viewer.settled .photo-viewer-bg{
+      -webkit-backdrop-filter:blur(2px) saturate(.86);
+      backdrop-filter:blur(2px) saturate(.86);
     }
     .photo-viewer-hint{font-size:9px}
   }
@@ -840,189 +856,189 @@ window.PHOTOS = [
   {
     src: "photos/5-ave-entrance.jpeg",
     caption: "5 Ave Entrance",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/blank-door.jpeg",
     caption: "Blank Door",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/blue-door.jpeg",
     caption: "Blue Door",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
-    src: "photos/door-reflection.jpeg",
+    src: "photos/door-refelction.jpeg",
     caption: "Door Reflection",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/empty-platform.jpeg",
     caption: "Empty Platform",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/five-ave-bench.jpeg",
     caption: "Five Ave Bench",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/foggy-platform.jpeg",
     caption: "Foggy Platform",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/grass-gap-car.jpeg",
     caption: "Grass Gap Car",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/grass-on-rail.jpeg",
     caption: "Grass on Rail",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/help-station.jpeg",
     caption: "Help Station",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/liminal-underpath.jpeg",
     caption: "Liminal Underpath",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/maintainence-door.jpeg",
     caption: "Maintenance Door",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/railroad-water.jpeg",
     caption: "Railroad Water",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/rails-in-action.jpeg",
     caption: "Rails in Action",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/rusty-wall.jpeg",
     caption: "Rusty Wall",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/safe-net-water.jpeg",
     caption: "Safe Net Water",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/small-animals.jpeg",
     caption: "Small Animals",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/social-distance.jpeg",
     caption: "Social Distance",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/split-station.jpeg",
     caption: "Split Station",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/stare-shoe.jpeg",
     caption: "Stare Shoe",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/subway-cabin.jpeg",
     caption: "Subway Cabin",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
-    src: "photos/train-come-in.jpeg",
+    src: "photos/train-cone-in.jpeg",
     caption: "Train Cone In",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/train-gap.jpeg",
     caption: "Train Gap",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/two-doors.jpeg",
     caption: "Two Doors",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/two-frames.jpeg",
     caption: "Two Frames",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/white-escalator.jpeg",
     caption: "White Escalator",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
   {
     src: "photos/white-tunnel.jpeg",
     caption: "White Tunnel",
-    date: "2026",
+    date: "2026.08",
     position: "50% 50%",
     crop: "4 / 3"
   },
@@ -1217,23 +1233,28 @@ window.PHOTOS = [
         const idx = Number(pr.dataset.photoIndex);
         openPhoto(pr, photos[idx]);
       };
+      const sourceImg = pr.querySelector('img.shot');
+      const prime = ()=>primePhoto(sourceImg);
+      pr.addEventListener('pointerenter', prime, {once:true});
+      pr.addEventListener('pointerdown', prime, {once:true});
       pr.addEventListener('click', activate);
       pr.addEventListener('keydown', e=>{
-        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); activate(); }
+        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); prime(); activate(); }
       });
     });
   }
 
   /* ---------- 取下相片 / 放回去 ---------- */
-  function photoTargetRect(img){
-    const nw = img.naturalWidth || img.clientWidth || 4;
-    const nh = img.naturalHeight || img.clientHeight || 5;
-    const frameX = 16, frameY = 38;
-    const maxW = Math.min(innerWidth * .90, 1100);
-    const maxH = innerHeight * .84;
-    const scale = Math.min((maxW-frameX)/nw, (maxH-frameY)/nh);
-    const width = Math.max(180, nw*scale + frameX);
-    const height = Math.max(180, nh*scale + frameY);
+  function photoTargetRect(printEl){
+    // 保持“相纸”本身的宽高比，只整体放大。这样 FLIP 可以只用统一 scale，
+    // 不需要在动画中重排 width / height。
+    const sw = printEl.offsetWidth || 220;
+    const sh = printEl.offsetHeight || 190;
+    const maxW = Math.min(innerWidth * .90, 1080);
+    const maxH = innerHeight * .82;
+    const scale = Math.max(1, Math.min(maxW / sw, maxH / sh));
+    const width = sw * scale;
+    const height = sh * scale;
     return {
       left:(innerWidth-width)/2,
       top:(innerHeight-height)/2,
@@ -1241,15 +1262,37 @@ window.PHOTOS = [
     };
   }
 
+  function photoFlipTransform(printEl, target){
+    const r = printEl.getBoundingClientRect();
+    const sourceW = printEl.offsetWidth || r.width;
+    const scale = sourceW / target.width;
+    const sourceCX = r.left + r.width/2;
+    const sourceCY = r.top + r.height/2;
+    const targetCX = target.left + target.width/2;
+    const targetCY = target.top + target.height/2;
+    const dx = sourceCX - targetCX;
+    const dy = sourceCY - targetCY;
+    const tilt = getComputedStyle(printEl).getPropertyValue('--tilt').trim() || '0deg';
+    return `translate3d(${dx}px,${dy}px,0) scale3d(${scale},${scale},1) rotate(${tilt})`;
+  }
+
+  function primePhoto(img){
+    // 已经挂在暗房里的同一张图通常已解码；这里在 hover / pointer down 时
+    // 再主动 prime 一次，避免点击瞬间才触发 decode。
+    if(img && typeof img.decode === 'function') img.decode().catch(()=>{});
+  }
+
   function openPhoto(printEl, ph){
     if(photoViewer || photoClosing || !ph || !ph.src) return;
     const sourceImg = printEl.querySelector('img.shot');
     if(!sourceImg) return;
+    primePhoto(sourceImg);
 
-    const r = printEl.getBoundingClientRect();
     const pos = ph.position || '50% 50%';
     const cap = ph.caption || '';
-    const tilt = getComputedStyle(printEl).getPropertyValue('--tilt').trim() || '0deg';
+    const target = photoTargetRect(printEl);
+    const initialTransform = photoFlipTransform(printEl, target);
+    const src = sourceImg.currentSrc || sourceImg.src || ph.src;
 
     const viewer = document.createElement('div');
     viewer.className = 'photo-viewer';
@@ -1258,38 +1301,41 @@ window.PHOTOS = [
     viewer.setAttribute('aria-label', cap ? `查看照片：${cap}` : '查看照片');
     viewer.innerHTML = `
       <div class="photo-viewer-bg"></div>
-      <figure class="photo-fly" style="--photo-pos:${pos};--start-tilt:${tilt}">
-        <img class="shot" src="${esc(ph.src)}" alt="${esc(cap)}">
+      <figure class="photo-fly" style="--photo-pos:${pos}">
+        <img class="photo-preview" src="${esc(src)}" alt="" aria-hidden="true">
+        <img class="photo-full" src="${esc(src)}" alt="${esc(cap)}">
         <figcaption class="print-cap">${esc(cap)}${ph.date ? ' · ' + esc(ph.date) : ''}</figcaption>
       </figure>
       <div class="photo-viewer-hint">点击任意处或按 Esc 放回去</div>`;
-    document.body.appendChild(viewer);
 
     const fly = viewer.querySelector('.photo-fly');
-    const flyImg = fly.querySelector('img');
-    const target = photoTargetRect(sourceImg);
-    fly.style.left = r.left+'px';
-    fly.style.top = r.top+'px';
-    fly.style.width = r.width+'px';
-    fly.style.height = r.height+'px';
+    fly.style.left = target.left+'px';
+    fly.style.top = target.top+'px';
+    fly.style.width = target.width+'px';
+    fly.style.height = target.height+'px';
+    fly.style.transform = initialTransform;
 
+    document.body.appendChild(viewer);
     photoViewer = viewer;
     photoSource = printEl;
     printEl.classList.add('photo-source-open');
     document.body.style.overflow = 'hidden';
 
-    const moveOpen = ()=>{
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{
-        viewer.classList.add('open');
-        fly.classList.add('open');
-        fly.style.left = target.left+'px';
-        fly.style.top = target.top+'px';
-        fly.style.width = target.width+'px';
-        fly.style.height = target.height+'px';
-      }));
-    };
-    if(flyImg.complete) moveOpen();
-    else flyImg.addEventListener('load', moveOpen, {once:true});
+    // 第一帧只做 compositor-friendly transform / opacity。
+    requestAnimationFrame(()=>{
+      viewer.classList.add('open');
+      requestAnimationFrame(()=>{
+        fly.style.transform = 'translate3d(0,0,0) scale3d(1,1,1) rotate(0deg)';
+      });
+    });
+
+    // 相纸抵达中央后，再切到完整原图并开启轻微背景虚化。
+    const settleTimer = setTimeout(()=>{
+      if(photoViewer !== viewer) return;
+      fly.classList.add('settled');
+      viewer.classList.add('settled');
+    }, motionOK ? 470 : 0);
+    viewer._settleTimer = settleTimer;
 
     viewer.addEventListener('click', ()=>closePhoto(true));
   }
@@ -1300,6 +1346,7 @@ window.PHOTOS = [
     const viewer = photoViewer;
     const fly = viewer.querySelector('.photo-fly');
     const source = photoSource;
+    clearTimeout(viewer._settleTimer);
 
     const finish = ()=>{
       if(source) source.classList.remove('photo-source-open');
@@ -1309,14 +1356,23 @@ window.PHOTOS = [
     };
 
     if(!animate || !motionOK || !source || !document.body.contains(source)){ finish(); return; }
-    const r = source.getBoundingClientRect();
-    viewer.classList.remove('open');
-    fly.classList.remove('open');
-    fly.style.left = r.left+'px';
-    fly.style.top = r.top+'px';
-    fly.style.width = r.width+'px';
-    fly.style.height = r.height+'px';
-    setTimeout(finish, 540);
+
+    // 先把完整图切回缩略裁切，并关闭 backdrop blur；随后只用 transform 飞回去。
+    fly.classList.remove('settled');
+    viewer.classList.remove('settled');
+    const target = {
+      left:parseFloat(fly.style.left) || 0,
+      top:parseFloat(fly.style.top) || 0,
+      width:parseFloat(fly.style.width) || fly.offsetWidth,
+      height:parseFloat(fly.style.height) || fly.offsetHeight
+    };
+
+    setTimeout(()=>{
+      if(!document.body.contains(viewer)){ finish(); return; }
+      fly.style.transform = photoFlipTransform(source, target);
+      viewer.classList.remove('open');
+      setTimeout(finish, 470);
+    }, 70);
   }
 
   addEventListener('keydown', e=>{
