@@ -1,974 +1,1459 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Max — Data Analyst · New York</title>
-<meta name="description" content="Max — data analyst in New York. Analytics systems, dimensional modeling, automation.">
-
-<!-- Social share cards -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://spacecowboy0707.github.io/">
-<meta property="og:title" content="Max — Data Analyst · New York">
-<meta property="og:description" content="Analytics engineering, dimensional modeling, and the dashboards in between.">
-<meta property="og:image" content="https://spacecowboy0707.github.io/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Max — Data Analyst · New York">
-<meta name="twitter:description" content="Analytics engineering, dimensional modeling, and the dashboards in between.">
-<meta name="twitter:image" content="https://spacecowboy0707.github.io/og.png">
-
-<!-- Favicons -->
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-
+<title>颗粒 · Max Xiang</title>
+<meta name="description" content="颗粒 — Max Xiang 的中文写作与摄影。物件、动作、温度、声音。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Karla:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600&text=%E4%BD%A0%E4%BC%9A%E8%AF%B4%E4%B8%AD%E6%96%87%E5%90%97&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   WARDROBE PALETTE — 衣柜色卡
-   --accent is switchable at runtime via the swatch chips.
-   ============================================================ */
-:root{
-  --paper:   #EAE6DC;
-  --paper-2: #E2DDD1;
-  --ink:     #26221B;
-  --ink-2:   #6E6759;
-  --olive:   #63644A;
-  --camel:   #A98F68;
-  --line:    #C9C2B2;
+  :root{
+    --paper:#F1EFE9;
+    --paper-deep:#EAE7DF;
+    --ink:#23241F;
+    --ink-soft:#73746A;
+    --hair:rgba(35,36,31,.16);
+    --seal:#A93D2A;
+    --seal-ink:#F1EFE9;
+    --serif:'Noto Serif SC','Songti SC','SimSun',serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+    /* 木头 */
+    --wood-frame:#6E5138;
+    --wood-frame-hi:#856548;
+    --wood-back:#463527;
+    --wood-plank:#8A6A4E;
+    --wood-plank-edge:#5C452F;
+  }
+  /* 夜读(关灯) */
+  html[data-theme="dark"]{
+    --paper:#211E19;
+    --paper-deep:#2A2620;
+    --ink:#D9D1BE;
+    --ink-soft:#948C7A;
+    --hair:rgba(217,209,190,.16);
+    --wood-frame:#4E3A28;
+    --wood-frame-hi:#5F4933;
+    --wood-back:#2E241A;
+    --wood-plank:#5E462F;
+    --wood-plank-edge:#3A2B1D;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    -webkit-font-smoothing:antialiased;
+    min-height:100svh;
+    display:flex;flex-direction:column;
+    transition:background .45s ease,color .45s ease;
+  }
+  ::selection{background:rgba(169,61,42,.18)}
+  a{color:inherit;text-decoration:none}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--seal);outline-offset:3px}
 
-  --accent:    var(--olive);   /* switchable */
-  --on-accent: var(--paper);   /* text color on accent fills */
+  #progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--seal);z-index:50}
 
-  --font-display: "Shippori Mincho", "Noto Serif SC", "Songti SC", serif;
-  --font-body:    "Karla", "Helvetica Neue", sans-serif;
-  --font-mono:    "IBM Plex Mono", monospace;
-  --font-zh:      "Noto Serif SC", "Shippori Mincho", "Songti SC", "SimSun", serif;
+  /* ---------- header ---------- */
+  header{display:flex;align-items:center;justify-content:space-between;padding:22px clamp(20px,5vw,56px);gap:12px}
+  .brand{display:flex;align-items:center;gap:14px;min-width:0}
+  .seal{
+    width:36px;height:36px;flex:none;background:var(--seal);color:var(--seal-ink);
+    writing-mode:vertical-rl;display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:600;letter-spacing:2px;border-radius:2px;
+    box-shadow:0 0 0 1px rgba(169,61,42,.25) inset;
+  }
+  .brand-name{font-size:17px;font-weight:600;letter-spacing:.12em;white-space:nowrap}
+  .brand-max{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--ink-soft);letter-spacing:.06em;margin-left:6px}
+  .brand-tag{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);letter-spacing:.06em;margin-top:3px}
+  .head-right{display:flex;align-items:center;gap:clamp(12px,2.2vw,24px);flex:none}
+  .site-nav{display:flex;gap:clamp(12px,2vw,20px);font-family:var(--mono);font-size:12px;letter-spacing:.08em}
+  .site-nav a{color:var(--ink-soft);padding-bottom:2px;border-bottom:1px solid transparent;transition:color .25s,border-color .25s}
+  .site-nav a:hover{color:var(--seal)}
+  .site-nav a[aria-current]{color:var(--ink);border-color:var(--seal)}
+  .head-btn{
+    font-family:var(--mono);font-size:12px;letter-spacing:.08em;
+    background:none;border:1px solid var(--hair);border-radius:2px;
+    color:var(--ink);padding:7px 13px;cursor:pointer;transition:border-color .25s,color .25s;
+    white-space:nowrap;
+  }
+  .head-btn:hover{border-color:var(--ink)}
 
-  --ease-out:  cubic-bezier(.22, 1, .36, 1);
-  --ease-page: cubic-bezier(.76, 0, .24, 1);
-  --page-ms:   950ms;
-  --max-w: 1120px;
-}
+  main{flex:1;width:100%}
 
-*{ margin:0; padding:0; box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
-body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--font-body);
-  font-size:16px;
-  line-height:1.65;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
-::selection{ background:var(--accent); color:var(--on-accent); }
-.zh{ font-family:var(--font-zh); }
+  /* ---------- 目录页 ---------- */
+  .shelf-head{
+    padding:clamp(16px,3.5vh,40px) clamp(20px,5vw,56px) 20px;
+    display:flex;align-items:baseline;gap:16px;
+  }
+  .shelf-head h1{font-size:clamp(26px,4vw,40px);font-weight:900;letter-spacing:.14em}
+  .shelf-head .count{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
 
-/* woven paper texture — always on, independent of the grain toggle */
-body::before{
-  content:""; position:fixed; inset:0; pointer-events:none; z-index:1;
-  background-image:
-    repeating-linear-gradient(0deg,  rgba(38,34,27,.022) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(90deg, rgba(38,34,27,.014) 0 1px, transparent 1px 5px);
-}
+  .bookcase{
+    margin:0 clamp(20px,5vw,56px) 34px;
+    padding:clamp(10px,1.6vw,18px);
+    border-radius:4px;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 2px, transparent 2px 9px),
+      linear-gradient(180deg, var(--wood-frame-hi), var(--wood-frame) 30%, var(--wood-plank-edge));
+    box-shadow:
+      0 18px 34px -18px rgba(40,28,16,.55),
+      inset 0 1px 0 rgba(255,235,210,.28);
+    transition:background .45s ease;
+  }
+  .case-inner{
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.08) 0 2px, transparent 2px 11px),
+      linear-gradient(180deg, #3D2E21, var(--wood-back) 26%, #52402F);
+    border-radius:2px;
+    box-shadow:inset 0 10px 22px rgba(0,0,0,.5), inset 0 -2px 6px rgba(0,0,0,.3);
+    padding:clamp(22px,4vh,42px) clamp(14px,2vw,26px) 0;
+  }
+  .books{
+    display:flex;align-items:flex-end;gap:7px;
+    height:clamp(320px,50vh,500px);
+    overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
+    padding:0 6px;
+    scrollbar-width:thin;scrollbar-color:var(--wood-plank-edge) transparent;
+  }
+  .plank{
+    height:16px;
+    margin-left:calc(clamp(14px,2vw,26px) * -1);
+    margin-right:calc(clamp(14px,2vw,26px) * -1);
+    background:
+      repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 3px, transparent 3px 14px),
+      linear-gradient(180deg, #A0805F, var(--wood-plank) 40%, var(--wood-plank-edge));
+    border-top:1px solid rgba(255,235,210,.35);
+    box-shadow:0 6px 10px -4px rgba(0,0,0,.55);
+  }
 
-a{ color:inherit; text-decoration:none; }
-img{ display:block; max-width:100%; }
-button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+  /* ---------- 书 ---------- */
+  .book{
+    position:relative;flex:none;
+    width:var(--bw,88px);height:var(--bh,92%);
+    background:
+      linear-gradient(90deg,
+        rgba(0,0,0,.30) 0, rgba(0,0,0,.12) 5%,
+        rgba(255,255,255,.10) 9%, rgba(255,255,255,0) 16%,
+        rgba(0,0,0,0) 84%, rgba(0,0,0,.18) 94%, rgba(0,0,0,.34) 100%),
+      var(--book-bg,#4A3B30);
+    color:var(--book-ink,#EFE9DD);
+    border:1px solid rgba(0,0,0,.42);
+    border-radius:4px 4px 3px 3px;
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.10),
+      inset 0 -3px 0 rgba(0,0,0,.22),
+      2px 0 0 rgba(0,0,0,.12);
+    display:flex;flex-direction:column;align-items:center;
+    padding:34px 6px 40px;
+    transition:transform .3s cubic-bezier(.2,.8,.3,1),box-shadow .3s,opacity .2s;
+  }
+  .book::before,.book::after{
+    content:"";position:absolute;left:9%;right:9%;height:0;
+    border-top:1px solid var(--band,rgba(241,239,233,.55));
+    border-bottom:1px solid var(--band,rgba(241,239,233,.55));
+    padding-top:3px;opacity:.75;
+  }
+  .book::before{top:16px}
+  .book::after{bottom:26px}
+  .book:hover,.book:focus-visible{
+    transform:translateY(-14px);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.10),
+      inset 0 -3px 0 rgba(0,0,0,.22),
+      0 18px 22px -8px rgba(0,0,0,.55);
+    z-index:2;
+  }
+  .book-title{
+    writing-mode:vertical-rl;text-orientation:mixed;
+    font-size:19px;font-weight:600;letter-spacing:.3em;
+    max-height:100%;overflow:hidden;
+  }
+  .book-mini-seal{
+    position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+    width:13px;height:13px;background:var(--seal);border-radius:1px;opacity:.9;
+  }
+  .book-label{
+    position:absolute;bottom:9px;left:50%;transform:translateX(-50%);
+    color:var(--book-ink);opacity:.72;
+    font-family:var(--mono);font-size:9px;letter-spacing:.04em;white-space:nowrap;
+  }
+  /* 布面色系(衣柜色卡:低饱和大地色 × 10) */
+  .t0{--book-bg:linear-gradient(180deg,#4E3E32,#453729);--book-ink:#EDE6D8;--band:rgba(237,230,216,.5)}   /* 深咖 espresso */
+  .t1{--book-bg:linear-gradient(180deg,#6E4F3C,#61452F);--book-ink:#F0E8DA;--band:rgba(240,232,218,.5)}   /* 胡桃 walnut   */
+  .t2{--book-bg:linear-gradient(180deg,#A98A62,#9C7D55);--book-ink:#322A1E;--band:rgba(50,42,30,.4)}      /* 驼   camel    */
+  .t3{--book-bg:linear-gradient(180deg,#D9CFBA,#CCC1A9);--book-ink:#37322A;--band:rgba(55,50,42,.4)}      /* 燕麦 oat      */
+  .t4{--book-bg:linear-gradient(180deg,#E9E3D3,#DED7C4);--book-ink:#3A352C;--band:rgba(58,53,44,.35)}     /* 米白 ecru     */
+  .t5{--book-bg:linear-gradient(180deg,#5B614F,#4F5545);--book-ink:#EEEAE0;--band:rgba(238,234,224,.5)}   /* 橄榄 olive    */
+  .t6{--book-bg:linear-gradient(180deg,#41494A,#394041);--book-ink:#E7E9E6;--band:rgba(231,233,230,.5)}   /* 墨绿 moss     */
+  .t7{--book-bg:linear-gradient(180deg,#8E8B81,#807D72);--book-ink:#26251F;--band:rgba(38,37,31,.4)}      /* 岩灰 stone    */
+  .t8{--book-bg:linear-gradient(180deg,#4D5665,#434B59);--book-ink:#E9EAEA;--band:rgba(233,234,234,.5)}   /* 灰蓝 slate    */
+  .t9{--book-bg:linear-gradient(180deg,#303845,#2A313D);--book-ink:#E6E8EB;--band:rgba(230,232,235,.5)}   /* 藏青 navy     */
 
-/* ============================================================
-   FILM GRAIN — 面料 (toggle via the fabric chip)
-   ============================================================ */
-#grain{
-  position:fixed; top:-60%; left:-60%; width:220%; height:220%;
-  pointer-events:none; z-index:200;
-  opacity:.09;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation:grain .9s steps(1) infinite;
-}
-body.no-grain #grain{ display:none; }
-@keyframes grain{
-  0%, 100%{ transform:translate(0, 0); }
-  12%{ transform:translate(-2%, 2%); }
-  25%{ transform:translate(1.5%, -1%); }
-  37%{ transform:translate(-1%, -2%); }
-  50%{ transform:translate(2%, 1.5%); }
-  62%{ transform:translate(-2%, -1%); }
-  75%{ transform:translate(1%, 2%); }
-  87%{ transform:translate(-1.5%, 1%); }
-}
+  .shelf-note{
+    padding:0 clamp(20px,5vw,56px) 30px;
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:.04em;
+  }
 
-/* ============================================================
-   FULLPAGE ENGINE + PARALLAX DEPTH
-   Passed panels lag behind, shrink and dim — the incoming
-   page appears to slide over them.
-   ============================================================ */
-html.fp, html.fp body{ height:100svh; overflow:hidden; }
-#track{ will-change:transform; }
-html.fp #track{
-  height:100svh;
-  transition:transform var(--page-ms) var(--ease-page);
-}
-.panel{ position:relative; }
-html.fp .panel{ height:100svh; overflow:hidden; }
-.panel-inner{
-  max-width:var(--max-w); margin:0 auto;
-  padding:110px 6vw 60px;
-  position:relative; z-index:1;
-  width:100%;
-}
-html.fp .panel-inner{
-  height:100svh;
-  display:flex; flex-direction:column;
-  overflow-y:auto;
-  scrollbar-width:none;
-  will-change:transform, opacity;
-  transition:transform var(--page-ms) var(--ease-page),
-             opacity   var(--page-ms) var(--ease-page);
-}
-/* overflow-safe vertical centering */
-html.fp .panel-inner::before{ content:""; margin-top:auto; }
-html.fp .panel-inner::after{ content:""; margin-bottom:auto; }
-html.fp .panel-inner::-webkit-scrollbar{ display:none; }
-html.fp .panel.passed .panel-inner{
-  transform:translateY(38svh) scale(.94);
-  opacity:.3;
-}
+  /* ---------- 开书转场 ---------- */
+  .book-fly{
+    position:fixed;z-index:80;
+    perspective:1600px;
+    transition:top .55s cubic-bezier(.45,.05,.2,1),left .55s cubic-bezier(.45,.05,.2,1),
+               width .55s cubic-bezier(.45,.05,.2,1),height .55s cubic-bezier(.45,.05,.2,1),
+               opacity .28s ease;
+  }
+  .book-fly .fly-page{
+    position:absolute;inset:0;background:var(--paper);
+    border-radius:4px;box-shadow:0 30px 70px rgba(0,0,0,.45);
+  }
+  .book-fly .fly-cover{
+    position:absolute;inset:0;
+    background:var(--book-bg,#4A3B30);color:var(--book-ink,#EFE9DD);
+    border:1px solid rgba(0,0,0,.42);border-radius:4px;
+    transform-origin:left center;
+    transition:transform .62s cubic-bezier(.5,.05,.25,1) .1s;
+    backface-visibility:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .book-fly .fly-title{
+    writing-mode:vertical-rl;text-orientation:mixed;
+    font-size:clamp(19px,3vw,30px);font-weight:600;letter-spacing:.3em;
+  }
 
-html:not(.fp) .panel{ min-height:60svh; }
-html:not(.fp) #home .panel-inner{ min-height:100svh; display:flex; flex-direction:column; justify-content:center; }
+  /* ---------- 暗房 ---------- */
+  .darkroom{
+    position:relative;
+    margin:0 clamp(20px,5vw,56px) 34px;
+    background:
+      radial-gradient(120% 55% at 50% 0%, rgba(169,61,42,.18), transparent 58%),
+      #1B1815;
+    border-radius:4px;
+    padding:clamp(24px,4vh,46px) clamp(14px,3vw,36px) clamp(30px,5vh,54px);
+    box-shadow:inset 0 0 70px rgba(0,0,0,.55), 0 18px 34px -18px rgba(20,14,10,.5);
+    animation:enter .55s ease both;
+    transition:background .5s ease;
+  }
+  .dk-head{display:flex;align-items:center;gap:14px;margin-bottom:clamp(24px,4vh,40px);padding-right:60px}
+  .dk-lamp{
+    width:10px;height:10px;border-radius:50%;flex:none;
+    background:var(--seal);
+    box-shadow:0 0 16px 5px rgba(169,61,42,.5);
+    animation:lamp 4.5s ease-in-out infinite;
+    transition:opacity .4s,box-shadow .4s;
+  }
+  @keyframes lamp{0%,100%{opacity:1}50%{opacity:.7}}
+  .dk-note{
+    font-family:var(--mono);font-size:11px;color:rgba(220,210,195,.55);
+    letter-spacing:.05em;transition:color .4s;
+  }
+  /* 拉绳开关 */
+  .dk-cord{
+    position:absolute;top:0;right:clamp(28px,6vw,72px);
+    width:26px;height:92px;
+    background:none;border:none;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;
+    z-index:3;
+  }
+  .cord-line{width:2px;height:68px;background:linear-gradient(180deg,#847660,#5C5142)}
+  .cord-handle{
+    width:10px;height:17px;border-radius:3px;
+    background:linear-gradient(180deg,#C8A87B,#8F7146);
+    box-shadow:0 2px 4px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.2);
+  }
+  .dk-cord.pull{animation:pull .4s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes pull{35%{transform:translateY(9px)}100%{transform:none}}
 
-/* ============================================================
-   NAV
-   ============================================================ */
-nav{
-  position:fixed; top:0; left:0; right:0; z-index:50;
-  background:color-mix(in srgb, var(--paper) 82%, transparent);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid transparent;
-  transition:border-color .4s ease;
-}
-nav.scrolled{ border-bottom-color:var(--line); }
-.nav-inner{
-  max-width:var(--max-w); margin:0 auto; padding:20px 6vw;
-  display:flex; align-items:baseline; justify-content:space-between;
-}
-.logo{ font-family:var(--font-display); font-weight:700; font-size:20px; letter-spacing:.02em; }
-.logo em{ font-style:normal; color:var(--accent); transition:color .4s ease; }
-.nav-links{ display:flex; gap:36px; }
-.nav-links a{
-  font-family:var(--font-mono); font-size:12px; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--ink-2);
-  position:relative; padding-bottom:4px;
-  display:inline-block;
-  transition:color .3s ease, transform .5s var(--ease-out);
-}
-.nav-links a::after{
-  content:""; position:absolute; left:0; bottom:0; height:1px; width:100%;
-  background:var(--accent);
-  transform:scaleX(0); transform-origin:right;
-  transition:transform .45s var(--ease-out), background .4s ease;
-}
-.nav-links a:hover, .nav-links a.active{ color:var(--ink); }
-.nav-links a:hover::after, .nav-links a.active::after{ transform:scaleX(1); transform-origin:left; }
+  .line-row{position:relative;padding-top:24px;margin-bottom:clamp(30px,5vh,52px)}
+  .line-row:last-child{margin-bottom:0}
+  .rope{position:absolute;top:0;left:0;width:100%;height:26px;pointer-events:none}
+  .prints{
+    display:flex;gap:clamp(16px,3vw,36px);
+    justify-content:flex-start;
+    overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
+    padding:0 clamp(8px,3vw,30px) 14px;
+    scrollbar-width:thin;scrollbar-color:#5A4A38 transparent;
+  }
+  @media (min-width:900px){ .prints{justify-content:center} }
+  .print{
+    position:relative;flex:none;
+    background:#F4F1E8;padding:8px 8px 30px;
+    transform:rotate(var(--tilt,0deg));transform-origin:top center;
+    box-shadow:0 14px 22px -8px rgba(0,0,0,.7);
+    transition:transform .35s cubic-bezier(.2,.8,.3,1),opacity .18s ease;
+  }
+  .print:hover{transform:rotate(0deg) translateY(3px)}
+  .print.has-photo{user-select:none;-webkit-user-select:none}
+  .darkroom:not(.lit) .print.has-photo.dev{cursor:zoom-in}
+  .print.photo-source-open{opacity:0}
+  .pin{
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    width:11px;height:22px;border-radius:2px;
+    background:linear-gradient(180deg,#C8A87B,#9E7E52);
+    box-shadow:0 1px 3px rgba(0,0,0,.55), inset 0 0 0 1px rgba(0,0,0,.15);
+  }
+  .pin::after{content:"";position:absolute;left:50%;top:9px;width:1px;height:8px;background:rgba(0,0,0,.3)}
+  .shot{display:block;width:clamp(150px,22vw,220px)}
+  img.shot{
+    aspect-ratio:var(--crop,4/5);
+    height:auto;
+    object-fit:cover;
+    object-position:var(--photo-pos,50% 50%);
+  }
+  div.shot{
+    aspect-ratio:4/5;
+    background:linear-gradient(160deg,#3B3833,#282521);
+    display:flex;align-items:center;justify-content:center;
+    color:rgba(220,210,195,.42);font-family:var(--mono);
+    font-size:10px;letter-spacing:.06em;text-align:center;
+    padding:14px;line-height:1.7;
+  }
 
-/* ============================================================
-   RAIL + DOTS
-   ============================================================ */
-.rail{
-  position:fixed; left:28px; top:50%; transform:translateY(-50%);
-  z-index:10; display:flex; flex-direction:column; align-items:center; gap:18px;
-}
-.rail .vtext{
-  writing-mode:vertical-rl;
-  font-family:var(--font-zh); font-size:13px; letter-spacing:.5em; color:var(--ink-2);
-}
-.rail .vline{ width:1px; height:64px; background:var(--line); }
-@media (max-width:1280px){ .rail{ display:none; } }
+  /* ---------- 取下相片 / 放大查看 ---------- */
+  .photo-viewer{position:fixed;inset:0;z-index:120;pointer-events:auto}
+  .photo-viewer-bg{
+    position:absolute;inset:0;opacity:0;
+    background:rgba(18,15,12,.50);
+    -webkit-backdrop-filter:blur(10px) saturate(.75);
+    backdrop-filter:blur(10px) saturate(.75);
+    transition:opacity .38s ease;
+  }
+  .photo-viewer.open .photo-viewer-bg{opacity:1}
+  .photo-fly{
+    position:fixed;z-index:1;margin:0;
+    background:#F4F1E8;
+    box-shadow:0 28px 70px rgba(0,0,0,.48);
+    transform:rotate(var(--start-tilt,0deg));transform-origin:center center;
+    transition:left .52s cubic-bezier(.22,.8,.25,1),
+               top .52s cubic-bezier(.22,.8,.25,1),
+               width .52s cubic-bezier(.22,.8,.25,1),
+               height .52s cubic-bezier(.22,.8,.25,1),
+               transform .52s cubic-bezier(.22,.8,.25,1),
+               box-shadow .52s ease,opacity .25s ease;
+    cursor:zoom-out;overflow:hidden;
+  }
+  .photo-fly .shot{
+    position:absolute;top:8px;left:8px;
+    width:calc(100% - 16px);height:calc(100% - 38px);
+    max-width:none;aspect-ratio:auto;
+    object-fit:cover;object-position:var(--photo-pos,50% 50%);
+    filter:none!important;opacity:1!important;transition:none!important;
+  }
+  .photo-fly .print-cap{
+    opacity:1!important;left:10px;right:10px;bottom:9px;
+  }
+  .photo-fly.open{transform:rotate(0deg);box-shadow:0 34px 90px rgba(0,0,0,.56)}
+  .photo-viewer-hint{
+    position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));
+    transform:translateX(-50%);
+    color:rgba(245,240,230,.72);font-family:var(--mono);font-size:10px;
+    letter-spacing:.06em;white-space:nowrap;opacity:0;transition:opacity .35s ease .18s;
+  }
+  .photo-viewer.open .photo-viewer-hint{opacity:1}
+  @media (max-width:640px){
+    .photo-viewer-bg{
+      -webkit-backdrop-filter:blur(7px) saturate(.78);
+      backdrop-filter:blur(7px) saturate(.78);
+    }
+    .photo-viewer-hint{font-size:9px}
+  }
+  /* 显影:只有红灯下,相纸才会显影(约 3 秒) */
+  .shot{transition:opacity .6s ease}
+  .darkroom.lit .shot{opacity:0}
+  .darkroom:not(.lit) .shot{
+    filter:brightness(.18) sepia(.85) hue-rotate(-28deg) saturate(2.4) blur(5px);
+    transition:filter 3s ease .15s, opacity .6s ease;
+  }
+  .darkroom:not(.lit) .print.dev .shot{filter:none}
+  .print-cap{transition:opacity .9s ease}
+  .darkroom.lit .print-cap,
+  .darkroom:not(.lit) .print:not(.dev) .print-cap{opacity:0}
+  .print-cap{
+    position:absolute;left:10px;right:10px;bottom:9px;
+    font-family:var(--mono);font-size:9.5px;color:#6F695D;letter-spacing:.04em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  /* 开灯后的暗房 */
+  .darkroom.lit{
+    background:#B9B1A2;
+    box-shadow:inset 0 0 40px rgba(0,0,0,.12), 0 18px 34px -18px rgba(20,14,10,.35);
+  }
+  .darkroom.lit .dk-lamp{opacity:.25;box-shadow:none;animation:none}
+  .darkroom.lit .dk-note{color:rgba(45,40,32,.6)}
+  .darkroom.lit .rope path{stroke:#7A6A54}
+  .darkroom.lit .print{box-shadow:0 10px 18px -8px rgba(0,0,0,.4)}
 
-.dots{
-  position:fixed; right:28px; top:50%; transform:translateY(-50%);
-  z-index:40; display:none; flex-direction:column; gap:18px;
-}
-html.fp .dots{ display:flex; }
-.dot{
-  position:relative; width:10px; height:10px; border-radius:50%;
-  border:1px solid var(--ink-2); background:transparent;
-  padding:0;
-  transition:background .35s ease, border-color .35s ease, transform .5s var(--ease-out);
-}
-.dot.on{ background:var(--accent); border-color:var(--accent); }
-.dot .lbl{
-  position:absolute; right:22px; top:50%; transform:translateY(-50%) translateX(6px);
-  font-family:var(--font-mono); font-size:10px; letter-spacing:.18em;
-  text-transform:uppercase; color:var(--ink-2); white-space:nowrap;
-  opacity:0; transition:opacity .3s ease, transform .3s var(--ease-out);
-  pointer-events:none;
-}
-.dot:hover .lbl, .dot.on .lbl{ opacity:1; transform:translateY(-50%) translateX(0); }
+  /* ---------- 阅读页 ---------- */
+  .reader{
+    max-width:41rem;margin:0 auto;
+    padding:clamp(16px,4vh,40px) clamp(22px,6vw,32px) 60px;
+    animation:enter .55s ease both;
+  }
+  @keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .reader-nav{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+    margin-bottom:clamp(28px,6vh,64px);letter-spacing:.05em;
+  }
+  .reader-nav a{border-bottom:1px solid transparent;transition:color .25s,border-color .25s}
+  .reader-nav a:hover{color:var(--seal);border-color:var(--seal)}
+  .post-title{font-size:clamp(30px,5vw,40px);font-weight:900;letter-spacing:.18em;margin-bottom:14px}
+  .post-meta{
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);
+    letter-spacing:.06em;margin-bottom:clamp(36px,7vh,72px);
+  }
+  .post-body p{
+    font-size:17.5px;line-height:2.05;letter-spacing:.02em;
+    text-indent:2em;text-align:justify;margin-bottom:.4em;
+  }
+  .post-body h2{
+    font-size:18px;font-weight:600;letter-spacing:.4em;text-indent:.4em;
+    text-align:center;margin:2.8em 0 1.6em;
+  }
+  .post-body h2::before{
+    content:"";display:block;width:7px;height:7px;
+    background:var(--seal);margin:0 auto 14px;
+  }
+  .post-body h2:first-child{margin-top:0}
+  /* 诗:不缩进、不两端对齐 */
+  .post-body.poem p{text-indent:0;text-align:left;margin-bottom:0;line-height:2.3}
+  .fin{text-align:center;margin-top:4.5em;color:var(--ink-soft);letter-spacing:.5em;text-indent:.5em;font-size:15px}
+  .fin-seal{
+    width:44px;height:44px;margin:26px auto 0;
+    background:var(--seal);color:var(--seal-ink);writing-mode:vertical-rl;
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:600;letter-spacing:3px;border-radius:2px;
+    transform:rotate(1.5deg);
+    box-shadow:0 0 0 1px rgba(169,61,42,.25) inset;
+  }
+  .reader-foot{
+    margin-top:56px;padding-top:22px;border-top:1px solid var(--hair);
+    display:flex;justify-content:space-between;
+    font-family:var(--mono);font-size:12px;color:var(--ink-soft);
+  }
+  .reader-foot a:hover{color:var(--seal)}
+  @media (min-width:1360px){
+    .reader{position:relative}
+    .post-title{
+      position:absolute;top:6px;
+      left:calc(100% + clamp(28px,4vw,84px));
+      writing-mode:vertical-rl;text-orientation:mixed;
+      margin:0;white-space:nowrap;
+      font-size:clamp(36px,3.2vw,48px);letter-spacing:.3em;
+    }
+  }
 
-/* ============================================================
-   REVEALS — fade-up (.rv) and masked line rise (.mask-in)
-   ============================================================ */
-.rv{
-  opacity:0; transform:translateY(26px);
-  transition:opacity .85s var(--ease-out), transform .85s var(--ease-out);
-  transition-delay:var(--d, 0s);
-}
-.rv.in{ opacity:1; transform:none; }
+  footer{
+    padding:26px clamp(20px,5vw,56px);border-top:1px solid var(--hair);
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:.05em;
+  }
+  footer a{border-bottom:1px solid transparent}
+  footer a:hover{color:var(--seal);border-color:var(--seal)}
 
-.mask{ display:block; overflow:hidden; }
-.mask > .rv{ display:block; }
-.rv.mask-in{ opacity:1; transform:translateY(112%); }
-.rv.mask-in.in{ transform:translateY(0); }
-
-.no-anim .rv{ transition:none !important; }
-
-@media (prefers-reduced-motion: reduce){
-  html{ scroll-behavior:auto; }
-  .rv{ opacity:1; transform:none; transition:none; }
-  #grain{ animation:none; }
-  *{ animation:none !important; transition-duration:.01s !important; }
-}
-
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero-grid{
-  display:grid; grid-template-columns:1.25fr .75fr; gap:64px; align-items:center; width:100%;
-}
-.eyebrow{
-  font-family:var(--font-mono); font-size:12px; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--accent);
-  display:flex; align-items:center; gap:14px; margin-bottom:24px;
-  transition:color .4s ease;
-}
-.eyebrow::before{ content:""; width:40px; height:1px; background:var(--accent); transition:background .4s ease; }
-h1{
-  font-family:var(--font-display); font-weight:600;
-  font-size:clamp(36px, 5.4vw, 74px);
-  line-height:1.12; letter-spacing:-0.01em;
-}
-h1 .thin{ color:var(--ink-2); font-weight:500; }
-.hero-role{ margin-top:24px; font-size:17px; color:var(--ink-2); max-width:46ch; }
-.hero-role strong{ color:var(--ink); font-weight:600; }
-
-.spec{
-  margin-top:34px; border-top:1px solid var(--line);
-  font-family:var(--font-mono); font-size:12.5px; letter-spacing:.06em;
-}
-.spec div{
-  display:flex; justify-content:space-between; gap:24px;
-  padding:9px 0; border-bottom:1px solid var(--line);
-}
-.spec dt{ color:var(--ink-2); text-transform:uppercase; letter-spacing:.16em; }
-.spec dd{ text-align:right; }
-
-/* swatches — now clickable accent switchers */
-.swatches{ margin-top:22px; display:flex; align-items:center; gap:10px; }
-.swatches .swatch-label{
-  font-family:var(--font-mono);
-  font-size:11px; color:var(--ink-2);
-  letter-spacing:.2em; text-transform:uppercase;
-  margin-right:6px;
-}
-.chip{
-  width:22px; height:22px; border-radius:50%;
-  border:1px solid rgba(38,34,27,.15);
-  transition:transform .5s var(--ease-out), box-shadow .35s ease;
-  display:inline-block;
-}
-.chip.sel{ box-shadow:0 0 0 2px var(--paper), 0 0 0 3.5px var(--ink); }
-.chip.fabric{
-  margin-left:8px;
-  background:
-    repeating-linear-gradient(45deg,  rgba(38,34,27,.35) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(-45deg, rgba(38,34,27,.35) 0 1px, transparent 1px 4px),
-    var(--paper-2);
-}
-.chip.fabric.off{ opacity:.35; }
-
-.portrait{ position:relative; justify-self:end; }
-.portrait-frame{
-  width:min(300px, 30vw); aspect-ratio:3/4;
-  border-radius:150px 150px 12px 12px;
-  overflow:hidden;
-  background:linear-gradient(160deg, var(--paper-2), #D6CFBF);
-  border:1px solid var(--line);
-  display:flex; align-items:center; justify-content:center;
-  transition:transform .2s linear;
-  will-change:transform;
-}
-.portrait-frame .ph{ text-align:center; color:var(--ink-2); }
-.portrait-frame .ph .m{
-  font-family:var(--font-display); font-size:84px; font-weight:600; color:var(--camel); line-height:1;
-}
-.portrait-frame .ph .cap{
-  font-family:var(--font-mono); font-size:11px; letter-spacing:.2em; margin-top:12px; text-transform:uppercase;
-}
-.hang-tag{
-  position:absolute; right:-18px; bottom:36px;
-  background:var(--paper); border:1px solid var(--ink);
-  padding:10px 14px 10px 22px;
-  font-family:var(--font-mono); font-size:11px; letter-spacing:.12em;
-  transform:rotate(4deg);
-  transition:transform .5s var(--ease-out);
-}
-.hang-tag::before{
-  content:""; position:absolute; left:8px; top:50%; transform:translateY(-50%);
-  width:6px; height:6px; border:1px solid var(--ink); border-radius:50%;
-}
-.portrait:hover .hang-tag{ transform:rotate(-2deg) translateY(-4px); }
-
-.scroll-hint{
-  position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
-  font-family:var(--font-mono); font-size:10px; letter-spacing:.3em;
-  text-transform:uppercase; color:var(--ink-2);
-  display:flex; flex-direction:column; align-items:center; gap:8px;
-}
-.scroll-hint::after{
-  content:""; width:1px; height:34px; background:var(--ink-2);
-  animation:drip 2.2s var(--ease-out) infinite;
-}
-@keyframes drip{
-  0%{ transform:scaleY(0); transform-origin:top; }
-  45%{ transform:scaleY(1); transform-origin:top; }
-  55%{ transform:scaleY(1); transform-origin:bottom; }
-  100%{ transform:scaleY(0); transform-origin:bottom; }
-}
-
-/* short laptop screens: tighten vertical rhythm */
-@media (max-height:880px){
-  h1{ font-size:clamp(32px, 4.6vw, 58px); }
-  .hero-role{ margin-top:16px; font-size:15.5px; }
-  .spec{ margin-top:22px; font-size:11.5px; }
-  .spec div{ padding:7px 0; }
-  .swatches{ margin-top:16px; }
-  .portrait-frame{ width:min(240px, 25vw); }
-  .panel-inner{ padding-top:96px; padding-bottom:44px; }
-  .sec-head{ margin-bottom:32px; }
-  .scroll-hint{ display:none; }
-}
-
-@media (max-width:860px){
-  .hero-grid{ grid-template-columns:1fr; gap:40px; }
-  .portrait{ justify-self:start; }
-  .portrait-frame{ width:min(260px, 70vw); }
-}
-
-/* ============================================================
-   SECTION HEAD — 中文标题从遮罩里升起
-   ============================================================ */
-.sec-head{ display:flex; align-items:center; gap:20px; margin-bottom:48px; }
-.sec-head .ttl{
-  font-family:var(--font-display);
-  font-size:clamp(28px, 3.6vw, 40px); font-weight:600; line-height:1.15;
-}
-.sec-head::after{ content:""; flex:1; height:1px; background:var(--line); }
-
-/* ============================================================
-   INTRODUCTION
-   ============================================================ */
-.intro-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:64px; }
-.intro-pull{
-  font-family:var(--font-display); font-weight:500;
-  font-size:clamp(22px, 2.7vw, 31px); line-height:1.5;
-}
-.intro-pull em{ font-style:normal; border-bottom:2px solid var(--camel); }
-.intro-body p{ color:var(--ink-2); margin-bottom:1.1em; font-size:15.5px; }
-.intro-body p strong{ color:var(--ink); font-weight:600; }
-@media (max-width:860px){ .intro-grid{ grid-template-columns:1fr; gap:36px; } }
-
-/* ============================================================
-   SKILLSET
-   ============================================================ */
-.tags{ display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
-.tags .rv{ perspective:1100px; }
-.tag{
-  position:relative; height:168px;
-  transform-style:preserve-3d;
-  transition:transform .8s var(--ease-out);
-}
-.tag:hover, .tag.flipped{ transform:rotateY(180deg); }
-.face{
-  position:absolute; inset:0;
-  backface-visibility:hidden; -webkit-backface-visibility:hidden;
-  background:var(--paper-2); border:1px solid var(--line);
-  padding:30px 18px 20px;
-  display:flex; flex-direction:column; justify-content:center;
-}
-.face::before{ /* punched hole */
-  content:""; position:absolute; top:9px; left:50%; transform:translateX(-50%);
-  width:8px; height:8px; border-radius:50%;
-  background:var(--paper); border:1px solid var(--line);
-}
-.face.back{
-  transform:rotateY(180deg);
-  background:var(--paper); border-color:var(--ink);
-}
-.face.back::before{ border-color:var(--ink); }
-.tag h3{ font-family:var(--font-display); font-size:19px; font-weight:600; margin-top:6px; }
-.tag .use{
-  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--accent);
-  transition:color .4s ease;
-}
-.tag .bk-name{
-  font-family:var(--font-mono); font-size:10px; letter-spacing:.18em;
-  text-transform:uppercase; color:var(--ink-2); margin-bottom:8px;
-}
-.tag .desc{ font-size:13px; color:var(--ink-2); line-height:1.6; }
-@media (max-width:1000px){ .tags{ grid-template-columns:repeat(2, 1fr); } }
-@media (max-width:520px){ .tags{ grid-template-columns:1fr; } }
-
-/* ============================================================
-   PROJECTS
-   ============================================================ */
-.proj{
-  position:relative; display:grid;
-  grid-template-columns:100px 1fr auto; gap:28px; align-items:baseline;
-  padding:24px 20px; border-top:1px solid var(--line);
-  overflow:hidden; cursor:pointer;
-}
-.proj:last-of-type{ border-bottom:1px solid var(--line); }
-.proj::before{
-  content:""; position:absolute; inset:0; background:var(--accent);
-  transform:scaleY(0); transform-origin:bottom;
-  transition:transform .55s var(--ease-out);
-  z-index:0;
-}
-.proj:hover::before{ transform:scaleY(1); }
-.proj > *{ position:relative; z-index:1; transition:color .4s ease; }
-.proj .yr{ font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; color:var(--ink-2); }
-.proj h3{ font-family:var(--font-display); font-weight:600; font-size:clamp(18px, 2vw, 24px); line-height:1.3; }
-.proj .sub{ font-size:13.5px; color:var(--ink-2); margin-top:5px; max-width:62ch; transition:color .4s ease; }
-.proj .stack{
-  font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em;
-  color:var(--ink-2); margin-top:8px; text-transform:uppercase;
-}
-.proj .arrow{ font-family:var(--font-mono); font-size:20px; transition:transform .5s var(--ease-out), color .4s ease; }
-.proj:hover .arrow{ transform:translateX(10px); }
-.proj:hover, .proj:hover .yr, .proj:hover .sub, .proj:hover .stack, .proj:hover .arrow{
-  color:var(--on-accent);
-}
-@media (max-width:700px){
-  .proj{ grid-template-columns:1fr auto; }
-  .proj .yr{ grid-column:1 / -1; }
-}
-
-/* ============================================================
-   CONTACT
-   ============================================================ */
-.foot-cta{
-  font-family:var(--font-display); font-weight:600;
-  font-size:clamp(34px, 5vw, 60px); line-height:1.25;
-}
-.foot-cta a{
-  border-bottom:2px solid var(--camel);
-  transition:color .35s ease, border-color .35s ease;
-}
-.foot-cta a:hover{ color:var(--accent); border-color:var(--accent); }
-.foot-meta{
-  margin-top:72px; padding-top:24px; border-top:1px solid var(--line);
-  display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;
-  font-family:var(--font-mono); font-size:12px; letter-spacing:.12em;
-  color:var(--ink-2); text-transform:uppercase;
-}
-.foot-meta a:hover{ color:var(--ink); }
-.foot-links{ display:flex; gap:28px; }
+  @media (max-width:640px){
+    .books{height:clamp(280px,44vh,380px);gap:6px}
+    .book{padding:26px 4px 36px}
+    .book-title{font-size:16px;letter-spacing:.24em}
+    .brand-tag{display:none}
+    .site-nav{display:none}
+    .shelf-head .m-nav{display:inline}
+  }
+  .shelf-head .m-nav{display:none;font-family:var(--mono);font-size:12px}
+  .shelf-head .m-nav a{color:var(--ink-soft);border-bottom:1px solid var(--seal);padding-bottom:2px}
 </style>
 </head>
 <body>
+<div id="progress"></div>
 
-<div id="grain" aria-hidden="true"></div>
-
-<nav id="nav">
-  <div class="nav-inner">
-    <a class="logo" href="#home" data-go="home">Max<em>.</em></a>
-    <div class="nav-links">
-      <a href="#intro" data-go="intro" data-mag>Intro</a>
-      <a href="#skills" data-go="skills" data-mag>Skillset</a>
-      <a href="#projects" data-go="projects" data-mag>Projects</a>
-      <a href="#contact" data-go="contact" data-mag>Contact</a>
-    </div>
+<header>
+  <a class="brand" href="#/" data-route="/" aria-label="返回书架">
+    <span class="seal" aria-hidden="true">颗粒</span>
+    <span>
+      <div class="brand-name">颗粒<span class="brand-max">Max.</span></div>
+      <div class="brand-tag">物件、动作、温度、声音</div>
+    </span>
+  </a>
+  <div class="head-right">
+    <nav class="site-nav">
+      <a href="#/" data-route="/" id="navShelf">书架</a>
+      <a href="#/photos" data-route="/photos" id="navPhotos">暗房</a>
+    </nav>
+    <button class="head-btn" id="modeToggle"></button>
   </div>
-</nav>
+</header>
 
-<div class="rail" aria-hidden="true">
-  <div class="vline"></div>
-  <div class="vtext">你会说中文吗</div>
-  <div class="vline"></div>
-</div>
+<main id="app"></main>
 
-<div class="dots" id="dots" aria-hidden="true"></div>
-
-<div id="track">
-
-  <!-- ================= PANEL 1 · HERO ================= -->
-  <section class="panel" id="home" data-label="Home">
-    <div class="panel-inner">
-      <div class="hero-grid">
-        <div>
-          <div class="eyebrow rv">Portfolio</div>
-          <h1>
-            <span class="mask"><span class="rv mask-in" style="--d:.08s; display:block">Max builds</span></span>
-            <span class="mask"><span class="rv mask-in thin" style="--d:.2s; display:block">quiet, well-made</span></span>
-            <span class="mask"><span class="rv mask-in" style="--d:.32s; display:block">data systems.</span></span>
-          </h1>
-          <p class="hero-role rv" style="--d:.45s">
-            Data analyst on a business analytics team —
-            <strong>SQL, Power BI, Python, Microsoft Fabric, DuckDB, dbt</strong> — turning messy ERP
-            data into things leadership actually reads.
-          </p>
-          <dl class="spec rv" style="--d:.55s">
-            <div><dt>Location</dt><dd>New York, US</dd></div>
-            <div><dt>Focus</dt><dd>Analytics engineering · Business Analytics</dd></div>
-            <div><dt>Fit</dt><dd>Agility, Stakeholder Management</dd></div>
-          </dl>
-          <div class="swatches rv" style="--d:.65s">
-            <span class="swatch-label">My colors</span>
-            <button class="chip sel" data-accent="#63644A" data-mag style="background:#63644A" aria-label="Olive accent"></button>
-            <button class="chip" data-accent="#8F7B4E" data-mag style="background:#A98F68" aria-label="Camel accent"></button>
-            <button class="chip" data-accent="#26221B" data-mag style="background:#26221B" aria-label="Espresso accent"></button>
-            <button class="chip" data-accent="#7C7462" data-mag style="background:#C9C2B2" aria-label="Stone accent"></button>
-            <button class="chip" data-accent="#8A7A5C" data-mag style="background:#EAE6DC" aria-label="Oatmeal accent"></button>
-            <button class="chip fabric" id="fabricToggle" data-mag title="面料 · film grain" aria-label="Toggle film grain"></button>
-          </div>
-        </div>
-
-        <figure class="portrait rv" style="--d:.3s">
-          <div class="portrait-frame" id="portraitFrame">
-            <!-- Replace the div below with:
-                 <img src="avatar.jpg" alt="Max" style="width:100%;height:100%;object-fit:cover"> -->
-            <div class="ph">
-              <div class="m">M</div>
-              <div class="cap">Your photo here</div>
-            </div>
-          </div>
-          <div class="hang-tag">YEP, THAT'S ME</div>
-        </figure>
-      </div>
-    </div>
-    <div class="scroll-hint rv" style="--d:.85s">Scroll</div>
-  </section>
-
-  <!-- ================= PANEL 2 · INTRO ================= -->
-  <section class="panel" id="intro" data-label="Intro">
-    <div class="panel-inner">
-      <div class="sec-head">
-        <span class="mask"><span class="ttl rv mask-in">Introduction</span></span>
-      </div>
-      <div class="intro-grid">
-        <div class="intro-pull">
-          <span class="mask"><span class="rv mask-in" style="--d:.12s">I like systems just like the way I live —</span></span>
-          <span class="mask"><span class="rv mask-in" style="--d:.24s"><em>simple on the surface, considered underneath.</em></span></span>
-        </div>
-        <div class="intro-body rv" style="--d:.28s">
-          <p>
-            I'm a data analyst based in New York, working across eCommerce,
-            wholesale and retail channels. I build the BI dashboards leadership
-            checks every morning, run deep-dives on
-            <strong>pricing, inventory and revenue</strong>, and keep the
-            numbers trustworthy — validating data, chasing down discrepancies
-            between <strong>Microsoft Fabric and the ERP</strong>, and
-            automating the repetitive parts with SQL, Python and Power Automate.
-          </p>
-          <p>
-            I sit between business and engineering: translating vague questions
-            into requirements, <strong>modernizing legacy pipelines into a
-            lakehouse architecture</strong>, and turning technical findings into
-            narratives executives can act on. My default mode is end-to-end —
-            from the first stakeholder conversation to the model, the pipeline,
-            and the number on the slide.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PANEL 3 · SKILLSET ================= -->
-  <section class="panel" id="skills" data-label="Skillset">
-    <div class="panel-inner">
-      <div class="sec-head">
-        <span class="mask"><span class="ttl rv mask-in">Skillset</span></span>
-      </div>
-      <div class="tags">
-        <div class="rv" style="--d:.12s"><div class="tag">
-          <div class="face front">
-            <div class="use">Daily driver</div>
-            <h3>SQL</h3>
-          </div>
-          <div class="face back">
-            <span class="bk-name">SQL</span>
-            <p class="desc">Window functions, reconciliation queries, pulling correct numbers from the database.</p>
-          </div>
-        </div></div>
-        <div class="rv" style="--d:.18s"><div class="tag">
-          <div class="face front">
-            <div class="use">Daily driver</div>
-            <h3>Power BI · DAX</h3>
-          </div>
-          <div class="face back">
-            <span class="bk-name">Power BI · DAX</span>
-            <p class="desc">Executive dashboards, DAX, dual-fact actual-vs-benchmark models.</p>
-          </div>
-        </div></div>
-        <div class="rv" style="--d:.24s"><div class="tag">
-          <div class="face front">
-            <div class="use">Production</div>
-            <h3>Python</h3>
-          </div>
-          <div class="face back">
-            <span class="bk-name">Python</span>
-            <p class="desc">Data cleaning and validation, small automation scripts.</p>
-          </div>
-        </div></div>
-        <div class="rv" style="--d:.30s"><div class="tag">
-          <div class="face front">
-            <div class="use">Production</div>
-            <h3>Microsoft Fabric</h3>
-          </div>
-          <div class="face back">
-            <span class="bk-name">Microsoft Fabric</span>
-            <p class="desc">Lakehouse architecture, medallion layers, gold-layer definition.</p>
-          </div>
-        </div></div>
-        <div class="rv" style="--d:.36s"><div class="tag">
-          <div class="face front">
-            <div class="use">Production</div>
-            <h3>Power Automate</h3>
-          </div>
-          <div class="face back">
-            <span class="bk-name">Power Automate</span>
-            <p class="desc">Email triage flows, AI Builder classification, Planner integration.</p>
-          </div>
-        </div></div>
-        <div class="rv" style="--d:.42s"><div class="tag">
-          <div class="face front">
-            <div class="use">Core craft</div>
-            <h3>Dimensional Modeling</h3>
-          </div>
-          <div class="face back">
-            <span class="bk-name">Dimensional Modeling</span>
-            <p class="desc">Star schemas designed around the business question, not the table.</p>
-          </div>
-        </div></div>
-        <div class="rv" style="--d:.48s"><div class="tag">
-          <div class="face front">
-            <div class="use">Core craft</div>
-            <h3>Cross-team Communication</h3>
-          </div>
-          <div class="face back">
-            <span class="bk-name">Cross-team Communication</span>
-            <p class="desc">The bridge between database and stakeholder, convert messy numbers into actionable insights.</p>
-          </div>
-        </div></div>
-        <div class="rv" style="--d:.54s"><div class="tag">
-          <div class="face front">
-            <div class="use">Growing</div>
-            <h3>Git · GitHub</h3>
-          </div>
-          <div class="face back">
-            <span class="bk-name">Git · GitHub</span>
-            <p class="desc">Version control for SQL, notebooks and pipeline code — push, merge, pull, repeat.</p>
-          </div>
-        </div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PANEL 4 · PROJECTS ================= -->
-  <section class="panel" id="projects" data-label="Projects">
-    <div class="panel-inner">
-      <div class="sec-head">
-        <span class="mask"><span class="ttl rv mask-in">Selected Projects</span></span>
-      </div>
-      <div>
-        <article class="proj rv" style="--d:.12s">
-          <span class="yr">2026</span>
-          <div>
-            <h3>Email Triage Automation</h3>
-            <p class="sub">End-to-end flow for a team distribution list: filters incoming mail, classifies intent with AI Builder, and auto-creates prioritized Planner tasks with full context.</p>
-            <p class="stack">Power Automate · AI Builder · Planner</p>
-          </div>
-          <span class="arrow">→</span>
-        </article>
-        <article class="proj rv" style="--d:.24s">
-          <span class="yr">2026</span>
-          <div>
-            <h3>Quarterly Inventory Turn Analysis</h3>
-            <p class="sub">Segment-level turn metrics across product lines and warehouses, delivered to GMs and senior leadership — with the data caveats spelled out, not buried.</p>
-            <p class="stack">SQL · Power BI · Excel</p>
-          </div>
-          <span class="arrow">→</span>
-        </article>
-        <article class="proj rv" style="--d:.36s">
-          <span class="yr">2025</span>
-          <div>
-            <h3>Lakehouse Silver Layer</h3>
-            <p class="sub">Cleaning and standardizing ERP data in Microsoft Fabric — the unglamorous layer that decides whether everything downstream can be trusted.</p>
-            <p class="stack">Microsoft Fabric · Python · SQL</p>
-          </div>
-          <span class="arrow">→</span>
-        </article>
-        <article class="proj rv" style="--d:.48s">
-          <span class="yr">2025</span>
-          <div>
-            <h3>Actual-vs-Benchmark Star Schema</h3>
-            <p class="sub">A dual-fact dimensional model comparing actuals against benchmarks in one semantic layer — designed so the DAX stays simple and the answers stay fast.</p>
-            <p class="stack">Dimensional modeling · DAX</p>
-          </div>
-          <span class="arrow">→</span>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PANEL 5 · CONTACT ================= -->
-  <section class="panel" id="contact" data-label="Contact">
-    <div class="panel-inner">
-      <div class="sec-head">
-        <span class="mask"><span class="ttl rv mask-in">Contact</span></span>
-      </div>
-      <div class="foot-cta">
-        <span class="mask"><span class="rv mask-in" style="--d:.12s">Want the longer version?</span></span>
-        <span class="mask"><span class="rv mask-in" style="--d:.26s"><a href="mailto:yancheng.xiang@hotmail.com">Say hi →</a></span></span>
-      </div>
-      <div class="foot-meta rv" style="--d:.28s">
-        <span>© <span id="yr"></span> Max · New York</span>
-        <div class="foot-links">
-          <a href="https://github.com/SpaceCowboy0707" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://www.linkedin.com/in/yanchengxiang/" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="#" target="_blank" rel="noopener">Resume</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</div>
+<footer>
+  <span id="footLeft"></span>
+  <span><a href="https://spacecowboy0707.github.io" target="_blank" rel="noopener">作品集 →</a></span>
+</footer>
 
 <script>
-(() => {
-  const track   = document.getElementById('track');
-  const panels  = [...document.querySelectorAll('.panel')];
-  const nav     = document.getElementById('nav');
-  const links   = [...document.querySelectorAll('[data-go]')];
-  const dotsBox = document.getElementById('dots');
+/* ======== 文章库 & 照片库(更新内容改这里) ======== */
+/* ============================================================
+   颗粒 · 文章数据
+   ------------------------------------------------------------
+   发布新文章:在 POSTS 数组里加一个对象,格式照抄任意一篇。
+   - slug : 网址里用的英文短名,不能重复,不能有空格
+   - title: 中文标题
+   - date : 显示用日期。顺序不用管:网站按 date 自动排序,
+            新的排在书架最左。2026 / 2026.07 / 2026.07.14 都能识别。
+   - poem : true 表示按诗排版(不缩进、不两端对齐),没有就不写
+   - zh   : 正文。每一行是一个自然段;
+            单独一行的「第X章」会被渲染成章节标题。
+   ============================================================ */
+
+window.SITE = {
+  name: "颗粒",
+  nameEn: "GRAIN",
+  author: "Max Xiang",
+  tagline: "物件、动作、温度、声音",
+  taglineEn: "Objects, motion, heat, sound",
+};
+
+window.POSTS = [
+  {
+    slug: "gaming-community",
+    title: "游戏社区",
+    date: "2026.07",
+    zh: `记得以前上学的时候玩TF2，如果哪天放学早了，我就会回家后迫不及待多打开电脑，然后钻进我常去的社区服务器。一般这个时间大部分人都还没有上线，还在过着自己游戏外的生活，服务器一般都是一张挂机地图，里面零零散散的有一些玩家。
+我当时也因此认识了很多和我年纪相仿的玩家，因为我们总是第一批进服务器的人。大家嘻嘻哈哈的在空地上互相跳来跳去，语音里面有一搭没一搭的聊着天，或者交易物品，或者在互相刷成就。
+窗外的夕阳越来越红，服务器里的人也会渐渐多了起来，这时也会换到正经的竞技地图，属于我的游戏夜晚开始了。
+等夜深了，上班族们渐渐睡去，我看着服务器慢慢安静下来，就像人潮聚集的广场慢慢散去一样，我就知道我该休息了。
+现在的竞技游戏，就像是把一群人丢在死斗场里，像角斗士一样战斗。你不需要认识ta，你不需要了解ta，你不需要记住ta的ID，你只要战斗就可以了。等这一局结束，在你肾上腺素还未完全退去的时候，再把你丢到下一场战斗里。
+某天突发奇想下载回了TF2，曾经最爱的服务器还在收藏夹里躺着，我忐忑的点击了加入，回复我的只有一句：“服务器未响应”`,
+  },
+  {
+    slug: "space-junk",
+    title: "太空垃圾",
+    date: "2026.07",
+    zh: `第一章
+墓碑店坐落在五环和六环中间，离市区倒也不算远。杂乱的石头伫立在周围的石材加工厂里，只有它是矮矮的一间平房。它的门脸是蓝色的，被灰色的巨石包围着。后院整齐地摆放着大小不一的墓碑，就像远处城市的天际线。
+店里光线并不明亮，但是所有东西上面依旧薄薄地盖了一层灰色，说不好是灰尘还是石粉，常用的东西薄，少用的东西厚。日光透过蒙灰的毛玻璃散落在地上，映出从门口到办公室一条被磨得油光的路。挂在天花板上的日光灯灯光发黄，还时不时地闪烁一下。房间两侧是各式各样的样品墓碑，靠墙立一排、大的在后小的在前。上面刻满了不同的名字，但是都是从来没存在过的人。
+老张在这间办公室里坐了三十年。办公室没有窗户，房间里充斥着淡淡的烟草味和陈旧的木头味。墙上挂着黄历和各种书画，还有不少是老张自己题的字。这里虽然陈旧，但是一尘不染，前厅的灰粉并没有入侵进来。那张早已脱了漆的办公桌放在墙角，玻璃板下压着各式各样的名片、陈旧的广告单、以及褪色的海报。桌上放着一个青花瓷的大茶杯，盖子早已不知所踪，虽然还保持着洁白的外表，但是里面早就结上了一层深色的茶垢。房间里最先进的设备就是桌角的那台电脑，发黄的机箱时不时发出几声呻吟，但依旧顽强地支撑着。
+老张坐在吱呀作响的办公椅上，慢慢地敲击着键盘，他还是怀念在纸上洋洋洒洒记录的日子，还能让客人一睹自己苦练已久的字。他的手并不宽厚，但是指背的沟里、倒刺翻起的边上却透着一层洗不掉的灰白。手背干裂，纹路比同龄人深得多，指纹已经被磨得很浅了。他抬起指尖发凉的手，扶了一下拿胶条绑着的眼镜腿。这孙子又松了，他想，我一会得加固一下。
+“欢迎光临！” 感应门铃机械的女声回荡在墓碑丛林中，老张把头从电脑屏幕前移开向门口探去。
+他见过很多成双成对的客人，给父母准备后事的姐弟，互相给墓碑设计提意见的老夫老妻，或者是一大家子人一起涌进来。但是孤零零的一个人来的客人，一般只有一个原因。
+来者四十岁上下，瘦长的身影站在门前，左手插兜，右手里拿着一个文件夹。满屋的石粉被这位不速之客激起来飘在空中，但是他依旧站得笔直纹丝不动。他穿着简单宽松的针织毛衣，下身的深棕色长裤长度刚好，在鞋面上形成了一个漂亮的褶皱。稀疏的胡须，脸上略微有些皱纹，但是不细看并看不出来。
+“您好。” 老张又扶了一下滑下来的眼镜，走出了办公室。
+客人点了点头，开门见山地说道：“我想给我自己准备一个墓碑，来了解一下。”
+老张微微颔首，迟疑了一下：“……墙上是我们的价目表，您看看。”
+客人明显是做过功课的，很快就挑好了墓碑和字体。简单的黑色花岗岩，上面刻着名字和生辰，卒年留空。
+老张拿起签好字的合同，一边在电脑上打字一边说道：“名字得先给您描红，这是规矩。”
+客人好像没有听懂，但是老张并没有注意到。
+“墓志铭的话，” 客人说着从文件夹里掏出一张纸， “您就刻这串数字就行了。”
+数字？老张心里犯嘀咕，他刻了一辈子“慈父”“先妣”“孝男孝女叩立”，没见过只刻数字的。他接过了纸，上面只印着六个带小数点的数。老张刻过的数字只有两种——生卒年，和立碑的日期。所以他本能地往日期上套，而这串套不上。老张盯着这串数字半晌，试图从里面读出点什么，可这六个数字毫无规律，他只能猜这是生辰八字的一种写法。但他觉得自己应该问点什么，于是说道： “这个小数点要刻多大？”
+客人微微一笑，答：“您看着刻就行。”
+第二章
+“你昨天那单谈成了吗？”
+“别提了，他妈的嫌我们贵，跟我磨磨唧唧半天，最后走了，白费我那么多口舌！”
+“我说呢，那对夫妻走的时候气哼哼的，可别到时候打电话投诉你来！”
+“嗨，我真服了，那可是俩人，老公的爸妈，还是最贵的双人套餐！这么大一笔单子吹了，气死我了，那提成可不少！”
+“那你这个月不是一笔没谈成？”
+“是啊，我还不知道咋办呢，这月还有几天看看能不能冲刺一下。”
+休息室门被猛然推开，经理的油头探了进来：“小李，你来对接一下这个客户。”
+小李从沙发上弹起来，整理了一下西服，向同事眨了眨眼，跟着经理走出了休息室。
+经理走到大堂，指了指一个人影：“你看他，就一个人来的，一般这种生意都好做，你去看看能不能争取一下。”
+“好嘞，谢谢马哥！” 小李在嘴唇下舔了舔上周刚做的烤瓷牙，快步朝那个背影走去。
+皮鞋在洁白的大理石地砖上的叩响回荡在宽阔的大厅里，再通过两边的弧形白墙反射回来。墙壁一直缓缓地向上延伸，在高处的天花板上合拢。小李脚步平稳地走向那个瘦长的背影，每一次脚步都越踏越响，想让客户注意到他。
+但那个人并没有，他正抬头看着高处挂起的红底黄字的横幅，上面写着：“一站式身后规划解决方案，定制永恒太空体验。”
+客户手册第一条：永远热情地接待客户，让ta宾至如归。
+“您好！请问有什么可以帮您！” 小李在那个人背后一步开外停下，中气十足地喊道。
+穿灰色针织毛衣的人缓缓转过身，微微一笑，对小李说：“我想了解一下你们这里最贵的套餐。”
+客户手册第四条：要为客户考虑，热情待人，回头客最重要。
+“这样啊，” 小李正在尽全力让每一颗牙都露出来，“那您移步这边我给您详细讲解一下。”
+小李领着客人，穿过了一些不明所以的后现代白色雕像，走进了一个小型的会议室。会议室四周都是毛玻璃，中间放着一个洁白的桌子，上面一台白色的电脑，旁边放着两把看着不怎么舒服的白椅子。
+“您坐。” 小李熟练地拉开两把椅子，俩人各自坐下，然后不约而同地调整了一下坐姿。
+小李拉开桌子下面的抽屉，把花花绿绿的宣传海报铺在桌面上，虔诚地介绍起来：“想必您已经对我们星轨生命管家的业务有所了解了，请问您这次来访是想为哪位旅行者完成地球阶段，进入生命的下一站呢？”
+客人歪了一下头，似乎在处理小李的话：“就我自己。”
+客户手册第二十六条：独自前来的客人往往需求最简单，需要深度挖掘痛点，提高业务回报率。
+“啊，是这样！” 小李停顿了一下，但是马上又提高了音量，“那这边我推荐我们单人的全生命周期服务套餐，入门级是星尘系列，包含完整的欢送仪式，但是并不会进入地球轨道。或者您想要在深空中翱翔更久的话，您可以了解一下寰宇尊享系列，它不仅包含了更高规模的欢送仪式，还包括全程火箭第一人称视角的录像记录，以及五克的额外配重，能让您在骨灰之外，带上更多私人物品一起旅行。而且我们保证能进入地球轨道，成功率高达99.2%，极少出现意外。再或者您看看我们最高级的浩瀚苍穹系列，这个系列将会带您在整个太阳系内环行，变成像哈雷那样的彗星，而且包含可回收火箭发射计划，非常的环保……”
+客人静静地听着，并没有打断小李。
+“……您甚至可以自定义您的轨道六根数，这样我们保证按您想要的角度入轨。不管您想要一个圆形的轨道，椭圆形的轨道，甚至想像冥王星那样的扁的轨道，我们都能做到！当然，实际轨道参数按入轨后测定为准！”
+小李滔滔不绝地说完一长串介绍，拿起水杯抿了一口水。客人右手撑着脸，盯着口干舌燥的小李，眼里闪着狡黠的目光。
+“我已经有一个算好的轨道六根数，你帮我在系统里模拟一下。” 客人从口袋里掏出一张纸，上面整齐地写着六个数字。
+“哦……好的您稍等我启动一下模拟器！” 居然自己都把参数算好了，工作这么多年还是头一次见。小李心想着，熟练地打开电脑开始操作。这真是个高净值意向客户，看起来他早已经做好决定了，这个月KPI有了。
+模拟软件上跳出了一条暗红色的轨迹线。
+那不是行星那种温和的圆形，而是一根尖锐的刺。它从地球轨道出发，拉出一条长达数亿公里的、几乎没有弧度的直线，笔直地刺向外太阳系。近日点贴着水星的轨道，几乎是和太阳擦身而过。这根刺拉得极长，远日点精准地搭在木星的运行轨道上。
+小李从没见过这样诡异的轨道，什么样的人会把轨道设计的这么奇怪？在他还在脑海里搜索对应话术的时候，客人已经起身走到了身后。他看到屏幕上那根红色的刺，轻声笑了出来：“可以，可以，挺好的，我在哪里交钱签字？”
+第三章
+墓园的保安瘫坐在岗亭的椅子里，双脚翘在桌上，保安帽歪歪地盖住了脸，睡得正熟。
+一个矮小的身影从街边的阴影中浮现，艰难地从栏杆下钻过去，走向墓地深处。
+今晚月亮不算亮，但也能勉强照亮眼前的路。月光洒在他的身上，在他身后拖出一道又浅又长的影子，也在他头顶和怀里反射出两抹银光。他揣着一瓶酒，手里提着一个塑料袋，小心翼翼地走着，绕开了所有路灯，在一个丁字路口，走向了没有路的那一边。
+草地上覆盖着薄薄的水珠，自动喷洒机刚刚作业完毕，今晚不会再有东西来打扰这片墓地了。他的裤腿很快就被打湿了，变得沉重起来。但是这并没有拖慢他的步伐，他反而走得更轻快了。在墓碑组成的迷宫中，他轻车熟路地找到了那尊黑色的花岗岩。
+远处的马路车流量并不少，呼啸而过的车辆组成一波一波的音浪，车灯快速地从墓碑上闪过。
+岁月并没有在这座墓碑上留下什么纪念品，沉稳的黑色没有褪色，还在默默地反射着天上的星光。它安静地伫立在这片一望无际的石头丛林里，别的墓碑或多或少都有碑文，或者有头像，或者有小型浮雕。这个黑色花岗岩简约至极，哪怕说是刚刚从采石场运过来也没问题，一个矮矮的长方形端坐在一个更扁的方形底座上，就是这个墓碑的全部组成了。行楷刻出的红色名字已经褪色了，变成了淡淡的粉色，甚至露出了底下灰色的石头。第二行只有描金的出生日期，并没有卒日。第三行有六个带小数点和角度的数字，小数点刻得很大。
+周围的墓碑前都有祭祀的痕迹，一束蔫巴了的菊花，或者烧剩下的香炉。这个墓碑跟前只有一包皱皱巴巴的炫赫门，已经被水浸透，里面的香烟也打不着了。
+那个身影伸出左手，默默地放在墓碑上。白天的太阳很毒，墓碑还是温热的，暖暖的感觉从手心传上来。他沉默地站着，蝉鸣将他环绕。不知过了多久，他扶着墓碑，弯下腰把那包湿透了的炫赫门捡起来，放进随身携带的塑料袋子里。又从里面拿出一包全新的，抠开塑料包装，拿出来两根细烟。点燃其中一根，和那一整包一起放在墓碑的顶上，自己又点燃剩下的一根，深深地抽了一口，对着夜空吐出。
+红点在黑暗中跳跃着，但是很快被他手机荧幕发出的光亮所掩盖。他打开了一个名为星轨生命管家的软件，手指略带僵硬地悬停在底下的“实时位置追踪”按钮上，然后按了下去。
+全息星图的UI在窄窄的屏幕上铺展开来。那根暗红色的刺还在。二十年来，它就像一根扎在太阳系心脏上的骨刺，扁平、锋利、死寂。上面的一个小白点正在慢慢蠕动着，很快就接近了木星。
+木星巨大的绿色投影与白色的刺尖撞在了一起。
+就在交汇的那一帧，原本闭合的回航曲线啪地一声脆响，在木星身后扭曲、拉直，化作了一条刺目的亮白色双曲线。它以一个近乎决裂的角度冲出了太阳系的黄道平面，像一汪泼出去的水，再也没有任何线条能将它收回。
+荧幕的光映在他脸上，白茫茫的一片。
+他收起手机，抬头望着星空，长出了一口气，小声说道：“行啊你小子。” 然后从怀里掏出酒瓶和一个小酒杯，斟满了它。
+他高举着酒杯，烟夹在指间。这往哪里倒呢？下面没有人。往天上泼？那终究是要落回来的，还得洒自己一脸。
+他保持着这个姿势僵了很久，右手举着杯，脖子九十度仰着，酸痛不堪。然后他想通了——也可能只是脖子先受不了了——他把杯子又往上举了一寸，自己喝了。
+墓碑上的烟头还在黑夜里闪烁着。`,
+  },
+  {
+    slug: "bathroom-cleaning",
+    title: "浴室清洁",
+    date: "2026.06",
+    zh: `洗澡前正要踏入浴室，却突然发现好像各种缝隙里面都长满了粉棕色的污垢，像锈迹一样稀稀拉拉的留下一道道痕迹。仔细回想，搬进来这已经两年有余，却从来没有对浴室做过彻底的清洁。
+我默默地洗完了这次澡，走出浴室时打开了从来没有在澡后打开的抽风。
+瘫倒在沙发上，打开Gemini，贴上一张浴室的图片问到：如何清洁？就像我以前一样，依旧直接照抄AI的答案。打开亚马逊，买齐了所有材料，然后把这件事情丢在了脑后。
+结果亚马逊包裹第二天就到了，这反而给了我更多的动力，于是我决定下班回家就干。
+先给浴室整个喷上一层简单的清洁剂，哪怕抽风开到最大也没办法掩盖那种做作的香精味。我拿起新买的刷子，感叹它刚刚拆封就即将要被污秽所覆盖，也算不辱使命了。大部分污渍都集中在底部，我没法完整的蹲下，跪下的话我看见瓷砖地就觉得膝盖隐隐作痛。站定沉思半晌，我还是跪了下去开始刷墙。
+刷子一遍一遍的摩擦着缝隙里的粉棕色污垢，成年累月的积累在角落里叠成厚厚的一层。使劲刷一次，软乎乎，黏唧唧的污垢就被刮了下来。由于实在太多，我刷几次就必须把刷子拿到水龙头下清洗，洗掉这两年多，甚至更久以前的，由沐浴露，皮脂，油膏组成的污垢。
+初步的刷洗已经完成了，我跪的双膝生疼。接下来拿起漂白剂喷雾，再进行第二次杀菌消毒。漂白剂的味道散开来，像是很久没有闻到的84消毒液的味道。我想起小学时，做大扫除也是类似的情景。已经是放学后了，阳光透过窗帘斜向洒在地上，椅子已经被别的值日生放在了桌子上。瘦小的我戴着皱巴巴的红领巾，用和我一样高的、发散着霉味的拖把拖着灰黑色的教室瓷砖地。外面传来同学嬉闹的笑声，灰尘静悄悄的漂浮在细细的光线里，空气里混杂着发馊的霉菌和消毒液的味道。
+现在的我拿着一根小小的塑料毛刷，在淋浴间的瓷砖地上，对缝隙里的污垢发起第二轮猛攻。
+重复的动作让我的手臂酸痛，但是我还剩下一半没有清洁。浴室的花洒是固定的，没有办法拿下来洗另一半。于是我只好把下面的水龙头打开，等积水足够多的时候，踢到另一边去。我先跪下，然后使劲的刷掉缝隙里的污垢，接着站起来打开水龙头，等待片刻把积水踢到另一边打湿瓷砖，再次跪下开始刷洗。频繁跪下站起让我很快就头晕目眩，结果直接把一大滩水踢飞在了外面的脚垫上。 我只好停下手中的活，拿起湿哒哒的脚垫，放到阳台上去晒干。
+再次回到浴室，我突然想到，在洗澡的时候顺便就可以把浴室清理了。但是我不想赤身裸体的暴露在消毒水下，可是低头一看我现在也光着脚踩在浴室里，只穿了条内裤，还没戴手套，跟洗澡也没什么区别了。
+悻悻的清理完剩下的淋浴间，我的手指已经被泡的发白发皱，狭小空间里的消毒水味刺得我前额发痛。我匆匆的做好了收尾工作，洗干净手，重新躺回沙发上开始刷手机。
+阳台上的脚垫依旧稀稀拉拉的往下滴着水。`,
+  },
+  {
+    slug: "subway-car",
+    title: "地铁车厢",
+    date: "2026.05",
+    zh: `坐在N线的死亡座位里，好奇到底是什么样的反人类设计师能设计出这样的位置，他自己一定没有坐在前面被盯着侧脸盯十分钟。
+好奇的查了一下，这种车厢诞生于七十年代，设计师的本意是为了让通勤者们在上下班路上可以互相交流。
+他肯定没有预料到五十年后的今天，人们之间的距离已经远到，盯着对方九十度侧颜都成为了一种社交酷刑。`,
+  },
+  {
+    slug: "summer-relief",
+    title: "夏日清凉",
+    date: "2026.05",
+    zh: `华盛顿高地就是一个大型的水上公园，每一个街区都有一个坏掉的消防栓，在炎热的夏天斜着喷射出水柱。
+一个光着膀子的人站在水幕下，仔仔细细的搓着后背，脚边放着全套洗浴用品。
+路过的汽车把这里当成了自助洗车房，总会多停留几秒。
+流浪汉接满了他的两个瘪瘪的塑料瓶，又俯身下去就着水柱喝起来。
+停在旁边的车无助的被水拍打着，发出只有在暴雨天才会发出的声响。
+几道水柱飞过整条马路落在街对面，在路中间放置了一道彩虹。`,
+  },
+  {
+    slug: "caribbean-travelogue",
+    title: "加勒比游记",
+    date: "2026.04",
+    zh: `加勒比的海风并不狂野，我站在细软的沙滩上，潮汐涌上来盖过我的脚面，但退去时候的力道生硬得仿佛要把我拉进海里。
+云朵慵懒的漂浮在空中，身下的世界与它们无关，它们只负责给地面上被太阳毒晒的游客提供一丝阴凉。远处的小岛从碧蓝的海面上长出来，阻隔了我远眺的视线，但也让乏味的海平面有了一丝起伏。帆船们零星的分布在近海上，高耸的桅杆就像稀稀拉拉的麦梗，孤独的伫立在秋收后被遗忘的田里。
+加勒比海边的海鸟不多，所以潮汐的声音主导了海滩。在海浪拍上沙滩与退回海里的间隔中有短暂的安静，这就是大海心脏跳动的节拍。沙滩上人不少，每个人都在享受着这眼前的景色。年迈的夫妇坐在折叠椅上安静的阅读着，但是老爷子手里的书已经随着他的鼾声渐渐滑到了膝盖。年轻的情侣在这个老人居多的海岛上非常罕见，而且他们总是黏在一起，海风也无法把他们吹开。孩童们的尖声嬉笑撕破了这一刻的宁静，他们是加勒比海的暴雨，来的快去得快。很快他们就累了，撤退回了父母的怀里，海浪拍打沙滩的声音重新占据上风。
+走到齐膝深的海水里，我戴着滑稽的浮潜面罩，有那么一刻感觉自己还真是个专业的潜水运动员。海水现在还感觉暖和和的，但是随着越走越深，就在海水淹没过我胯部的瞬间，好像有人把热水开关关掉了，我突然感到刺骨的寒冷。这时我才意识到，我不是站在我自己的淋浴间里享受舒服又安全的热水澡，而是站在吞噬了无数事物大海的边缘。
+我一个猛子扎进海里，把世界按下静音键，也把这个恐怖的事实留在身后。我开始笨拙的摆动着脚蹼，像一块僵硬的浮木，向着海中游去。
+浅浅的海底铺满了珊瑚，可是迎接我的不是五颜六色，而是一种灰白，因为它们都死掉了，我游在一片珊瑚的坟场上。珊瑚的白色骨骼们四仰八叉的堆叠在一起，不同颜色的鱼从中游过。阳光透过水面铺在海底，被切碎的光线在珊瑚的骨骼上闪烁着，让人恍惚的以为这里还有色彩。波浪很大，我被粗暴的拖拽向一个方向，又被甩回另一边。一群鱼似乎与我有同样的烦恼，它们游在近乎透明的海水里，却还是被甩来甩去。一阵波浪过后，它们得加倍努力的甩动自己的身体才能回到刚才的位置上。
+我突然觉得我这样漂浮在海面上的样子就像一具面朝下的浮尸。于是我放松自己，四肢缓慢的垂下，漂浮在我身边，我变成了一具放松的人类身体。但是我的背部依旧顽强的飘在水上，好像被什么东西拎起来了一样。
+我就这样被大海丢进了一大群小小的，几乎透明的水母里面。我只能在非常近的距离下模糊得看见它们的轮廓，它们透明得与海水融为一体。我看不清有多少，但是随着我在它们中间漂浮，我能轻轻的感觉到触碰。它们碰到我的身体后就极速的闪开，好似我是什么不安的存在一样。我试着让我的意识滑走，开始融入这群水母，变成它们的一员，在水中随着潮汐有节奏的起舞。出神的望着灰白的海底和匆匆游过的鱼儿们，我也成为了一只水母，被海浪无力地裹挟着飘向深处。
+可是水母并不接纳我，它们嫌弃的绕开我。在它们眼里，我只是一只庞大的，会散发热量的浮游生物。我不属于这水母群，不属于这片珊瑚坟场，也不属于身后的细软白沙滩。我只好把我的意识装回来，悻悻的游回岸边。
+回程的路并不长，我刻意放慢了游动的速度，好再享受一会这个绝对无声的世界。我只能听到我的呼吸声，透过呼吸器听起来非常的沉重。呼气，吸气，呼气，吸气……洁白的沙滩重新出现在我眼前。
+从水里站起来的一瞬间，我感到了重力的猛然归位，站定一会才习惯了垂直站立的感觉。湿透了的潜水衣紧紧的贴住我的身体，又沉又冷，开始吸走我的热量，哪怕我站在烈日之下。周围密集的游客热闹的像是火烈鸟群，我拿着干巴巴的毛巾，擦掉了身上那层不属于自己的盐。`,
+  },
+  {
+    slug: "area-code",
+    title: "区号",
+    date: "2026.04",
+    zh: `纪念品店里凉气逼人，把溜进店里的加勒比海的炙热夏日推回门外。货架上摆满了小商品，水晶做的海龟模型，劣质的夏威夷衬衫，和永远不会有人寄出去的明信片。
+年轻的店员不会处理我的问题，于是只好叫来了店主。店主一身纯白，在五颜六色的店铺背景中甚是扎眼，金发盘在脑后，表情严肃。她麻利的在电脑上操作起来，很快就处理完毕，也清楚的回答了我剩下的问题，我收起东西准备离开。
+“631……”她看着我的手机号问，“这个号码可不常见，你从哪里来？”
+空调满功率嗡嗡的响着，白炽灯惨白的灯光覆盖在店里每一件商品上。
+“哦，长岛。”我回答道。
+“长岛哪儿？”
+“石溪。”我补充说。
+她平淡地和我说她丈夫来自石溪附近的一个地方，脸上并没有带着加勒比常见的热带笑容。
+我已经一只脚跨入了烈日下：“是啊，那个地方离石溪不算远。”
+外面的太阳很白，我漫步在阳光下。我2016年开始用这个号码，十年前我不存在于美国。大雨砸在防盗栏杆上的声音，校门口的炸鸡柳，鹅毛大雪一样的柳絮，都留在了太平洋的另一头。我最开始存在的证明，就是这十位电话号码, 这个号码它没有时差，没有适应期，没有语言障碍，一激活就被归化了，然后在加勒比海上替我向另一个人宣告了我的存在。
+我再次熟练的扮演了一个长岛人，然后背着我的背包，继续沿着海边蜿蜒的公路走下去。
+天气很好。`,
+  },
+  {
+    slug: "wind",
+    title: "风",
+    date: "2026.03",
+    zh: `海边总是刮着风，无休无止的大风，你不知道什么时候停，你只能任由它刮下去。这不是单纯的海边，这里是尽头。沿着海平面向远方看去，只能看到无限延展，平静的海面，前面再也没有陆地了。我不知道我身后是什么，我只能看见眼前的这一片海滩。虽然总是狂风肆虐，但是天上的云永远阴沉沉的压得很很低，露不出阳光来。
+她出现在了沙滩上。
+看着远远的那个人影，我开始向她靠近。狂风吹的我睁不开眼，挺不直腰，我只能尽量前倾着身体，努力与风抗争着向前走去。沙滩的白沙很细很软，一踩就微微陷了进去。惊讶的是，没有经过阳光的暴晒，沙子的温热却透过鞋底传到脚心。风继续在我耳边肆虐，风声大到我都听不清脚踩在沙滩上的声音。
+我走近了一点，看清了她。
+齐胸的黑色长发在风中如丝般飞舞，有的飞扬在脑后，有的飞在脸前。她并没有对在风中飘扬的头发做出任何反应，就好像那些头发不存在一样。头发自然的从脸两边垂下，又被风刮起。她穿着墨绿的亚麻长袍，长袍垂地。那是一种森林的颜色，一种雨后密林的颜色，被白沙衬的格外亮眼。她并不健硕，但是站在把我吹的东倒西歪的狂风里却巍然不动。长袍被风吹的膨起，迎风的一面紧紧的贴在她的身上，像一面在风中飘扬的旗帜，也勾勒出了她的身材。腰上缠着的一圈银色细腰带装饰出了她腰线。一道曲线后，修长的腿就像地脉的延伸一样，稳固在地上没有动摇。她右手杵着一根白木做的法杖，杖尖触地，法杖顶端像王冠一样伸出处几根短刺来，但没有攻击性。她并没有倚在法杖上，法杖就像是她身体延展的一部分，二者就那么自然而然的站在那里。她身上有一种安静的野性，就像夜深的时候山里的狼嚎。我知道她有獠牙，在这平静的表面下隐藏着，潜伏着，但是绝对不会，也可能永远不会展示出来。似乎周身散发着一种力量，不是柔弱的寻求保护，不是高傲的拒人千里之外，是一种平和的力量。
+我走的更近了一些，风还在呼啸。我听到了金属碰撞叮当作响的声音，在风声里像是从远方传来的。直到我发现她脖子上挂着一个项链，垂到胸部的位置，底端挂满了大小不一小金属片。风吹动了它们，在她胸前奏起了风铃，但那不是清脆的风铃声，只是单纯金属薄片的碰撞声，却也动听。她皮肤健康，肤色介于白色和小麦色之间，在这样阴沉的天气下也没有显得惨白。她脸上散布着零星的雀斑，并不深，需要仔细看才能看见。她对我微微笑着，眼睛弯的像月牙，但是我依旧能清楚的看清她眼珠和眼珠的颜色，是蓝色。
+我站在了她面前，在风里努力的保持着自己的平衡，和她形成了鲜明的对比。我们已经鼻尖贴鼻尖了，在这个常人都会下意识躲闪的私人领域入侵的距离，她并没有，依旧微笑的盯着我。她的眼珠是蓝色的，蓝色的眼仁就像一个向下延伸的深渊的壁，似乎有把人吸进去的魔力，瞳孔就是深渊的底部，而里面映出了我的模样。
+我想问她你是谁，但我觉得没有必要，因为她不会回答，而且我要的答案也不在这里。她不会回答任何问题，她就这么伫立在这片白沙之上。我们就这么面对面的站着，我心里明白，她不会说话，也永远不会回答我，但她会一直这么微笑着盯着我看，像要把我吸收到她的瞳孔里一样。我和她已经形成了一种无言的默契，她知道我会来的，她一直在这里等。莫名的愧疚感从我心中升起，我不知道在这个狂风肆虐的海滩上，她孤独的等待了多久。她的眼神里没有责备，没有期待，没有失望，没有愤怒，没有嫉妒，只有着一种平静海面的舒缓。她也许不会孤独，但我从她的眼睛里看出来她在说：“你终于来了。”我想伸手摸摸她脸，帮她把飞在脸上的头发梳到耳后，但是我没有伸出手，因为我觉得任何动作都是对她，对这个场景的亵渎。是神性嘛？我想，可能吧，但是我知道她也是个血肉之躯，她的心脏一样跳动，她的皮肤也会流血，在寒冷的海滩边，我也能感觉到她透过长袍散发出来的体温。但她会一直存在于此，直到我的终结。我知道她看透了我的思想，蓝色的深渊没有动摇，依旧凝视着我。
+她站在风永不停歇的海边，她叫风。`,
+  },
+  {
+    slug: "food-court",
+    title: "美食广场",
+    date: "2026.02",
+    zh: `法拉盛的地下美食广场总是喧嚣和油腻的。
+两个女生围着一碗热气腾腾的面，弥漫的蒸汽看不清她俩的脸。
+穿的都是饭店的制服，没有化妆。面前放着两个塑料盒，不知道是哪家的外卖盒。
+一盏灯垂下来，灯光笼罩了她们的头顶。她们低着头把面挑到自己面前的碗里，吃得很安静。`,
+  },
+  {
+    slug: "talking-about-trees",
+    title: "我们在谈论树",
+    date: "2026.02",
+    poem: true,
+    zh: `我们在谈论树，
+年轮扩展，
+绿色随着时间退化，
+在路边摇晃，
+跟着阳光起舞，
+冬天脱掉我们的外衣，
+我们在讨论着树。`,
+  },
+  {
+    slug: "universe-flicker",
+    title: "宇宙闪烁",
+    date: "2026.01",
+    zh: `我只不过是在这生命接近无限的宇宙中，短暂存在过几十年的过客。在我之前是一篇虚无，在我之后是一片寂静。我只是在一场无尽的睡眠中，碰巧睁了一下眼。无垠的黑夜里，我短暂的闪烁了一下。但是我身后和身前有几十亿人，我们一起照亮了这片夜空。`,
+  },
+  {
+    slug: "project-hail-mary-rocky",
+    title: "拯救计划石头人洛基",
+    date: "2026.01",
+    zh: `坐在黑暗的电影院，周围人寂静又专注的看着电影，右边的男人嚼爆米花的声音略微刺耳，但也在忍受范围内。
+荧幕上，Grace和Rocky正在全息放映室里互诉衷肠。
+荧幕微微闪烁着。
+Rocky无意间提到了很想ta的伴侣，Grace非常惊讶这个石头人居然还有对象，他震惊的问ta们在一起多久了。“189年”Rocky说，同时指了指ta前臂上一块猫眼石一般的小块，那应该代表着ta的伴侣。
+“那真的是很长一段时间了”Grace说道。
+Rocky慢慢抚摸着那块猫眼石，轻声说：“还不够久。”
+荧幕闪烁的更厉害了，我发现泪水在我的眼眶里打转，渐渐模糊了他俩的身影。
+还不够久。对于人类，或者任何物种来说，接近两百年的时间绝对不是一个段短暂的时光了。
+但是对我来说，还不够久。我还没有爱够她，我还没有爱她足够久。但是我预感到这段关系正在滑向终结，就像孤独的Rocky在深空中等待死亡一样。我已经撑了足够久了，但是我还没有爱够她，爱得不够久，我希望能爱到我停止呼吸的那一天。可是我的肉体和意志力终究是有极限的，我把期待缝进每一天里，却看着这条线慢慢滑向虚空，在这之前，会有一个外星人来拯救我和我们的关系吗？
+泪水悄悄滑落，旁边的人还在专注的看着电影。我有点不好意思，假装打了个哈欠，偷偷擦掉了泪珠。`,
+  },
+  {
+    slug: "bicycle-in-restaurant",
+    title: "餐厅里的自行车",
+    date: "2025.12",
+    zh: `古巴餐厅的座位区藏在最里面，要穿过一个狭长的走廊才能看到这开阔。 陈旧的装饰配上擦的发亮的木质座椅，这里的时间停在了三十年前，就连空气里那股廉价的油脂味都未曾散去过。
+诺大的座位区，里面只有一个人在角落里坐着，双手放在桌子上看着手机。灰白的络腮胡，戴着平平无奇的眼镜和黑色针织帽，旁边的椅子上放着他的墨绿色背包。
+我刷着手机匆匆吃完了我的烤鸡饭，鸡肉寡淡如水，咸香的米饭反而变成了下饭菜。我就着空气吃完了一餐，开始坐着出神。
+他在刷短视频，听不懂的语言从屏幕里传出来。
+一辆自行车在他旁边的墙角里放着，这里没有别的顾客，所以我推断这是属于他的。
+车体经过了细致的改装，厚厚的护手外还套了一层塑料袋，尽管我怀疑薄薄一层塑料袋并不能阻挡多少热量的流失。
+把手下挂着三个大灯，哪怕对比较大型的自行车来说，这些灯也太大了，三个灯均匀的分布成了一个三角形。密密麻麻的电线从车座下的电池上伸出，像重症监护室的仪器一样，顺着车架连接到车头的灯上。车身全部露在外面的车架都被缠上了金色的锡箔，和剩余的黑色一起显示出了一种高贵的黑金色。黄色的前叉在两个黑色的轮胎中间显得格外扎眼，好像皇帝身上的龙袍。
+粗壮得扎眼的铁链缠在车架中间，不禁让人想起古代囚犯的镣铐。后座上面稀疏的绑着一些绿色的弹力绳，平时应该是拿来固定东西的。
+没有征兆的，坐在角落里的人关掉手机，站起身来穿上了一件外套。他的动作缓慢而整齐，仿佛在试图用这种行为来延长自己的休息时间。紧接着他又穿上了另一件外套，两件厚外套叠加在一起让他显得格外肿胀。他拉上了两道拉链，双手轻轻拍拍胸口，又慢慢的戴上了墨绿色的手套，遮住了他所有裸露在外面的皮肤。接着他背上了背包，背包背带一定调的很合适，因为他不需要扭曲手肘的把手伸进去，背包就自然而然的扣在了他肩膀上。
+他转过身，我们的目光交汇，我尴尬的低下眼神。他并没有去推那辆自行车，而是径直走过狭长的走廊，推门消失了。
+金色龙袍依旧在角落里微微反着光，等待着它真正的主人。`,
+  },
+  {
+    slug: "subway-thought-ocean",
+    title: "地铁里的思绪海洋",
+    date: "2025.11",
+    zh: `今天的地铁车厢人不算多，并没有到摩肩接踵的程度，但是也没有宽裕到给我一个坐下的机会，我只好扶着把手站着。
+环顾四周，乘客们都在低头看着手机，或闭目养神，或盯着地板发呆。大家都在关注着自己的事情，并没有人出声。
+坐在角落里的小哥穿的并不算浮夸，但是他的红色兜帽上别着一个我不认识的闪亮徽章。他很慵懒的坐着，似乎并没有太在意已经入侵了旁边的小个子女生的地盘。
+车厢的连接门突然打开了，轰隆的铁轨声瞬间填满了车厢。两个年轻人背着背包顺着车厢连接的门走进来，关上门把噪音留在身后，大步流星的走过整条车厢，打开另一边的门，噪音再次涌进来，然后是安静。
+还有我，静静站立着，握着扶手，试图观察车厢里的人而不与他们产生眼神接触。扶手冰冷的金属触感穿过手心，我能感觉到汗珠正在渗出来。
+突然间，这个并不拥挤的车厢被人们的思绪充满了。
+我分不清那些感觉，但是似乎每个人都释放出来那些只有他们自己能明白或者不明白的情感，沉甸甸的思绪开始释放，让他们周围的空气膨胀开来，就像巨大的气囊开始充气。随着每个人的气泡越涨越大，空气里充满了橡胶之间摩擦的嘎吱声。我退无可退，被紧紧的拍在车门上。能给我呼吸的空间越来越小，我感到每一口呼吸都越来越困难。周围的乘客仍然在安静的坐着，似乎没有看到我的挣扎。我不知道那些具体的思想，但是只是想象一下每个人藏在脑海里的故事和思想，就已经足够撑破这个车厢了，更别说一整车人。而这只是一个车厢，在我们头顶是这个世界上人类思维交织最密集的纽约，也许曼哈顿每一个在冒烟的井盖，都是在排出这些思考的热量。
+这种联想让我感到难以言说的压抑，所以我摇摇头，甩开了它。长出一口气，我回到车厢，轰隆的铁轨声从外面传来，车厢在不规律的晃动，人群依旧冷漠的沉默着。`,
+  },
+  {
+    slug: "my-childhood",
+    title: "我的童年",
+    date: "2025.10",
+    zh: `我的童年是电话打进来会被占线的拨号上网，一块钱一串烤的焦香的鸡皮，一长串走起路来哗啦哗啦的手机链，双层巴士二层的第一排冰冷的栏杆，和透过锈迹斑斑的防盗栏看到的迎春花`,
+  },
+  {
+    slug: "pressure-cooker",
+    title: "高压锅",
+    date: "2025.09",
+    zh: `路灯在车窗外向后滑远，眼前的高速公路好像望不到尽头，我眼眶发酸，并不是因为前面拉成直线的，刺眼的刹车灯。我开在纽约一条高速上，在好似光带的高速上我就像一只平移的米粒。无数条这样的光带交汇而成变成了用光织成的网。我好像迷失在这里了，但不只是在这网路里。
+找到车位停下，路灯苍白的亮着，没有闪烁，只是亮着，我的公寓就在旁边伫立着，一动不动。站在楼下能看到我出租屋的阳台，左边的阳台是邻居的，右边也是邻居的。我三年的时光就这么浓缩在这小小一方阳台以及它后面延伸出来的几十平米的空间。这三年过的太快，快到好像时间真的被我局促的空间给挤压了一样。公寓红色的砖墙在纽约有千千万万栋一样的，就像这个世界有千千万万个我一样。我们长得不一样，但是和我有一样的背景，一样的性格，一样的欲望。我被我自己构成的海洋给淹没了。
+上楼时，感应灯亮起，楼道墙壁上二十四块灰色的瓷砖里反射出了二十四个我。反射出的我都有点扭曲，随着我走上楼梯，每一个我都顺着瓷砖的表面滑动着开始变形，就像二十四条蛇。我在楼梯中间站定，默数五秒，身后的灯就熄灭了，黑暗环绕在我身后，但是在光线可及之处停下，与我保持着安全距离，我知道我该继续爬楼了。
+粘稠又浓密的黑色在锅里缓慢的滚动，沸腾着，就像火山下的泥浆。它们的黑的反射不出任何光线，但是上面却闪着光点，凑近来看，那些都是宇宙里的繁星。我整个人坐在我的锅盖上，试图用体重来压住下面咕噜冒泡的物质，黑色的胶状物还是会趁着气泡顶起锅盖的瞬间沿边流下。流的又缓又慢，我想擦掉它们，但锅烫的发亮。我只能坐在灶台边发愁，它们在灶上越积越多，似乎已经要扑灭火苗了。
+我按下密码打开了我的公寓门。整个屋子是黑的，只有走廊的灯光顺着门缝溜进来，悄悄给我的眼睛上了一层灰色滤镜。随着门在身后关上，我又沉浸在了黑暗中。
+灶上的锅还在扑腾着，我闻到一股刺鼻的味道。`,
+  },
+  {
+    slug: "i-am-22",
+    title: "我今年二十二",
+    date: "2025.08",
+    zh: `我今年二十二了，正是我最一生中最生猛的时刻。我还有很多的欲望和梦想，它们就像一朵朵浮云一样飘在我身旁，我背后的翅膀能让我自由飞翔于它们之中。我觉得未来一切都会好的，康庄大道在我面前徐徐展开，我辉煌的一生将从我踏出这一步开始。深吸一口能把大气层吸干的气，呼出一股能吹的板块漂移的风，我觉得我是无所不能的。我将会永远二十二，就像天空永远会是蓝色的。
+可是天空阴沉了下来。乌云在聚集，气压在降低，空气在粘稠，倾盆大雨临头浇下。我还沉浸在上一刻的气势磅礴里，但雨就像一块湿毛巾狠狠的拍在我的身上，打得我火辣辣的疼。雨点又粗又大，已极快的速度落下，似乎要刺穿我的皮肤。翅膀被打湿贴在我背后，眼前的康庄大道被雨彻底遮蔽看不见方向。我不知所措，慌乱的在原地转圈，就像一条被打湿了羽毛，蔫巴了的狗。慌不择路的我一脚踩进泥泞之中，光鲜亮丽的外套很快被灰色的泥浆覆盖。雨声震耳，我只能听见自己的鞋子从稀泥里拔出来的啵啵声。我低头看了一眼，那是我以前最爱穿的那双鞋，但是它已经包裹了一层厚重的泥浆，开始拖累我的步伐了。于是我脱掉它，赤脚在泥地中跋涉。抹掉脸上的雨水，我眯着眼睛在水雾中搜索，突然看见远方隐隐的透出一抹微光。光源在不稳定的跳动着似乎随时会熄灭，那个光点模糊的晕染在厚重的雨幕中，就像莫奈在他的画上点上了一抹高光，我向着光源走去。
+我还在雨中漫步，我今年二十七。`,
+  },
+  {
+    slug: "graffiti-alive",
+    title: "涂鸦有生命",
+    date: "2025.07",
+    zh: `法拉盛终点站进入隧道前的墙面上，涂满了各种各样的涂鸦。有的只是我看不懂的签名，有的会有更复杂的图案组合，有的已经被岁月磨掉了颜色，有的还在散发着新生的光芒。我一直都很喜欢街边的涂鸦，有机会都会驻足欣赏一下。哪怕只是很简单的一个艺术家的签名，我也可以看着揣摩好久，更别提更精美复杂的图案了。从涂鸦里，我能感受到满满的生命力，和不拘小节的松弛感。涂鸦会出现在任何地方，破败的厂房，地铁隧道的墙面，正面光鲜亮丽的大楼背面。它们就像夹缝中的野草，在狂风中也依旧能长出来，成为灰暗背景上最亮的绿色。可以说，涂鸦给正在死去的建筑赋予了一层新的皮肤，一个新的意义：它不再是一个被人抛弃的，无用的，由砖块堆砌而成的无机物，而是变成了另一个人的画布，获得了新生。灰暗的天空下，密密麻麻的砖房构成了死气沉沉的坟墓，而五颜六色的扎眼涂鸦仿佛在诉说着它们渴望继续活下去的动力，无论是建筑的还是艺术家的。
+我常常好奇，因为有些涂鸦看着非常老了，这些涂鸦者们现在过得如何？他们还活着吗，他们是男是女，他们有做成自己想要做的事，成为自己想要成为的人么？他们还会肆意的在城市的画布上喷洒自己的创意吗？我不知道他们过的怎么样。也许我是在羡慕他们，羡慕这种生命力，这是我想成为的人，成为一个能随意穿梭在现代社会中的幽灵，却又处处留下自己存在过的痕迹。我在给别人觉得无意义的死物上注入我的感情，这是我咀嚼活着的滋味的方法。感受到，看到别人活着的证明，让我自己也觉得我还有一个跳跃的灵魂。
+看着地铁隧道上的涂鸦飞驰而去，黑暗包围了我，但是很快光亮出现了，我的终点站到了。`,
+  },
+  {
+    slug: "playground",
+    title: "操场",
+    date: "2025.06",
+    zh: `操场很大。
+操场又很小。
+小小的我觉得操场很大，大大的我觉得操场很小。
+今天在曼哈顿漫步的时候路过了一个小学后面的操场，透过斑驳的铁丝网看向里面。褪色的壁画，落叶铺满角落，绿色和蓝色构成的跑道，好像和我童年时远在地球另一端的操场也没什么不同。小时候我在里面，现在我在外面，除此之外，还有什么改变了吗？有而且很多，但那只是环绕着我的事物，而我自己有改变吗？十几年的光阴过去，回头一看，已经离以前很远了。被早晨的晨风吹起的窗帘落在我头上，等我拿下来的时候，已经是夕阳。
+时间的车轮很残忍，我没有什么办法能让它停下来，只是在无力的尝试延缓被碾过的痛苦罢了。地球上存在过的几千亿人，没有一个人成功过，无一例外的变成了宇宙最开始诞生我们身体里的物质时候的模样。整个地球，整个宇宙，也许我们只是宇宙大爆炸到大反弹这个无限循环中的一轮罢了。
+我看回操场，看到小时候的我也站在里面看着我。他没有说话就看着我，我也看着他，无言。这样看我长大了不少，可是我希望没有，我还希望我只是那个坐在单杠上，看向夕阳的小孩。但是现在我只是在地球的另一端，尝试讨生活的白领了，再也没有能从操场里往外看的机会了。我在心里跟他挥了挥手，不知道能说点什么，于是转身汇入人群。`,
+  },
+  {
+    slug: "cant-touch",
+    title: "Can't Touch总结",
+    date: "2019",
+    zh: `他自诩是一个理性的人。
+同时他也是一个自大又自私，根本学不会接受自己的混蛋。
+但是他在她面前做不到，再粗壮的大树也无法撑过狂风，他的防线崩溃了，散落的遍地都是。她锐利的目光划破了他故意放置在心中环绕的迷雾，直达湖心岛的最中央，那里藏着他刻意隐藏起来的，最富有棱角的情感。
+而他透过她看到了自己，看到了那个曾经也被荆棘困住的迷茫的自己。看穿模糊的表面，他察觉到了她心中深藏的热量与美好。能量在聚集，但他现在被定下的规矩所束缚，像被操纵的提线木偶，他无法控制自己去迈出第一步。在挣扎后，他选择了跟随自己内心最真实的声音。
+她让他以为，自己还有能被人珍惜的资本。
+她是那么美好，如同在阳光下沐浴的一本精美封皮的书。他想去翻开，去仔细品读每一页，去用心理解每一句话，去一同在新的纸张上写下共同的冒险。
+事情的发展永远无法处于任何人的掌控之中，它们是野蛮生长的枫藤，转眼就布满了他计划很久才能达到的地方。他选择卸下自己的武装，去认真感受对方散发出的能量。他也许来晚了，也许来早了。但他知道自己败了，可是感情里没有胜负，他只是单纯的如错过了一班合适的巴士一样惋惜。
+她化成一根针，刺穿了他把自己层层包裹起来的茧，绕过了他自以为精心伪装的假面，跳过了他心里最后一道深渊，正中那刚刚长出的，稚嫩的肉芽上。
+灰暗的天向他压了下来，他无处可去，也不会逃跑，只是静静站在原处，任凭滔天巨浪在那里汹涌。他不想再次陷入这种无限向下延伸的漩涡中，但他没有选择抵抗，毅然跃下。他失控了，在黑色的海浪做成的墙上，他分辨不清楚自己的的方向，只能被汹涌澎湃的潮流带去未知的地方，直到海浪平息。
+他并不是懦弱的人，但此刻，他只想放肆的吼叫，叫到声带被撕裂为止，希望声波能带走心中最后的一丝理智。在冰冷的外表下，他正在呕出灵魂。
+他希望这一切从来没有发生过，却也盼望着未来能有一道转机，来拯救他最后的尊严。山本耀司说：自我这个东西是感受不到的，你只有撞到什么东西上反弹回来，才能发觉到自我。他坐在地上，双手掩面，但他庆幸自己能再次感受到，且勇于感受到这一切，而不是像以前一样自怨自艾，无法自拔。
+谢谢你，他想。我已经很久没有和另一颗心如此靠近过。
+之后，他重新修好自己的壳，继续上路。`,
+  },
+];
+
+/* ============================================================
+   暗房 · 照片数据
+   ------------------------------------------------------------
+   挂新照片:把图片文件(建议宽 1200px 以内的 jpg)放进仓库,
+   然后在下面加一个对象:
+   - src    : 图片文件名或路径,例如 "photos/hydrant.jpg"
+              留空 "" 会显示占位卡片
+   - caption : 图注
+   - date    : 拍摄时间(可选)
+   - position: 缩略图取景焦点(可选),例如 "50% 35%" 表示向上取景
+   - crop    : 缩略图比例(可选),默认 "4 / 5";例如横图可写 "3 / 2"
+   每根绳子会按视窗宽度自动晾 2–6 张,跨过断点时会实时重新排版。
+   ============================================================ */
+
+window.PHOTOS = [
+  {
+    src: "photos/5-ave-entrance.jpeg",
+    caption: "5 Ave Entrance",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/blank-door.jpeg",
+    caption: "Blank Door",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/blue-door.jpeg",
+    caption: "Blue Door",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/door-reflection.jpeg",
+    caption: "Door Reflection",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/empty-platform.jpeg",
+    caption: "Empty Platform",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/five-ave-bench.jpeg",
+    caption: "Five Ave Bench",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/foggy-platform.jpeg",
+    caption: "Foggy Platform",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/grass-gap-car.jpeg",
+    caption: "Grass Gap Car",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/grass-on-rail.jpeg",
+    caption: "Grass on Rail",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/help-station.jpeg",
+    caption: "Help Station",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/liminal-underpath.jpeg",
+    caption: "Liminal Underpath",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/maintainence-door.jpeg",
+    caption: "Maintenance Door",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/railroad-water.jpeg",
+    caption: "Railroad Water",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/rails-in-action.jpeg",
+    caption: "Rails in Action",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/rusty-wall.jpeg",
+    caption: "Rusty Wall",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/safe-net-water.jpeg",
+    caption: "Safe Net Water",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/small-animals.jpeg",
+    caption: "Small Animals",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/social-distance.jpeg",
+    caption: "Social Distance",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/split-station.jpeg",
+    caption: "Split Station",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/stare-shoe.jpeg",
+    caption: "Stare Shoe",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/subway-cabin.jpeg",
+    caption: "Subway Cabin",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/train-come-in.jpeg",
+    caption: "Train Cone In",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/train-gap.jpeg",
+    caption: "Train Gap",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/two-doors.jpeg",
+    caption: "Two Doors",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/two-frames.jpeg",
+    caption: "Two Frames",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/white-escalator.jpeg",
+    caption: "White Escalator",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+  {
+    src: "photos/white-tunnel.jpeg",
+    caption: "White Tunnel",
+    date: "2026",
+    position: "50% 50%",
+    crop: "4 / 3"
+  },
+];
+
+</script>
+<script>
+(function(){
+  const app = document.getElementById('app');
   const motionOK = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePtr  = matchMedia('(pointer: fine)').matches;
-  const PAGE_MS = 950, COOLDOWN = 420;
+  let theme = 'light';   // 默认开灯,不跟随系统
+  let lit = true;   // 暗房灯:默认开着,相纸不显影
+  let photoViewer = null;
+  let photoSource = null;
+  let photoClosing = false;
+  let photoLayout = null;       // 当前每根绳子的照片数
+  let darkroomDeveloped = false; // 避免 resize 后重新播放 3 秒显影
+  let photoResizeTimer = null;
 
-  let idx = 0, locked = false, fp = false;
-  let touchY = null;
+  /* ---------- 按日期自动排序(新的在前/书架最左) ---------- */
+  const dateKey = p => {
+    const n = (String(p.date||'').match(/\d+/g) || []).map(Number);
+    return (n[0]||0)*10000 + (n[1]||0)*100 + (n[2]||0);   // 支持 2026 / 2026.07 / 2026.07.14 等写法
+  };
+  window.POSTS.sort((a,b) => dateKey(b) - dateKey(a));
 
-  /* ---------- dots ---------- */
-  panels.forEach((p, i) => {
-    const b = document.createElement('button');
-    b.className = 'dot';
-    b.dataset.mag = '';
-    b.setAttribute('aria-label', p.dataset.label);
-    b.innerHTML = `<span class="lbl">${p.dataset.label}</span>`;
-    b.addEventListener('click', () => go(i));
-    dotsBox.appendChild(b);
-  });
-  const dots = [...dotsBox.children];
-
-  /* ---------- reveals ---------- */
-  function playReveals(panel){
-    const rvs = panel.querySelectorAll('.rv');
-    rvs.forEach(el => el.classList.remove('in'));
-    void panel.offsetHeight;
-    requestAnimationFrame(() => rvs.forEach(el => el.classList.add('in')));
-  }
-  function resetReveals(panel){
-    panel.classList.add('no-anim');
-    panel.querySelectorAll('.rv').forEach(el => el.classList.remove('in'));
-    void panel.offsetHeight;
-    panel.classList.remove('no-anim');
-  }
-
-  /* ---------- parallax depth: mark panels above current ---------- */
-  function applyDepth(){
-    panels.forEach((p, i) => p.classList.toggle('passed', i < idx));
+  /* ---------- helpers ---------- */
+  const byslug = s => window.POSTS.find(p => p.slug === s);
+  const charCount = md => md.replace(/\s/g,'').length;
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const hash = s => [...s].reduce((a,c)=>(a*31 + c.charCodeAt(0))>>>0, 7);
+  const spineW = n => Math.round(Math.min(122, Math.max(54, 54 + (Math.log10(Math.max(n,10)) - 2) * 26)));
+  const spineH = slug => 84 + (hash(slug) % 15);
+  const toneOf = i => `t${(i*3) % 10}`;
+  const readTime = n => `${n.toLocaleString()} 字 · 约 ${Math.max(1,Math.round(n/450))} 分钟`;
+  function renderProse(md){
+    return md.trim().split('\n').map(line=>{
+      const s = line.trim();
+      if(!s) return '';
+      if(/^第.{1,4}章$/.test(s)) return `<h2>${esc(s)}</h2>`;
+      return `<p>${esc(s)}</p>`;
+    }).join('\n');
   }
 
-  /* ---------- go ---------- */
-  function go(i, instant = false){
-    i = Math.max(0, Math.min(panels.length - 1, i));
-    if (fp && (locked || i === idx) && !instant) return;
-    const prev = idx;
-    idx = i;
-
-    if (fp){
-      locked = true;
-      track.style.transform = `translateY(${-idx * 100}svh)`;
-      applyDepth();
-      if (prev !== idx){
-        setTimeout(() => { if (idx !== prev) resetReveals(panels[prev]); }, instant ? 0 : PAGE_MS);
-      }
-      setTimeout(() => playReveals(panels[idx]), instant ? 0 : PAGE_MS * 0.35);
-      setTimeout(() => { locked = false; }, (instant ? 0 : PAGE_MS) + COOLDOWN);
-    } else {
-      panels[idx].scrollIntoView({ behavior: motionOK ? 'smooth' : 'auto' });
-    }
-    syncUI();
+  /* ---------- 暗房响应式布局 ---------- */
+  function photosPerRow(w = window.innerWidth){
+    if(w >= 1600) return 6;
+    if(w >= 1250) return 5;
+    if(w >= 950)  return 4;
+    if(w >= 650)  return 3;
+    return 2;
   }
 
-  function syncUI(){
-    const id = panels[idx].id;
-    links.forEach(l => l.classList.toggle('active', l.dataset.go === id && l.dataset.go !== 'home'));
-    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
-    nav.classList.toggle('scrolled', fp ? idx > 0 : scrollY > 24);
-    history.replaceState(null, '', '#' + id);
-  }
-
-  /* ---------- inner scroll awareness ---------- */
-  function innerCanScroll(dy){
-    const el = panels[idx].querySelector('.panel-inner');
-    if (!el) return false;
-    if (dy > 0) return el.scrollTop + el.clientHeight < el.scrollHeight - 1;
-    return el.scrollTop > 0;
-  }
-
-  /* ---------- input ---------- */
-  addEventListener('wheel', (e) => {
-    if (!fp) return;
-    if (Math.abs(e.deltaY) < 8) return;
-    if (innerCanScroll(e.deltaY)) return;
-    e.preventDefault();
-    if (locked) return;
-    go(idx + (e.deltaY > 0 ? 1 : -1));
-  }, { passive: false });
-
-  addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
-  addEventListener('touchend', (e) => {
-    if (!fp || touchY === null) return;
-    const dy = touchY - e.changedTouches[0].clientY;
-    touchY = null;
-    if (Math.abs(dy) < 50 || innerCanScroll(dy)) return;
-    go(idx + (dy > 0 ? 1 : -1));
-  }, { passive: true });
-
-  addEventListener('keydown', (e) => {
-    if (!fp) return;
-    if (['ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); go(idx + 1); }
-    if (['ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); go(idx - 1); }
-    if (e.key === 'Home'){ e.preventDefault(); go(0); }
-    if (e.key === 'End'){ e.preventDefault(); go(panels.length - 1); }
-  });
-
-  links.forEach(l => l.addEventListener('click', (e) => {
-    e.preventDefault();
-    go(panels.findIndex(p => p.id === l.dataset.go), false);
-  }));
-
-  /* ---------- mode switching ---------- */
-  function setMode(){
-    const want = motionOK && matchMedia('(min-width: 861px)').matches;
-    if (want === fp) return;
-    fp = want;
-    document.documentElement.classList.toggle('fp', fp);
-    if (fp){
-      track.style.transform = `translateY(${-idx * 100}svh)`;
-      applyDepth();
-      panels.forEach((p, i) => i !== idx && resetReveals(p));
-      playReveals(panels[idx]);
-    } else {
-      track.style.transform = '';
-      panels.forEach(p => p.classList.remove('passed'));
-      panels.forEach(p => p.querySelectorAll('.rv').forEach(el => io.observe(el)));
-    }
-    syncUI();
-  }
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  /* ---------- views ---------- */
+  function viewIndex(){
+    document.title = '颗粒 · Max Xiang';
+    const items = [];
+    window.POSTS.forEach((p,i)=>{
+      items.push(`<a class="book ${toneOf(i)}" href="#/p/${p.slug}" data-route="/p/${p.slug}"
+                 style="--bw:${spineW(charCount(p.zh))}px;--bh:${spineH(p.slug)}%"
+                 title="${esc(p.title)}">
+        <span class="book-title">${esc(p.title)}</span>
+        <span class="book-mini-seal" aria-hidden="true"></span>
+        <span class="book-label">${esc(p.date)}</span>
+      </a>`);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    app.innerHTML = `
+      <div class="shelf-head">
+        <h1>书架</h1><span class="count">共 ${window.POSTS.length} 册</span>
+        <span class="m-nav"><a href="#/photos" data-route="/photos">去暗房 →</a></span>
+      </div>
+      <div class="bookcase">
+        <div class="case-inner">
+          <div class="books">${items.join('')}</div>
+          <div class="plank"></div>
+        </div>
+      </div>
+      <div class="shelf-note">书脊厚度 = 篇幅 · 横向滑动浏览 · 抽出一本开始阅读</div>`;
+    window.scrollTo(0,0);
+  }
 
-  addEventListener('resize', setMode);
-  addEventListener('scroll', () => { if (!fp) nav.classList.toggle('scrolled', scrollY > 24); }, { passive: true });
+  function viewPost(slug){
+    const p = byslug(slug);
+    if(!p){ navigate('/'); return; }
+    const i = window.POSTS.indexOf(p);
+    const prev = window.POSTS[i+1], next = window.POSTS[i-1];
+    document.title = p.title + ' · 颗粒';
+    app.innerHTML = `
+      <article class="reader">
+        <div class="reader-nav">
+          <a href="#/" data-route="/" data-close="${p.slug}">← 书架</a>
+          <span>${esc(p.date)}</span>
+        </div>
+        <h1 class="post-title">${esc(p.title)}</h1>
+        <div class="post-meta">${readTime(charCount(p.zh))}</div>
+        <div class="post-body${p.poem ? ' poem' : ''}">${renderProse(p.zh)}</div>
+        <div class="fin">完</div>
+        <div class="fin-seal" aria-hidden="true">颗粒</div>
+        <div class="reader-foot">
+          <span>${prev ? `<a href="#/p/${prev.slug}" data-route="/p/${prev.slug}">← 上一篇</a>` : ''}</span>
+          <span>${next ? `<a href="#/p/${next.slug}" data-route="/p/${next.slug}">下一篇 →</a>` : ''}</span>
+        </div>
+      </article>`;
+    window.scrollTo(0,0);
+  }
 
-  /* ---------- magnetic hover ---------- */
-  if (motionOK && finePtr){
-    document.querySelectorAll('[data-mag]').forEach(el => {
-      el.addEventListener('mousemove', (e) => {
-        const r = el.getBoundingClientRect();
-        const dx = (e.clientX - (r.left + r.width / 2)) * 0.35;
-        const dy = (e.clientY - (r.top + r.height / 2)) * 0.35;
-        el.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+  function viewPhotos(preserveScroll = false){
+    document.title = '暗房 · 颗粒';
+    const photos = window.PHOTOS || [];
+    const tilts = [-2.4, 1.8, -1.1, 2.6, -1.9, 1.3];
+    const oldScrollY = window.scrollY;
+    const perRow = photosPerRow();
+    photoLayout = perRow;
+    const rows = [];
+    for(let i=0; i<photos.length; i+=perRow) rows.push(photos.slice(i, i+perRow));
+    const rope = `<svg class="rope" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,2.5 Q50,11 100,2.5" stroke="#5A4A38" stroke-width="1.1" fill="none"/>
+    </svg>`;
+    const rowsHtml = rows.map((row,r)=>`
+      <div class="line-row">${rope}
+        <div class="prints">
+          ${row.map((ph,j)=>{
+            const idx = r*perRow+j;
+            const cap = ph.caption || '';
+            const pos = ph.position || '50% 50%';
+            const crop = ph.crop || '4 / 5';
+            const inner = ph.src
+              ? `<img class="shot" src="${esc(ph.src)}" alt="${esc(cap)}" loading="lazy">`
+              : `<div class="shot">照片占位<br>把图片文件放进仓库<br>在 PHOTOS 里填上文件名</div>`;
+            return `<figure class="print${ph.src ? ' has-photo' : ''}"
+              ${ph.src ? `data-photo-index="${idx}" role="button" tabindex="0" aria-label="查看照片 ${esc(cap || String(idx+1))}"` : ''}
+              style="--tilt:${tilts[idx % tilts.length]}deg;--photo-pos:${pos};--crop:${crop}">
+              <span class="pin" aria-hidden="true"></span>
+              ${inner}
+              <figcaption class="print-cap">${esc(cap)}${ph.date ? ' · ' + esc(ph.date) : ''}</figcaption>
+            </figure>`;
+          }).join('')}
+        </div>
+      </div>`).join('');
+    app.innerHTML = `
+      <div class="shelf-head"><h1>暗房</h1><span class="count">${photos.length} 张</span></div>
+      <div class="darkroom ${lit?'lit':''}" id="darkroom">
+        <button class="dk-cord" id="dkCord" aria-pressed="${lit}" title="拉一下,开关灯" aria-label="拉一下,开关灯">
+          <span class="cord-line" aria-hidden="true"></span>
+          <span class="cord-handle" aria-hidden="true"></span>
+        </button>
+        <div class="dk-head">
+          <span class="dk-lamp" aria-hidden="true"></span>
+          <span class="dk-note" id="dkNote">${lit ? '灯还亮着,相纸不能见光 · 拉一下右上角的灯绳' : '红灯亮了,照片正在显影 · 再拉一下开灯'}</span>
+        </div>
+        ${rowsHtml}
+      </div>`;
+    if(preserveScroll){
+      requestAnimationFrame(()=>window.scrollTo(0, oldScrollY));
+    } else {
+      window.scrollTo(0,0);
+    }
+
+    /* 显影:红灯下才开始,约 3 秒。resize 重排时保留已经显影的状态。 */
+    const prints = [...app.querySelectorAll('.print')];
+    const developAll = () => {
+      prints.forEach(pr => pr.classList.add('dev'));
+      darkroomDeveloped = true;
+    };
+    const resetDev = () => {
+      prints.forEach(pr => pr.classList.remove('dev'));
+      darkroomDeveloped = false;
+    };
+    if(!lit){
+      if(darkroomDeveloped) developAll();
+      else setTimeout(developAll, 120);
+    }
+
+    /* 灯绳 */
+    const cord = document.getElementById('dkCord');
+    cord.addEventListener('click', ()=>{
+      lit = !lit;
+      cord.classList.remove('pull'); void cord.offsetWidth; cord.classList.add('pull');
+      cord.setAttribute('aria-pressed', String(lit));
+      document.getElementById('darkroom').classList.toggle('lit', lit);
+      resetDev();
+      if(!lit) setTimeout(developAll, 120);
+      document.getElementById('dkNote').textContent = lit
+        ? '灯还亮着,相纸不能见光 · 拉一下右上角的灯绳'
+        : '红灯亮了,照片正在显影 · 再拉一下开灯';
+    });
+
+    /* 取下已经显影的照片 */
+    app.querySelectorAll('.print.has-photo').forEach(pr=>{
+      const activate = ()=>{
+        if(lit || !pr.classList.contains('dev')) return;
+        const idx = Number(pr.dataset.photoIndex);
+        openPhoto(pr, photos[idx]);
+      };
+      pr.addEventListener('click', activate);
+      pr.addEventListener('keydown', e=>{
+        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); activate(); }
       });
-      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
     });
   }
 
-  /* ---------- tag flip on touch devices ---------- */
-  if (!finePtr){
-    document.querySelectorAll('.tag').forEach(t =>
-      t.addEventListener('click', () => t.classList.toggle('flipped')));
+  /* ---------- 取下相片 / 放回去 ---------- */
+  function photoTargetRect(img){
+    const nw = img.naturalWidth || img.clientWidth || 4;
+    const nh = img.naturalHeight || img.clientHeight || 5;
+    const frameX = 16, frameY = 38;
+    const maxW = Math.min(innerWidth * .90, 1100);
+    const maxH = innerHeight * .84;
+    const scale = Math.min((maxW-frameX)/nw, (maxH-frameY)/nh);
+    const width = Math.max(180, nw*scale + frameX);
+    const height = Math.max(180, nh*scale + frameY);
+    return {
+      left:(innerWidth-width)/2,
+      top:(innerHeight-height)/2,
+      width,height
+    };
   }
 
-  /* ---------- accent switching (wardrobe chips) ---------- */
-  const root = document.documentElement;
-  function onAccent(hex){
-    const c = hex.replace('#','');
-    const r = parseInt(c.substr(0,2),16)/255,
-          g = parseInt(c.substr(2,2),16)/255,
-          b = parseInt(c.substr(4,2),16)/255;
-    return (.2126*r + .7152*g + .0722*b) > .45 ? '#26221B' : '#EAE6DC';
-  }
-  const chips = [...document.querySelectorAll('.chip[data-accent]')];
-  chips.forEach(ch => ch.addEventListener('click', () => {
-    root.style.setProperty('--accent', ch.dataset.accent);
-    root.style.setProperty('--on-accent', onAccent(ch.dataset.accent));
-    chips.forEach(c => c.classList.toggle('sel', c === ch));
-  }));
+  function openPhoto(printEl, ph){
+    if(photoViewer || photoClosing || !ph || !ph.src) return;
+    const sourceImg = printEl.querySelector('img.shot');
+    if(!sourceImg) return;
 
-  /* ---------- film grain toggle (面料) ---------- */
-  const fab = document.getElementById('fabricToggle');
-  fab.addEventListener('click', () => {
-    document.body.classList.toggle('no-grain');
-    fab.classList.toggle('off', document.body.classList.contains('no-grain'));
+    const r = printEl.getBoundingClientRect();
+    const pos = ph.position || '50% 50%';
+    const cap = ph.caption || '';
+    const tilt = getComputedStyle(printEl).getPropertyValue('--tilt').trim() || '0deg';
+
+    const viewer = document.createElement('div');
+    viewer.className = 'photo-viewer';
+    viewer.setAttribute('role','dialog');
+    viewer.setAttribute('aria-modal','true');
+    viewer.setAttribute('aria-label', cap ? `查看照片：${cap}` : '查看照片');
+    viewer.innerHTML = `
+      <div class="photo-viewer-bg"></div>
+      <figure class="photo-fly" style="--photo-pos:${pos};--start-tilt:${tilt}">
+        <img class="shot" src="${esc(ph.src)}" alt="${esc(cap)}">
+        <figcaption class="print-cap">${esc(cap)}${ph.date ? ' · ' + esc(ph.date) : ''}</figcaption>
+      </figure>
+      <div class="photo-viewer-hint">点击任意处或按 Esc 放回去</div>`;
+    document.body.appendChild(viewer);
+
+    const fly = viewer.querySelector('.photo-fly');
+    const flyImg = fly.querySelector('img');
+    const target = photoTargetRect(sourceImg);
+    fly.style.left = r.left+'px';
+    fly.style.top = r.top+'px';
+    fly.style.width = r.width+'px';
+    fly.style.height = r.height+'px';
+
+    photoViewer = viewer;
+    photoSource = printEl;
+    printEl.classList.add('photo-source-open');
+    document.body.style.overflow = 'hidden';
+
+    const moveOpen = ()=>{
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        viewer.classList.add('open');
+        fly.classList.add('open');
+        fly.style.left = target.left+'px';
+        fly.style.top = target.top+'px';
+        fly.style.width = target.width+'px';
+        fly.style.height = target.height+'px';
+      }));
+    };
+    if(flyImg.complete) moveOpen();
+    else flyImg.addEventListener('load', moveOpen, {once:true});
+
+    viewer.addEventListener('click', ()=>closePhoto(true));
+  }
+
+  function closePhoto(animate=true){
+    if(!photoViewer || photoClosing) return;
+    photoClosing = true;
+    const viewer = photoViewer;
+    const fly = viewer.querySelector('.photo-fly');
+    const source = photoSource;
+
+    const finish = ()=>{
+      if(source) source.classList.remove('photo-source-open');
+      viewer.remove();
+      document.body.style.overflow = '';
+      photoViewer = null; photoSource = null; photoClosing = false;
+    };
+
+    if(!animate || !motionOK || !source || !document.body.contains(source)){ finish(); return; }
+    const r = source.getBoundingClientRect();
+    viewer.classList.remove('open');
+    fly.classList.remove('open');
+    fly.style.left = r.left+'px';
+    fly.style.top = r.top+'px';
+    fly.style.width = r.width+'px';
+    fly.style.height = r.height+'px';
+    setTimeout(finish, 540);
+  }
+
+  addEventListener('keydown', e=>{
+    if(e.key==='Escape' && photoViewer) closePhoto(true);
+  });
+  addEventListener('resize', ()=>{
+    if(photoViewer) closePhoto(false);
+
+    // 不要每拖 1px 都重绘；只有跨过 2/3/4/5/6 张的布局断点才重新生成绳子。
+    clearTimeout(photoResizeTimer);
+    photoResizeTimer = setTimeout(()=>{
+      if(!/^\/photos/.test(current)) return;
+      const nextLayout = photosPerRow();
+      if(nextLayout !== photoLayout) viewPhotos(true);
+    }, 90);
+  }, {passive:true});
+
+  /* ---------- 开书 / 合书转场 ---------- */
+  let flying = false;
+  function makeFly(toneClass, title){
+    const fly = document.createElement('div');
+    fly.className = `book-fly ${toneClass}`;
+    fly.innerHTML = `<div class="fly-page"></div>
+      <div class="fly-cover ${toneClass}"><span class="fly-title">${esc(title)}</span></div>`;
+    document.body.appendChild(fly);
+    return fly;
+  }
+  const setRect = (el,r)=>{ el.style.top=r.top+'px'; el.style.left=r.left+'px'; el.style.width=r.width+'px'; el.style.height=r.height+'px'; };
+  const setFull = el =>{ el.style.top='0px'; el.style.left='0px'; el.style.width=innerWidth+'px'; el.style.height=innerHeight+'px'; };
+
+  function openBook(bookEl, route){
+    if(!motionOK || flying){ navigate(route); return; }
+    flying = true;
+    const tone = (bookEl.className.match(/\bt\d\b/)||['t0'])[0];
+    const title = bookEl.querySelector('.book-title').textContent;
+    const fly = makeFly(tone, title);
+    setRect(fly, bookEl.getBoundingClientRect());
+    bookEl.style.opacity = '0';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      setFull(fly);
+      fly.querySelector('.fly-cover').style.transform = 'rotateY(-128deg)';
+    }));
+    setTimeout(()=>{ navigate(route); }, 620);
+    setTimeout(()=>{ fly.style.opacity = '0'; }, 760);
+    setTimeout(()=>{ fly.remove(); flying = false; }, 1080);
+  }
+
+  function closeBook(slug){
+    if(!motionOK || flying){ navigate('/'); return; }
+    flying = true;
+    const i = window.POSTS.findIndex(p => p.slug === slug);
+    const p = window.POSTS[i];
+    const fly = makeFly(toneOf(Math.max(i,0)), p ? p.title : '');
+    fly.style.transition = 'none';
+    setFull(fly);
+    const cover = fly.querySelector('.fly-cover');
+    cover.style.transition = 'none';
+    cover.style.transform = 'rotateY(-128deg)';
+    void fly.offsetWidth;
+    fly.style.transition = ''; cover.style.transition = '';
+    navigate('/');
+    const bookEl = app.querySelector(`a[data-route="/p/${slug}"]`);
+    if(bookEl){
+      bookEl.scrollIntoView({inline:'center', block:'nearest'});
+      const r = bookEl.getBoundingClientRect();
+      bookEl.style.opacity = '0';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        setRect(fly, r);
+        cover.style.transform = '';
+      }));
+      setTimeout(()=>{ bookEl.style.opacity = ''; fly.style.opacity = '0'; }, 640);
+      setTimeout(()=>{ fly.remove(); flying = false; }, 940);
+    } else {
+      requestAnimationFrame(()=>{ fly.style.opacity = '0'; });
+      setTimeout(()=>{ fly.remove(); flying = false; }, 320);
+    }
+  }
+
+  /* ---------- 关灯 / 开灯(夜读) ---------- */
+  const modeBtn = document.getElementById('modeToggle');
+  function applyTheme(){
+    document.documentElement.dataset.theme = theme;
+    modeBtn.textContent = theme==='dark' ? '开灯' : '关灯';
+  }
+  modeBtn.addEventListener('click', ()=>{
+    theme = theme==='dark' ? 'light' : 'dark';
+    applyTheme();
   });
 
-  /* ---------- portrait parallax ---------- */
-  const frame = document.getElementById('portraitFrame');
-  if (frame && motionOK && finePtr){
-    let tx = 0, ty = 0, cx = 0, cy = 0;
-    addEventListener('mousemove', (e) => {
-      tx = (e.clientX / innerWidth - 0.5) * 10;
-      ty = (e.clientY / innerHeight - 0.5) * 10;
-    }, { passive: true });
-    (function loop(){
-      cx += (tx - cx) * 0.06;
-      cy += (ty - cy) * 0.06;
-      frame.style.transform = `translate(${cx}px, ${cy}px)`;
-      requestAnimationFrame(loop);
-    })();
-  }
+  /* ---------- footer ---------- */
+  document.getElementById('footLeft').textContent =
+    `© ${new Date().getFullYear()} ${window.SITE.author} · 写作 · 摄影 · 纽约`;
 
-  /* ---------- init ---------- */
-  document.getElementById('yr').textContent = new Date().getFullYear();
-  const hashIdx = panels.findIndex(p => '#' + p.id === location.hash);
-  if (hashIdx > 0) idx = hashIdx;
-  setMode();
-  if (!fp){
-    panels.forEach(p => p.querySelectorAll('.rv').forEach(el => io.observe(el)));
-    if (hashIdx > 0) panels[idx].scrollIntoView();
-  } else if (hashIdx > 0){
-    go(hashIdx, true);
-  } else {
-    playReveals(panels[0]);
-    syncUI();
+  /* ---------- routing(脚本接管,兼容沙箱预览) ---------- */
+  const parseHash = () => (location.hash || '#/').replace(/^#/, '') || '/';
+  let current = parseHash();
+
+  function render(){
+    const m = current.match(/^\/p\/([\w-]+)/);
+    const onPhotos = /^\/photos/.test(current);
+    document.getElementById('navShelf').toggleAttribute('aria-current', !m && !onPhotos);
+    document.getElementById('navPhotos').toggleAttribute('aria-current', onPhotos);
+    if(m) viewPost(m[1]);
+    else if(onPhotos) viewPhotos();
+    else viewIndex();
   }
+  function navigate(r){
+    if(photoViewer) closePhoto(false);
+    if(r === current){ render(); return; }
+    current = r;
+    try{ history.pushState(null, '', '#' + r); }catch(e){ /* 沙箱环境下忽略 */ }
+    render();
+  }
+  document.addEventListener('click', e=>{
+    const a = e.target.closest('a[data-route]');
+    if(!a) return;
+    e.preventDefault();
+    const r = a.getAttribute('data-route');
+    if(a.classList.contains('book')) openBook(a, r);
+    else if(a.dataset.close) closeBook(a.dataset.close);
+    else navigate(r);
+  });
+  window.addEventListener('popstate', ()=>{ current = parseHash(); render(); });
+  window.addEventListener('hashchange', ()=>{
+    const h = parseHash();
+    if(h !== current){ current = h; render(); }
+  });
+
+  /* ---------- reading progress ---------- */
+  const bar = document.getElementById('progress');
+  addEventListener('scroll', ()=>{
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.width = max > 0 ? (scrollY/max*100)+'%' : '0';
+  }, {passive:true});
+
+  applyTheme();
+  render();
 })();
 </script>
 </body>
