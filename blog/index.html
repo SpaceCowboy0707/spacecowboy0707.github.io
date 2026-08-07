@@ -286,9 +286,12 @@
     background:#F4F1E8;padding:8px 8px 30px;
     transform:rotate(var(--tilt,0deg));transform-origin:top center;
     box-shadow:0 14px 22px -8px rgba(0,0,0,.7);
-    transition:transform .35s cubic-bezier(.2,.8,.3,1);
+    transition:transform .35s cubic-bezier(.2,.8,.3,1),opacity .18s ease;
   }
   .print:hover{transform:rotate(0deg) translateY(3px)}
+  .print.has-photo{user-select:none;-webkit-user-select:none}
+  .darkroom:not(.lit) .print.has-photo.dev{cursor:zoom-in}
+  .print.photo-source-open{opacity:0}
   .pin{
     position:absolute;top:-13px;left:50%;transform:translateX(-50%);
     width:11px;height:22px;border-radius:2px;
@@ -297,7 +300,12 @@
   }
   .pin::after{content:"";position:absolute;left:50%;top:9px;width:1px;height:8px;background:rgba(0,0,0,.3)}
   .shot{display:block;width:clamp(150px,22vw,220px)}
-  img.shot{height:auto}
+  img.shot{
+    aspect-ratio:var(--crop,4/5);
+    height:auto;
+    object-fit:cover;
+    object-position:var(--photo-pos,50% 50%);
+  }
   div.shot{
     aspect-ratio:4/5;
     background:linear-gradient(160deg,#3B3833,#282521);
@@ -305,6 +313,55 @@
     color:rgba(220,210,195,.42);font-family:var(--mono);
     font-size:10px;letter-spacing:.06em;text-align:center;
     padding:14px;line-height:1.7;
+  }
+
+  /* ---------- 取下相片 / 放大查看 ---------- */
+  .photo-viewer{position:fixed;inset:0;z-index:120;pointer-events:auto}
+  .photo-viewer-bg{
+    position:absolute;inset:0;opacity:0;
+    background:rgba(18,15,12,.50);
+    -webkit-backdrop-filter:blur(10px) saturate(.75);
+    backdrop-filter:blur(10px) saturate(.75);
+    transition:opacity .38s ease;
+  }
+  .photo-viewer.open .photo-viewer-bg{opacity:1}
+  .photo-fly{
+    position:fixed;z-index:1;margin:0;
+    background:#F4F1E8;
+    box-shadow:0 28px 70px rgba(0,0,0,.48);
+    transform:rotate(var(--start-tilt,0deg));transform-origin:center center;
+    transition:left .52s cubic-bezier(.22,.8,.25,1),
+               top .52s cubic-bezier(.22,.8,.25,1),
+               width .52s cubic-bezier(.22,.8,.25,1),
+               height .52s cubic-bezier(.22,.8,.25,1),
+               transform .52s cubic-bezier(.22,.8,.25,1),
+               box-shadow .52s ease,opacity .25s ease;
+    cursor:zoom-out;overflow:hidden;
+  }
+  .photo-fly .shot{
+    position:absolute;top:8px;left:8px;
+    width:calc(100% - 16px);height:calc(100% - 38px);
+    max-width:none;aspect-ratio:auto;
+    object-fit:cover;object-position:var(--photo-pos,50% 50%);
+    filter:none!important;opacity:1!important;transition:none!important;
+  }
+  .photo-fly .print-cap{
+    opacity:1!important;left:10px;right:10px;bottom:9px;
+  }
+  .photo-fly.open{transform:rotate(0deg);box-shadow:0 34px 90px rgba(0,0,0,.56)}
+  .photo-viewer-hint{
+    position:absolute;left:50%;bottom:max(18px,env(safe-area-inset-bottom));
+    transform:translateX(-50%);
+    color:rgba(245,240,230,.72);font-family:var(--mono);font-size:10px;
+    letter-spacing:.06em;white-space:nowrap;opacity:0;transition:opacity .35s ease .18s;
+  }
+  .photo-viewer.open .photo-viewer-hint{opacity:1}
+  @media (max-width:640px){
+    .photo-viewer-bg{
+      -webkit-backdrop-filter:blur(7px) saturate(.78);
+      backdrop-filter:blur(7px) saturate(.78);
+    }
+    .photo-viewer-hint{font-size:9px}
   }
   /* 显影:只有红灯下,相纸才会显影(约 3 秒) */
   .shot{transition:opacity .6s ease}
@@ -772,8 +829,10 @@ Rocky慢慢抚摸着那块猫眼石，轻声说：“还不够久。”
    然后在下面加一个对象:
    - src    : 图片文件名或路径,例如 "photos/hydrant.jpg"
               留空 "" 会显示占位卡片
-   - caption: 图注
-   - date   : 拍摄时间(可选)
+   - caption : 图注
+   - date    : 拍摄时间(可选)
+   - position: 缩略图取景焦点(可选),例如 "50% 35%" 表示向上取景
+   - crop    : 缩略图比例(可选),默认 "4 / 5";例如横图可写 "3 / 2"
    每根绳子晾 3 张,照片多了会自动加绳子。
    ============================================================ */
 
@@ -792,6 +851,9 @@ window.PHOTOS = [
   const motionOK = !matchMedia('(prefers-reduced-motion: reduce)').matches;
   let theme = 'light';   // 默认开灯,不跟随系统
   let lit = true;   // 暗房灯:默认开着,相纸不显影
+  let photoViewer = null;
+  let photoSource = null;
+  let photoClosing = false;
 
   /* ---------- 按日期自动排序(新的在前/书架最左) ---------- */
   const dateKey = p => {
@@ -884,11 +946,16 @@ window.PHOTOS = [
       <div class="line-row">${rope}
         <div class="prints">
           ${row.map((ph,j)=>{
+            const idx = r*3+j;
             const cap = ph.caption || '';
+            const pos = ph.position || '50% 50%';
+            const crop = ph.crop || '4 / 5';
             const inner = ph.src
               ? `<img class="shot" src="${esc(ph.src)}" alt="${esc(cap)}" loading="lazy">`
               : `<div class="shot">照片占位<br>把图片文件放进仓库<br>在 PHOTOS 里填上文件名</div>`;
-            return `<figure class="print" style="--tilt:${tilts[(r*3+j) % tilts.length]}deg">
+            return `<figure class="print${ph.src ? ' has-photo' : ''}"
+              ${ph.src ? `data-photo-index="${idx}" role="button" tabindex="0" aria-label="查看照片 ${esc(cap || String(idx+1))}"` : ''}
+              style="--tilt:${tilts[idx % tilts.length]}deg;--photo-pos:${pos};--crop:${crop}">
               <span class="pin" aria-hidden="true"></span>
               ${inner}
               <figcaption class="print-cap">${esc(cap)}${ph.date ? ' · ' + esc(ph.date) : ''}</figcaption>
@@ -930,7 +997,122 @@ window.PHOTOS = [
         ? '灯还亮着,相纸不能见光 · 拉一下右上角的灯绳'
         : '红灯亮了,照片正在显影 · 再拉一下开灯';
     });
+
+    /* 取下已经显影的照片 */
+    app.querySelectorAll('.print.has-photo').forEach(pr=>{
+      const activate = ()=>{
+        if(lit || !pr.classList.contains('dev')) return;
+        const idx = Number(pr.dataset.photoIndex);
+        openPhoto(pr, photos[idx]);
+      };
+      pr.addEventListener('click', activate);
+      pr.addEventListener('keydown', e=>{
+        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); activate(); }
+      });
+    });
   }
+
+  /* ---------- 取下相片 / 放回去 ---------- */
+  function photoTargetRect(img){
+    const nw = img.naturalWidth || img.clientWidth || 4;
+    const nh = img.naturalHeight || img.clientHeight || 5;
+    const frameX = 16, frameY = 38;
+    const maxW = Math.min(innerWidth * .90, 1100);
+    const maxH = innerHeight * .84;
+    const scale = Math.min((maxW-frameX)/nw, (maxH-frameY)/nh);
+    const width = Math.max(180, nw*scale + frameX);
+    const height = Math.max(180, nh*scale + frameY);
+    return {
+      left:(innerWidth-width)/2,
+      top:(innerHeight-height)/2,
+      width,height
+    };
+  }
+
+  function openPhoto(printEl, ph){
+    if(photoViewer || photoClosing || !ph || !ph.src) return;
+    const sourceImg = printEl.querySelector('img.shot');
+    if(!sourceImg) return;
+
+    const r = printEl.getBoundingClientRect();
+    const pos = ph.position || '50% 50%';
+    const cap = ph.caption || '';
+    const tilt = getComputedStyle(printEl).getPropertyValue('--tilt').trim() || '0deg';
+
+    const viewer = document.createElement('div');
+    viewer.className = 'photo-viewer';
+    viewer.setAttribute('role','dialog');
+    viewer.setAttribute('aria-modal','true');
+    viewer.setAttribute('aria-label', cap ? `查看照片：${cap}` : '查看照片');
+    viewer.innerHTML = `
+      <div class="photo-viewer-bg"></div>
+      <figure class="photo-fly" style="--photo-pos:${pos};--start-tilt:${tilt}">
+        <img class="shot" src="${esc(ph.src)}" alt="${esc(cap)}">
+        <figcaption class="print-cap">${esc(cap)}${ph.date ? ' · ' + esc(ph.date) : ''}</figcaption>
+      </figure>
+      <div class="photo-viewer-hint">点击任意处或按 Esc 放回去</div>`;
+    document.body.appendChild(viewer);
+
+    const fly = viewer.querySelector('.photo-fly');
+    const flyImg = fly.querySelector('img');
+    const target = photoTargetRect(sourceImg);
+    fly.style.left = r.left+'px';
+    fly.style.top = r.top+'px';
+    fly.style.width = r.width+'px';
+    fly.style.height = r.height+'px';
+
+    photoViewer = viewer;
+    photoSource = printEl;
+    printEl.classList.add('photo-source-open');
+    document.body.style.overflow = 'hidden';
+
+    const moveOpen = ()=>{
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        viewer.classList.add('open');
+        fly.classList.add('open');
+        fly.style.left = target.left+'px';
+        fly.style.top = target.top+'px';
+        fly.style.width = target.width+'px';
+        fly.style.height = target.height+'px';
+      }));
+    };
+    if(flyImg.complete) moveOpen();
+    else flyImg.addEventListener('load', moveOpen, {once:true});
+
+    viewer.addEventListener('click', ()=>closePhoto(true));
+  }
+
+  function closePhoto(animate=true){
+    if(!photoViewer || photoClosing) return;
+    photoClosing = true;
+    const viewer = photoViewer;
+    const fly = viewer.querySelector('.photo-fly');
+    const source = photoSource;
+
+    const finish = ()=>{
+      if(source) source.classList.remove('photo-source-open');
+      viewer.remove();
+      document.body.style.overflow = '';
+      photoViewer = null; photoSource = null; photoClosing = false;
+    };
+
+    if(!animate || !motionOK || !source || !document.body.contains(source)){ finish(); return; }
+    const r = source.getBoundingClientRect();
+    viewer.classList.remove('open');
+    fly.classList.remove('open');
+    fly.style.left = r.left+'px';
+    fly.style.top = r.top+'px';
+    fly.style.width = r.width+'px';
+    fly.style.height = r.height+'px';
+    setTimeout(finish, 540);
+  }
+
+  addEventListener('keydown', e=>{
+    if(e.key==='Escape' && photoViewer) closePhoto(true);
+  });
+  addEventListener('resize', ()=>{
+    if(photoViewer) closePhoto(false);
+  }, {passive:true});
 
   /* ---------- 开书 / 合书转场 ---------- */
   let flying = false;
@@ -1022,6 +1204,7 @@ window.PHOTOS = [
     else viewIndex();
   }
   function navigate(r){
+    if(photoViewer) closePhoto(false);
     if(r === current){ render(); return; }
     current = r;
     try{ history.pushState(null, '', '#' + r); }catch(e){ /* 沙箱环境下忽略 */ }
