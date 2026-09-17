@@ -8,6 +8,15 @@ Yancheng Max Xiang 的个人网站：数据分析作品集，以及中文写作�
 
 主页的「你会说中文吗」连接中文博客；博客页脚的「作品集」返回主页。
 
+## 直接在 GitHub 写文章（推荐）
+
+1. 打开仓库的 [content/posts](https://github.com/SpaceCowboy0707/spacecowboy0707.github.io/tree/main/content/posts) 目录，点击 **Add file → Create new file**。
+2. 文件名填写类似 `my-new-post.md`，粘贴下方「写一篇文章」中的模板，修改标题、日期、摘要与正文。
+3. 点击 **Commit changes**，提交到 `main`。如果选择新分支，则合并 Pull Request 后发布。
+4. GitHub 自动生成网页、书架和分享图，检查通过后发布。到 [Actions](https://github.com/SpaceCowboy0707/spacecowboy0707.github.io/actions/workflows/pages.yml) 查看进度，绿色表示成功。
+
+**不需要本机、不需要运行命令，也不需要再发送 prompt。** 修改、删除现有 Markdown 或更新照片数据，也会自动触发发布。构建失败时不会覆盖上一次成功发布的网站；点开失败的步骤即可查看原因。
+
 ## 技术与设计
 
 浏览器端使用原生 HTML、CSS 和 JavaScript。每篇文章都是独立的静态 HTML 页面，正文、摘要、canonical 和社交分享元信息都在初始 HTML 中，不依赖 JavaScript 才能读取。
@@ -45,7 +54,7 @@ Yancheng Max Xiang 的个人网站：数据分析作品集，以及中文写作�
 └── robots.txt                 # 自动生成
 ```
 
-`blog/` 下的 HTML 是构建产物，不要直接编辑。生成文件也要提交到 Git，便于 GitHub Pages 直接发布仓库根目录。
+`blog/` 下的 HTML 是构建产物，不要直接编辑。GitHub Actions 每次会从 Markdown 重新生成并发布，不需要手动提交生成文件。仓库中的旧生成文件仅用于本地快速预览，可能落后于线上内容。
 
 ## 本地运行
 
@@ -94,7 +103,7 @@ description: "这篇文章的简短摘要，也会用于搜索描述和社交分
 - Markdown 中的 HTML 会被保留，内容来自仓库中的文章文件。
 - 已发布文章尽量不要改文件名，以免已有链接失效。
 
-保存后运行：
+在 GitHub 编辑时，提交后自动构建。只有本地开发预览时才需要运行：
 
 ```bash
 pnpm build
@@ -117,28 +126,23 @@ pnpm test
 }
 ```
 
-记录之间需要逗号，最后一条后面不要加逗号。照片按数组顺序展示；`position` 控制裁剪焦点，`crop` 控制缩略图比例。更新后运行 `pnpm build`。
+记录之间需要逗号，最后一条后面不要加逗号。照片按数组顺序展示；`position` 控制裁剪焦点，`crop` 控制缩略图比例。在 GitHub 提交后自动发布；本地预览时运行 `pnpm build`。
 
-博客外观在 `assets/blog.css` 修改，交互在 `assets/blog.js` 修改，共用页头和页脚在 `templates/blog.html` 修改。修改模板后重新构建。主页继续直接编辑根目录的 `index.html`。
+博客外观在 `assets/blog.css` 修改，交互在 `assets/blog.js` 修改，共用页头和页脚在 `templates/blog.html` 修改。模板修改提交后也会自动构建。主页继续直接编辑根目录的 `index.html`。
 
-## 提交和发布
+## 自动发布
 
-保存和 commit 只改变本地，push 才会上传到 GitHub。推荐用新分支提交：
+工作流位于 `.github/workflows/pages.yml`：
 
-```bash
-git switch -c feature/blog-pages
-pnpm build
-pnpm test
-git status
-git add index.html content templates assets blog scripts tests package.json pnpm-lock.yaml README.md .gitignore .nojekyll sitemap.xml robots.txt
-git diff --cached --stat
-git commit -m "feat: publish Markdown articles as standalone pages"
-git push -u origin feature/blog-pages
-```
+- 提交到 `main`：安装依赖与中文字体 → 生成文章和分享图 → 校验 → 发布。
+- Pull Request：构建和校验，不发布。
+- Actions 页面可通过 **Run workflow** 手动重试。
 
-推送后创建 Pull Request，检查再合并。请在仓库 **Settings → Pages** 确认实际发布来源。如果使用从分支发布，选择发布分支的根目录；如果已有 Actions 流程，确认它发布的是包含生成页面的目录。本仓库没有自动运行构建或部署的 workflow，编辑 Markdown 后必须在本地构建并提交产物。
+仓库 **Settings → Pages → Source** 使用 **GitHub Actions**。发布文件由 `scripts/stage-site.cjs` 整理到 `_site/`，只包含网站所需文件，不上传 `node_modules`、构建脚本或 Markdown 源文件。新增文章配图可以放在 `images/` 或 `assets/images/` 中，并在 Markdown 使用相应的根路径。
 
-当前域名由 `CNAME` 声明为 `yanchengxiang.com`。更换域名时，同时修改 `content/site.json` 中的 `url`、GitHub Pages 配置和 DNS，再重新构建。
+本地改动仍需 commit 和 push；在 GitHub 网页上编辑则直接点 Commit changes。生成文件不会自动回写到源码分支，因此不会产生循环构建。
+
+当前域名由 `CNAME` 声明为 `yanchengxiang.com`。更换域名时，同时修改 `content/site.json` 中的 `url`、GitHub Pages 配置和 DNS，再提交即可自动构建。
 
 分享平台可能缓存旧卡片，实际显示也受平台规则影响；每篇文章的初始 HTML 已包含 Open Graph 和 Twitter Card 元信息。
 
