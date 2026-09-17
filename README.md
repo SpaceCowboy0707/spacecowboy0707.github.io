@@ -11,7 +11,7 @@ Yancheng Max Xiang 的个人网站：数据分析作品集，以及中文写作�
 ## 直接在 GitHub 写文章（推荐）
 
 1. 打开仓库的 [content/posts](https://github.com/SpaceCowboy0707/spacecowboy0707.github.io/tree/main/content/posts) 目录，点击 **Add file → Create new file**。
-2. 文件名填写类似 `my-new-post.md`，粘贴下方「写一篇文章」中的模板，修改标题、日期与正文。
+2. 文件名填写类似 `my-new-post.md`，复制同目录下 [`template.md`](content/posts/template.md) 的内容，修改标题、日期与正文。请新建自己的文章文件，不要直接把模板改成文章。
 3. 点击 **Commit changes**，提交到 `main`。如果选择新分支，则合并 Pull Request 后发布。
 4. GitHub 自动生成网页、书架和分享图，检查通过后发布。到 [Actions](https://github.com/SpaceCowboy0707/spacecowboy0707.github.io/actions/workflows/pages.yml) 查看进度，绿色表示成功。
 
@@ -78,6 +78,8 @@ pnpm preview
 ## 写一篇文章
 
 在 `content/posts/` 新建文件，例如 `a-new-note.md`：
+
+同目录的 `template.md` 是可复制的模板，保存在 GitHub 中，但构建时会跳过，不会出现在书架、文章页面或 sitemap 中。
 
 ```markdown
 ---

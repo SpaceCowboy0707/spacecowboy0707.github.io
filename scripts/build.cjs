@@ -82,7 +82,7 @@ ${lines.map((line,i)=>`<text x="88" y="${245+i*76}" font-size="${size}" font-wei
 }
 
 async function build() {
-  const posts = fs.readdirSync(path.join(root,'content/posts')).filter(f=>f.endsWith('.md')).map(parsePost).sort((a,b)=>b.key-a.key || a.slug.localeCompare(b.slug));
+  const posts = fs.readdirSync(path.join(root,'content/posts')).filter(f=>f.endsWith('.md') && f !== 'template.md').map(parsePost).sort((a,b)=>b.key-a.key || a.slug.localeCompare(b.slug));
   if (!posts.length) throw new Error('No posts found');
   // Remove only previously generated post directories recorded by our own manifest.
   const manifestPath = path.join(root,'blog/posts/manifest.json');

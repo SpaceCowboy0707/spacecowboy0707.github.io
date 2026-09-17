@@ -5,7 +5,7 @@ const path=require('node:path');
 const {parsePost}=require('../scripts/build.cjs');
 const root=path.resolve(__dirname,'..');
 const read=file=>fs.readFileSync(path.join(root,file),'utf8');
-const sources=fs.readdirSync(path.join(root,'content/posts')).filter(f=>f.endsWith('.md'));
+const sources=fs.readdirSync(path.join(root,'content/posts')).filter(f=>f.endsWith('.md') && f !== 'template.md');
 const posts=sources.map(parsePost);
 test('each Markdown article has a complete standalone page and unique share image',()=>{
   assert.equal(new Set(posts.map(p=>p.slug)).size,posts.length);
