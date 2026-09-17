@@ -483,6 +483,16 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
 }
 .foot-meta a:hover{ color:var(--ink); }
 .foot-links{ display:flex; gap:28px; }
+
+.rail a:hover{ color:var(--accent); }
+.rail a:focus-visible{ outline:2px solid var(--accent); outline-offset:8px; }
+.nav-links{ gap:clamp(12px,2.3vw,30px); }
+@media (min-width:1281px){ .nav-links .blog-entry{ display:none; } }
+@media (max-width:640px){
+  .nav-inner{ align-items:center; padding:14px 5vw; gap:12px; flex-wrap:wrap; }
+  .nav-links{ gap:12px 16px; flex-wrap:wrap; }
+  .nav-links a{ font-size:10px; letter-spacing:.05em; }
+}
 </style>
 </head>
 <body>
@@ -497,13 +507,14 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
       <a href="#skills" data-go="skills" data-mag>Skillset</a>
       <a href="#projects" data-go="projects" data-mag>Projects</a>
       <a href="#contact" data-go="contact" data-mag>Contact</a>
+      <a class="blog-entry" href="/blog/" lang="zh-Hans">你会说中文吗 ↗</a>
     </div>
   </div>
 </nav>
 
-<div class="rail" aria-hidden="true">
+<div class="rail">
   <div class="vline"></div>
-  <div class="vtext">你会说中文吗</div>
+  <a class="vtext" href="/blog/" lang="zh-Hans">你会说中文吗</a>
   <div class="vline"></div>
 </div>
 

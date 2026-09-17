@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{META}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/blog.css">
+<script defer src="/assets/photos.js"></script>
+<script defer src="/assets/blog.js"></script>
+</head>
+<body>
+<div id="progress"></div>
+
+<header>
+  <a class="brand" href="/blog/" data-route="/blog/" aria-label="返回书架">
+    <span class="seal" aria-hidden="true">颗粒</span>
+    <span>
+      <div class="brand-name">颗粒<span class="brand-max">Max.</span></div>
+      <div class="brand-tag">物件、动作、温度、声音</div>
+    </span>
+  </a>
+  <div class="head-right">
+    <nav class="site-nav">
+      <a href="/blog/" data-route="/blog/" id="navShelf">书架</a>
+      <a href="/blog/photos/" data-route="/blog/photos/" id="navPhotos">暗房</a>
+    </nav>
+    <button class="head-btn" id="modeToggle" aria-pressed="false">关灯</button>
+  </div>
+</header>
+
+<main id="app" data-page="{{PAGE}}" tabindex="-1">{{CONTENT}}</main>
+<div id="routeStatus" class="sr-only" role="status" aria-live="polite"></div>
+
+<footer>
+  <span id="footLeft">© {{YEAR}} Max Xiang · 写作 · 摄影 · 纽约</span>
+  <span><a href="/">作品集 →</a></span>
+</footer>
+
+
+</body>
+</html>
