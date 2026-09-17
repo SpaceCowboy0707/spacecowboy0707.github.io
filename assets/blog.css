@@ -434,7 +434,6 @@
 /* Static content first; motion is an optional enhancement. */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 #app:focus,h1:focus{outline:none}
-.post-summary{font-size:15px;line-height:1.9;color:var(--ink-soft);border-left:2px solid var(--seal);padding:3px 0 3px 18px;margin:-20px 0 42px;text-wrap:pretty}
 .post-body a{text-decoration:underline;text-underline-offset:4px;color:var(--seal)}
 .post-body img{display:block;max-width:100%;height:auto;margin:24px auto}
 .post-body ul,.post-body ol{padding-left:1.5em;margin:1em 0;line-height:2}
@@ -468,7 +467,6 @@
  .brand-max{display:none}
  .head-btn{padding:7px 9px;font-size:11px}
  .shelf-head .m-nav{display:none}
- .post-summary{font-size:14px;margin-bottom:32px}
 }
 @media(prefers-reduced-motion:reduce){.route-book{display:none!important}.book:hover,.book:focus-visible{transform:none}}
 .photo-fly{transition:box-shadow .3s ease;transform:none;transform-origin:0 0;will-change:transform,opacity}

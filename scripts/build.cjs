@@ -23,7 +23,7 @@ function parsePost(filename) {
   }
   const slug = filename.replace(/\.md$/, '');
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('Invalid slug: ' + slug);
-  for (const key of ['title','date','description']) if (typeof meta[key] !== 'string' || !meta[key].trim()) throw new Error(filename + ': missing ' + key);
+  for (const key of ['title','date']) if (typeof meta[key] !== 'string' || !meta[key].trim()) throw new Error(filename + ': missing ' + key);
   if (!/^\d{4}(?:\.(?:0[1-9]|1[0-2]))?(?:\.(?:0[1-9]|[12]\d|3[01]))?$/.test(meta.date)) throw new Error(filename + ': invalid date');
   if (meta.poem !== undefined && typeof meta.poem !== 'boolean') throw new Error(filename + ': poem must be boolean');
   const body = match[2].trim();
@@ -34,21 +34,21 @@ function parsePost(filename) {
 
 function metadata(title, description, url, image, type = 'website') {
   return `<title>${esc(title)}</title>
-<meta name="description" content="${esc(description)}">
+${description ? `<meta name="description" content="${esc(description)}">` : ''}
 <link rel="canonical" href="${esc(origin + url)}">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:site_name" content="${esc(site.name)}">
 <meta property="og:type" content="${type}">
 <meta property="og:url" content="${esc(origin + url)}">
 <meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(description)}">
+${description ? `<meta property="og:description" content="${esc(description)}">` : ''}
 <meta property="og:image" content="${esc(origin + image)}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${esc(title + ' · 颗粒书封')}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
-<meta name="twitter:description" content="${esc(description)}">
+${description ? `<meta name="twitter:description" content="${esc(description)}">` : ''}
 <meta name="twitter:image" content="${esc(origin + image)}">`;
 }
 
@@ -96,7 +96,7 @@ async function build() {
   const items = posts.map((p,i)=>{
     const width=Math.round(Math.min(122,Math.max(54,54+(Math.log10(Math.max(p.count,10))-2)*26)));
     const height=84+([...p.slug].reduce((n,c)=>(n*31+c.charCodeAt(0))>>>0,7)%15);
-    return `<a class="book t${i*3%10}" href="${p.url}" data-route="${p.url}" data-slug="${p.slug}" style="--bw:${width}px;--bh:${height}%" title="${esc(p.description)}"><span class="book-title">${esc(p.title)}</span><span class="book-mini-seal" aria-hidden="true"></span><span class="book-label">${esc(p.date)}</span></a>`;
+    return `<a class="book t${i*3%10}" href="${p.url}" data-route="${p.url}" data-slug="${p.slug}" style="--bw:${width}px;--bh:${height}%" title="${esc(p.title)}"><span class="book-title">${esc(p.title)}</span><span class="book-mini-seal" aria-hidden="true"></span><span class="book-label">${esc(p.date)}</span></a>`;
   }).join('\n');
   const shelf = `<div class="shelf-head"><h1 tabindex="-1">书架</h1><span class="count">共 ${posts.length} 册</span><a class="m-nav" href="/blog/photos/" data-route="/blog/photos/">去暗房 →</a></div>
 <div class="bookcase"><div class="case-inner"><div class="books">${items}</div><div class="plank"></div></div></div>
@@ -109,12 +109,11 @@ async function build() {
 <div class="reader-nav"><a href="/blog/" data-route="/blog/" data-close="${p.slug}">← 书架</a><span>${esc(p.date)}</span></div>
 <h1 class="post-title" tabindex="-1">${esc(p.title)}</h1>
 <div class="post-meta">${p.count.toLocaleString('en-US')} 字 · 约 ${Math.max(1,Math.round(p.count/450))} 分钟</div>
-<p class="post-summary">${esc(p.description)}</p>
 <div class="post-body${p.poem?' poem':''}">${marked.parse(p.body)}</div>
 <div class="fin">完</div><div class="fin-seal" aria-hidden="true">颗粒</div>
 <div class="reader-foot"><span>${link(prev,'← 上一篇')}</span><span>${link(next,'下一篇 →')}</span></div>
 </article>`;
-    write('blog/posts/'+p.slug+'/index.html',page({title:p.title+' · 颗粒',description:p.description,url:p.url,image:p.image,type:'article',content:article,kind:'post'}));
+    write('blog/posts/'+p.slug+'/index.html',page({title:p.title+' · 颗粒',url:p.url,image:p.image,type:'article',content:article,kind:'post'}));
     await cover(p.title,p.date,p.image.slice(1),i*3%10);
   }
   const photos=JSON.parse(read('content/photos.json'));

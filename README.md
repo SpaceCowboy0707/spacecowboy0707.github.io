@@ -11,7 +11,7 @@ Yancheng Max Xiang 的个人网站：数据分析作品集，以及中文写作�
 ## 直接在 GitHub 写文章（推荐）
 
 1. 打开仓库的 [content/posts](https://github.com/SpaceCowboy0707/spacecowboy0707.github.io/tree/main/content/posts) 目录，点击 **Add file → Create new file**。
-2. 文件名填写类似 `my-new-post.md`，粘贴下方「写一篇文章」中的模板，修改标题、日期、摘要与正文。
+2. 文件名填写类似 `my-new-post.md`，粘贴下方「写一篇文章」中的模板，修改标题、日期与正文。
 3. 点击 **Commit changes**，提交到 `main`。如果选择新分支，则合并 Pull Request 后发布。
 4. GitHub 自动生成网页、书架和分享图，检查通过后发布。到 [Actions](https://github.com/SpaceCowboy0707/spacecowboy0707.github.io/actions/workflows/pages.yml) 查看进度，绿色表示成功。
 
@@ -19,7 +19,7 @@ Yancheng Max Xiang 的个人网站：数据分析作品集，以及中文写作�
 
 ## 技术与设计
 
-浏览器端使用原生 HTML、CSS 和 JavaScript。每篇文章都是独立的静态 HTML 页面，正文、摘要、canonical 和社交分享元信息都在初始 HTML 中，不依赖 JavaScript 才能读取。
+浏览器端使用原生 HTML、CSS 和 JavaScript。每篇文章都是独立的静态 HTML 页面，正文、canonical 和社交分享元信息都在初始 HTML 中，不依赖 JavaScript 才能读取。
 
 文章源文件采用 Markdown，通过小型 Node.js 构建脚本生成页面。构建依赖仅有 `marked`（Markdown 渲染）和 `sharp`（生成 PNG 分享图）；没有客户端框架或后端服务。
 
@@ -83,7 +83,6 @@ pnpm preview
 ---
 title: "一篇新的记录"
 date: "2026.09.16"
-description: "这篇文章的简短摘要，也会用于搜索描述和社交分享卡片。"
 ---
 
 这是第一段。
@@ -97,7 +96,7 @@ description: "这篇文章的简短摘要，也会用于搜索描述和社交分
 
 - 文件名决定地址：`a-new-note.md` → `/blog/posts/a-new-note/`。使用小写英文字母、数字和连字符。
 - 顶部元信息使用 `字段: JSON 值` 的简单格式，字符串请用双引号包裹；字符串里的双引号写成 `\"`。这不是完整的 YAML 解析器。
-- `title`、`date`、`description` 必填。日期支持 `2026`、`2026.09`、`2026.09.16`，按日期从新到旧排列。
+- `title`、`date` 必填。日期支持 `2026`、`2026.09`、`2026.09.16`，按日期从新到旧排列。
 - 诗歌可以增加 `poem: true`，启用无首行缩进的排版。单行换行可使用 Markdown 的行末两个空格；不同段落留空行。
 - 可使用 Markdown 标题、链接、引用、列表、代码块、表格与图片。站内图片建议使用 `/blog/photos/文件名.jpeg` 这样的根路径。
 - Markdown 中的 HTML 会被保留，内容来自仓库中的文章文件。

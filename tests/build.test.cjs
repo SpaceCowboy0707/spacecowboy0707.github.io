@@ -17,7 +17,8 @@ test('each Markdown article has a complete standalone page and unique share imag
     assert.ok(html.includes('https://yanchengxiang.com'+p.image));
     assert.match(html,/<meta property="og:type" content="article">/);
     assert.match(html,/<meta name="twitter:card" content="summary_large_image">/);
-    assert.ok(html.includes(p.description.replaceAll('&','&amp;').replaceAll('"','&quot;')));
+    assert.ok(!html.includes('post-summary'));
+    assert.ok(!/name="description"|property="og:description"|name="twitter:description"/.test(html));
     const png=fs.readFileSync(path.join(root,p.image.slice(1)));
     assert.equal(png.subarray(1,4).toString(),'PNG');
     assert.equal(png.readUInt32BE(16),1200);
