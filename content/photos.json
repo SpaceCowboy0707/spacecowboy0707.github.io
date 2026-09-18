@@ -187,5 +187,83 @@
     "date": "2026",
     "position": "50% 50%",
     "crop": "4 / 3"
+  },
+  {
+    "src": "/blog/photos/across-the-platform.jpg",
+    "caption": "Across the Platform",
+    "position": "50% 50%",
+    "crop": "2275 / 1280"
+  },
+  {
+    "src": "/blog/photos/on-the-way-down.jpg",
+    "caption": "On the Way Down",
+    "position": "50% 50%",
+    "crop": "1280 / 960"
+  },
+  {
+    "src": "/blog/photos/under-the-fluorescent-light.jpg",
+    "caption": "Under the Fluorescent Light",
+    "position": "50% 50%",
+    "crop": "1707 / 1280"
+  },
+  {
+    "src": "/blog/photos/yellow-dots.jpg",
+    "caption": "Yellow Dots",
+    "position": "50% 50%",
+    "crop": "1280 / 960"
+  },
+  {
+    "src": "/blog/photos/between-levels.jpg",
+    "caption": "Between Levels",
+    "position": "50% 50%",
+    "crop": "1702 / 1276"
+  },
+  {
+    "src": "/blog/photos/a-quiet-concourse.jpg",
+    "caption": "A Quiet Concourse",
+    "position": "50% 50%",
+    "crop": "1707 / 1280"
+  },
+  {
+    "src": "/blog/photos/waiting-under-the-roof.jpg",
+    "caption": "Waiting Under the Roof",
+    "position": "50% 50%",
+    "crop": "1710 / 1282"
+  },
+  {
+    "src": "/blog/photos/a-corner-with-two-doors.jpg",
+    "caption": "A Corner with Two Doors",
+    "position": "50% 50%",
+    "crop": "1707 / 1280"
+  },
+  {
+    "src": "/blog/photos/framed-passengers.jpg",
+    "caption": "Framed Passengers",
+    "position": "50% 50%",
+    "crop": "1706 / 1279"
+  },
+  {
+    "src": "/blog/photos/door-132.jpg",
+    "caption": "Door 132",
+    "position": "50% 50%",
+    "crop": "1704 / 1278"
+  },
+  {
+    "src": "/blog/photos/three-empty-seats.jpg",
+    "caption": "Three Empty Seats",
+    "position": "50% 50%",
+    "crop": "1707 / 1280"
+  },
+  {
+    "src": "/blog/photos/passing-colors.jpg",
+    "caption": "Passing Colors",
+    "position": "50% 50%",
+    "crop": "1280 / 960"
+  },
+  {
+    "src": "/blog/photos/in-passing.jpg",
+    "caption": "In Passing",
+    "position": "50% 50%",
+    "crop": "1707 / 1280"
   }
 ]
