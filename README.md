@@ -31,6 +31,9 @@ Yancheng Max Xiang 的个人网站：数据分析作品集，以及中文写作�
 .
 ├── index.html                 # 个人主页，直接编辑
 ├── CNAME                      # 自定义域名
+├── og.png                     # 主页分享图（1200 × 630）
+├── favicon.png, apple-touch-icon.png  # 站点图标
+├── resume.pdf                 # 简历 PDF；主页 Resume 面板的网页版在 index.html 中，更新简历时两处同步修改
 ├── .nojekyll                  # 直接发布生成的静态文件
 ├── content/
 │   ├── site.json              # 站点 URL 与说明

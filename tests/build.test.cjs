@@ -54,3 +54,10 @@ test('home page icons and share image exist at the paths its head references',()
   assert.equal(png.readUInt32BE(16),1200);
   assert.equal(png.readUInt32BE(20),630);
 });
+test('resume panel links a PDF that is published with the site',()=>{
+  const home=read('index.html');
+  assert.match(home,/<section class="panel" id="resume"/);
+  assert.match(home,/<dialog class="resume-dialog" id="resumeDialog"/);
+  assert.ok(home.includes('href="/resume.pdf" download'));
+  assert.equal(fs.readFileSync(path.join(root,'resume.pdf')).subarray(0,5).toString(),'%PDF-');
+});
