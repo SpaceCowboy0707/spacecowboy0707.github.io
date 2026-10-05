@@ -46,3 +46,11 @@ test('chapter headings and original writing render as content rather than client
   assert.ok(!html.includes('window.POSTS'));
   assert.ok(!read('assets/blog.js').includes('window.POSTS'));
 });
+test('home page icons and share image exist at the paths its head references',()=>{
+  const home=read('index.html');
+  for(const file of ['favicon.png','apple-touch-icon.png']) assert.ok(home.includes(`href="${file}"`) && fs.existsSync(path.join(root,file)),'missing '+file);
+  assert.ok(home.includes('content="https://yanchengxiang.com/og.png"'));
+  const png=fs.readFileSync(path.join(root,'og.png'));
+  assert.equal(png.readUInt32BE(16),1200);
+  assert.equal(png.readUInt32BE(20),630);
+});

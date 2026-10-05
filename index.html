@@ -483,7 +483,8 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
   color:var(--ink-2); text-transform:uppercase;
 }
 .foot-meta a:hover{ color:var(--ink); }
-.foot-links{ display:flex; gap:28px; }
+.foot-links{ display:flex; flex-wrap:wrap; gap:12px 28px; }
+.foot-links a{ white-space:nowrap; }
 
 .rail a:hover{ color:var(--accent); }
 .rail a:focus-visible{ outline:2px solid var(--accent); outline-offset:8px; }
@@ -496,6 +497,9 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
 }
 .tag:focus-visible{transform:rotateY(180deg);outline:2px solid var(--accent);outline-offset:5px}
 .proj{grid-template-columns:130px 1fr;cursor:default}
+.proj .src{display:inline-block;margin-top:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--camel);transition:color .4s ease,border-color .4s ease}
+.proj:hover .src{color:var(--on-accent);border-color:var(--on-accent)}
+.proj .src:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media(max-width:700px){.proj{grid-template-columns:1fr}}
 </style>
 </head>
@@ -652,9 +656,13 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
           <span class="yr">Team workflow</span>
           <div><h3>AI Email-to-Task</h3><p class="sub">Summarizes incoming emails, extracts follow-ups, and creates tasks for ongoing tracking across the Business Analyst team.</p><p class="stack">Generative AI · Workflow automation · Team adoption</p></div>
         </article>
+        <article class="proj rv" style="--d:0.15s">
+          <span class="yr">AI analytics</span>
+          <div><h3>Evidence-Checked AI Analyst</h3><p class="sub">A personal project: an LLM answers questions over a SQL archive using only 11 fixed, read-only tools. Every number it cites is checked against the query results before the answer is shown, with a full trace of the SQL behind it.</p><p class="stack">LLM tool calling · Python · SQLite · Evidence checks</p><a class="src" href="https://github.com/SpaceCowboy0707/fm_archive" target="_blank" rel="noopener">Source on GitHub ↗</a></div>
+        </article>
         <article class="proj rv" style="--d:0.18s">
           <span class="yr">Data foundation</span>
-          <div><h3>Operational DuckDB Lakehouse</h3><p class="sub">Built and continue to enhance a version-controlled lakehouse: Python ingestion and transformation across eight data sources, reusable business logic, and validation for analytical work.</p><p class="stack">DuckDB · Python · SQL · Git</p></div>
+          <div><h3>Operational DuckDB Lakehouse</h3><p class="sub">Built and continue to enhance a version-controlled lakehouse: Python ingestion and transformation across eight data sources, reusable business logic, and validation for analytical work.</p><p class="stack">DuckDB · Python · SQL · Git</p><a class="src" href="https://github.com/SpaceCowboy0707/duckdb-medallion-lakehouse" target="_blank" rel="noopener">Sanitized source on GitHub ↗</a></div>
         </article>
         <article class="proj rv" style="--d:0.24s">
           <span class="yr">Self-service BI</span>
@@ -687,10 +695,11 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
         <span class="mask"><span class="rv mask-in" style="--d:.26s"><a href="mailto:yancheng.xiang@hotmail.com">Say hi →</a></span></span>
       </div>
       <div class="foot-meta rv" style="--d:.28s">
-        <span>© <span id="yr"></span> Max · New York</span>
+        <span>© <span id="yr"></span> Max · New York · Built with Claude Code &amp; Codex</span>
         <div class="foot-links">
           <a href="https://github.com/SpaceCowboy0707" target="_blank" rel="noopener">GitHub</a>
           <a href="https://www.linkedin.com/in/yanchengxiang/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/SpaceCowboy0707/spacecowboy0707.github.io" target="_blank" rel="noopener">Site source</a>
           <a href="mailto:yancheng.xiang@hotmail.com?subject=Resume%20request">Request resume</a>
         </div>
       </div>

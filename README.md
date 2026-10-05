@@ -155,4 +155,4 @@ pnpm test
 - 检查暗房显影、照片放大、Esc 关闭与键盘焦点。
 - 提交前运行 `git diff --check`。
 
-主页头像、Resume 链接及首页的 favicon / `og.png` 仍待补齐；文章的分享图已独立生成，不依赖首页的 `og.png`。
+主页的 `og.png`（1200 × 630 分享图）、`favicon.png` 和 `apple-touch-icon.png` 位于仓库根目录，发布时由 `scripts/stage-site.cjs` 一并复制；文章的分享图独立生成，不依赖首页的 `og.png`。
