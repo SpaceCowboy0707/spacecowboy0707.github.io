@@ -507,16 +507,19 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
    ============================================================ */
 .folder-wrap{ display:flex; flex-direction:column; align-items:center; gap:22px; margin-top:4px; }
 .folder{
-  --wc:min(360px, 74vw, calc((100svh - 360px) * 8.5 / 11));   /* closed width */
-  --wo:calc(100vw - 12vw);                                      /* open page width */
+  /* One size, open or closed: opening only swings the cover. */
+  --fw:calc(100vw - 12vw);
+  --fh:min(calc(var(--fw) * 1.3), calc(100svh - 230px));
+  --wc:min(var(--fw), 420px);   /* scales the cover lettering */
   --pad:22px;
-  position:relative; width:var(--wc); height:calc(var(--wc) * 11 / 8.5);
-  perspective:2400px; perspective-origin:50% 300px;
-  transition:width 1s var(--ease-page), height 1s var(--ease-page), transform 1s var(--ease-page);
+  position:relative; width:var(--fw); height:max(380px, var(--fh));
+  perspective:2400px;
+  transition:transform 1s var(--ease-page);
 }
-@media (min-width:861px){ .folder{ --wo:min(560px, calc((100vw - 12vw - 32px) / 2)); } }
-.folder.open{ width:var(--wo); height:var(--ho, calc(var(--wo) * 11 / 8.5)); }
-@media (min-width:861px){ .folder.open{ transform:translateX(50%); } }
+@media (min-width:861px){
+  .folder{ --fw:min(560px, calc((100vw - 12vw - 32px) / 2)); --fh:clamp(380px, calc(100svh - 330px), 760px); }
+  .folder.open{ transform:translateX(50%); }
+}
 .folder .base, .folder .cover, .folder .lf{ position:absolute; inset:0; border-radius:5px 14px 14px 5px; }
 .folder .base{
   background:
@@ -526,7 +529,8 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
 }
 .folder .sheet{
   position:absolute; inset:var(--pad) calc(var(--pad) + 4px) var(--pad) var(--pad);
-  background:#FBF9F4; border-radius:2px; overflow:hidden;
+  background:#FBF9F4; border-radius:2px; overflow:hidden auto; overscroll-behavior:contain;
+  scrollbar-width:thin; scrollbar-color:#C9C2B2 transparent;
   box-shadow:0 1px 2px rgba(0,0,0,.25), 0 8px 18px -10px rgba(0,0,0,.5);
 }
 .folder .preview{
@@ -537,7 +541,7 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
 .folder .preview i{ display:block; height:3px; border-radius:2px; background:#D9D3C6; }
 .folder .preview i.s{ width:62%; } .folder .preview i.c{ align-self:center; }
 .folder .preview i.h{ width:28%; height:4px; background:#B9B1A1; margin-top:4%; }
-.folder .rs{ width:calc(var(--wo) - 2 * var(--pad) - 4px); opacity:0; transition:opacity .25s ease; }
+.folder .rs{ opacity:0; transition:opacity .25s ease; }
 .folder.open .preview{ opacity:0; transition-delay:0s; }
 .folder.open .rs{ opacity:1; transition:opacity .6s ease .7s; }
 
@@ -578,7 +582,7 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
 }
 .folder .foil span{ display:block; color:rgba(201,169,106,.72); letter-spacing:.2em; }
 .folder .strap{
-  position:absolute; right:-12px; top:calc(var(--wc) * 11 / 8.5 / 2); width:58px; height:56px; transform:translateY(-50%);
+  position:absolute; right:-12px; top:50%; width:58px; height:56px; transform:translateY(-50%);
   border-radius:10px 6px 6px 10px; background:linear-gradient(180deg, #4E2F20, #372015);
   box-shadow:0 4px 10px -4px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.04);
 }
@@ -1145,24 +1149,24 @@ h1 .thin{ color:var(--ink-2); font-weight:500; }
   if (!folder) return;
   const cover = folder.querySelector('.cover');
   const sheet = document.getElementById('resumeSheet');
-  const rs = sheet.querySelector('.rs');
   const toggle = document.getElementById('folderToggle');
-  const scroller = folder.closest('.panel-inner');
-  // The open folder is as tall as the resume at its reading width.
-  const fit = () => folder.style.setProperty('--ho', (rs.offsetHeight + 44) + 'px');
   function set(open){
-    if (open) fit();
     folder.classList.toggle('open', open);
     sheet.inert = !open;
+    if (!open) sheet.scrollTop = 0;
     cover.setAttribute('aria-expanded', open);
     cover.setAttribute('aria-label', open ? 'Close the folder' : 'Open the resume');
     toggle.textContent = open ? 'Close the folder' : 'Open the folder';
     toggle.setAttribute('aria-expanded', open);
-    if (!open && scroller) scroller.scrollTo({ top: 0, behavior: 'smooth' });
   }
   cover.addEventListener('click', () => set(!folder.classList.contains('open')));
   toggle.addEventListener('click', () => set(!folder.classList.contains('open')));
-  addEventListener('resize', () => { if (folder.classList.contains('open')) fit(); });
+  // While the resume can still scroll, keep the gesture from turning the site's panels.
+  const canScroll = (dy) => dy > 0 ? sheet.scrollTop + sheet.clientHeight < sheet.scrollHeight - 1 : sheet.scrollTop > 0;
+  sheet.addEventListener('wheel', (e) => { if (canScroll(e.deltaY)) e.stopPropagation(); });
+  let y0 = null;
+  sheet.addEventListener('touchstart', (e) => { y0 = e.touches[0].clientY; }, { passive: true });
+  sheet.addEventListener('touchend', (e) => { if (y0 !== null && canScroll(y0 - e.changedTouches[0].clientY)) e.stopPropagation(); y0 = null; }, { passive: true });
 })();
 </script>
 
